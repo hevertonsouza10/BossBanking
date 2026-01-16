@@ -7,7 +7,7 @@ export default function SplineScene({
 }) {
   return (
     <Spline
-      scene="https://prod.spline.design/x5wn5bZMT-Kfm7MB/scene.splinecode"
+      scene="https://prod.spline.design/qKkYeGEZYllgUbLo/scene.splinecode"
       className="h-full w-full"
       onLoad={onLoad}
     />
