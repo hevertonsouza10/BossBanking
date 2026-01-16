@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "dependencies": {
-  "@react-three/fiber": "8.15.19",
-  "@react-three/drei": "9.88.17",
-    "@splinetool/react-spline": "^4.1.0",
-    "@splinetool/runtime": "^1.12.35",
+    "@react-three/fiber": "8.15.19",
+    "@react-three/drei": "9.88.17",
+    "@splinetool/react-spline": "4.1.0",
+    "@splinetool/runtime": "1.12.35",
     "framer-motion": "^12.26.2",
     "lucide-react": "^0.562.0",
     "next": "14.2.5",
@@ -32,5 +32,8 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
+  },
+  "overrides": {
+    "camera-controls": "2.7.3"
   }
 }
