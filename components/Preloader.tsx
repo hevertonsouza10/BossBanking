@@ -1,41 +1,38 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Preloader() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const handleLoad = () => {
-      setTimeout(() => setLoading(false), 600);
-    };
+    const timeout = setTimeout(() => {
+      setLoading(false)
+    }, 900) // tempo mínimo elegante
 
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
-    }
-  }, []);
-
-  if (!loading) return null;
+    return () => clearTimeout(timeout)
+  }, [])
 
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 0 }}
-      transition={{ duration: 1.2, ease: 'easeInOut' }}
-      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
-    >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="text-white text-[11px] tracking-[0.4em] font-montserrat"
-      >
-        BOSS BANK
-      </motion.div>
-    </motion.div>
-  );
+    <AnimatePresence>
+      {loading && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
+        >
+          <motion.span
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="font-montserrat text-[11px] tracking-[0.4em] text-white"
+          >
+            BOSS BANK
+          </motion.span>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
 }

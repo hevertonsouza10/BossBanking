@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Montserrat, Poppins } from 'next/font/google';
 import './globals.css';
-import { SmoothScroll } from '@/components/SmoothScroll';
 import Preloader from '@/components/Preloader';
 // Configurando Montserrat (Fonte Principal - Textos, Menus, Corpo)
 const montserrat = Montserrat({ 

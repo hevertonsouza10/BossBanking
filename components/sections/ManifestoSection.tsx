@@ -48,7 +48,7 @@ export default function ManifestoVideo() {
           {/* YouTube Embed */}
           <iframe
             className="w-full h-full"
-            src="https://youtu.be/embed/y7ZedgMOdKE"
+            src="https://www.youtube.com/embed/y7ZedgMOdKE"
             title="Boss Bank — O Sistema"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
