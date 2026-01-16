@@ -12,11 +12,13 @@
     "node": "20.x"
   },
   "dependencies": {
-    "@react-three/fiber": "8.15.19",
     "@react-three/drei": "9.88.17",
+    "@react-three/fiber": "8.15.19",
     "@splinetool/react-spline": "4.1.0",
     "@splinetool/runtime": "1.12.35",
+    "@studio-freight/react-lenis": "^0.0.47",
     "framer-motion": "^12.26.2",
+    "is-number": "7.0.0",
     "lucide-react": "^0.562.0",
     "next": "14.2.5",
     "react": "18.3.1",
