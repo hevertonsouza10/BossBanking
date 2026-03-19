@@ -148,8 +148,8 @@ function XGoldIcon({ className }: FooterIconProps) {
 const navigationLinks = [
   { label: 'Sobre', href: '#' },
   { label: 'Produtos', href: '#' },
-  { label: 'Duvidas', href: '#' },
-  { label: 'Noticias', href: '/blog' },
+  { label: 'Dúvidas', href: '#' },
+  { label: 'Notícias', href: '/blog' },
 ];
 
 const socialLinks = [
@@ -161,13 +161,13 @@ const socialLinks = [
 
 const policyLinks = [
   { label: 'Privacidade e Dados', href: '#' },
-  { label: 'Nossas Politicas', href: '#' },
-  { label: 'Seguranca Cibernetica', href: '#' },
-  { label: 'Anticorrupcao', href: '#' },
+  { label: 'Nossas Políticas', href: '#' },
+  { label: 'Segurança Cibernética', href: '#' },
+  { label: 'Anticorrupção', href: '#' },
 ];
 
 const storeLinks = [
-  { label: 'Google Play', href: '#', eyebrow: 'Disponivel no', icon: PhoneGoldIcon },
+  { label: 'Google Play', href: '#', eyebrow: 'Disponível no', icon: PhoneGoldIcon },
   { label: 'App Store', href: '#', eyebrow: 'Baixar na', icon: WalletGoldIcon },
 ];
 
@@ -183,7 +183,7 @@ export default function SiteFooter() {
                 <p className="text-[0.64rem] font-semibold uppercase tracking-[0.3em] text-[#ddb25f]">Contato</p>
                 <div className="max-w-[14rem] space-y-1.5 text-[0.84rem] leading-5 text-white/50 md:text-[0.86rem]">
                   <p>Av. Whilhelm Rotermund 124, Morro do Espelho</p>
-                  <p>Sao Leopoldo/RS, CEP 93.030.135</p>
+                  <p>São Leopoldo/RS, CEP 93.030.135</p>
                   <p>(51) 2165-9459 | 0800 130 1212</p>
                   <Link href="mailto:contato@bossbanking.com.br" className="transition hover:text-white/84">
                     contato@bossbanking.com.br
@@ -211,7 +211,7 @@ export default function SiteFooter() {
 
             <div className="space-y-3 xl:border-l xl:border-white/8 xl:pl-6">
               <div className="space-y-2">
-                <p className="text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Politicas</p>
+                <p className="text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Políticas</p>
                 <div className="grid max-w-[13rem] gap-y-2.5 text-sm text-white/42 md:text-[0.87rem]">
                   {policyLinks.map((item) => (
                     <Link

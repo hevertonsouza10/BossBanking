@@ -156,7 +156,7 @@ export default function StatementSection({ section }: { section: StatementSectio
                   type="button"
                   onClick={handleNext}
                   className="flex h-11 w-11 items-center justify-center rounded-full border border-white/14 bg-[#111111] text-white/88 shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition hover:border-[#ddb25f]/42 hover:bg-[#171717] hover:text-white"
-                  aria-label="Ver proximo case"
+                  aria-label="Ver próximo case"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>

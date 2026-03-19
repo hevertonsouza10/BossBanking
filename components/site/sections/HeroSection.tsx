@@ -164,10 +164,10 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
             className="group flex flex-col items-center gap-3 text-white/72"
-            aria-label="Ir para a proxima secao"
+            aria-label="Ir para a próxima seção"
           >
             <span className="text-[10px] uppercase tracking-[0.36em]">
-              {section.scrollLabel ?? 'Descubra a experiencia'}
+              {section.scrollLabel ?? 'Descubra a experiência'}
             </span>
             <motion.span
               animate={{ y: [0, 5, 0] }}

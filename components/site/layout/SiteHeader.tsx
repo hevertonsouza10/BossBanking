@@ -28,30 +28,30 @@ const navigationGroups: MenuGroup[] = [
       { label: 'Quem somos', href: '#' },
       { label: 'Compliance', href: '#' },
       { label: 'Consultoria financeira', href: '#' },
-      { label: 'Acessoria Boss', href: '#' },
+      { label: 'Assessoria Boss', href: '#' },
       { label: 'Encontre nosso banco', href: '#' },
-      { label: 'Noticias Boss', href: '/blog' },
+      { label: 'Notícias Boss', href: '/blog' },
     ],
   },
   {
     label: 'Produtos',
     items: [
-      { label: 'Acessoria Boss', href: '#' },
-      { label: 'Cartao de credito', href: '#' },
+      { label: 'Assessoria Boss', href: '#' },
+      { label: 'Cartão de crédito', href: '#' },
       { label: 'Consultoria financeira', href: '#' },
     ],
   },
   {
-    label: 'Duvidas',
+    label: 'Dúvidas',
     items: [
       { label: 'Central de atendimento', href: '#' },
-      { label: 'Custos operacionais (iniciacao)', href: '#' },
+      { label: 'Custos operacionais (iniciação)', href: '#' },
       { label: 'Bloqueio de acesso', href: '#' },
-      { label: 'Dicas de seguranca', href: '#' },
+      { label: 'Dicas de segurança', href: '#' },
     ],
   },
   {
-    label: 'Noticias',
+    label: 'Notícias',
     href: '/blog',
   },
 ];

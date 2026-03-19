@@ -198,7 +198,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
                 Filme conceito
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/66 md:text-[1.02rem]">
-                Um manifesto visual sobre ambicao, movimento e a relacao entre empresarios e um banco feito para acompanhar esse ritmo.
+                Um manifesto visual sobre ambição, movimento e a relação entre empresários e um banco feito para acompanhar esse ritmo.
               </p>
 
               <button
@@ -221,7 +221,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
             type="button"
             onClick={handleResume}
             className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 backdrop-blur-[2px]"
-            aria-label="Continuar video conceito"
+            aria-label="Continuar vídeo conceito"
           >
             <span className="group flex h-24 w-24 items-center justify-center rounded-full border border-white/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.1),rgba(10,10,10,0.78))] text-white shadow-[0_24px_54px_rgba(0,0,0,0.42)] backdrop-blur-md transition duration-300 hover:scale-[1.03] hover:border-white/34">
               <span className="absolute h-24 w-24 rounded-full border border-white/12 transition duration-300 group-hover:scale-[1.12]" />

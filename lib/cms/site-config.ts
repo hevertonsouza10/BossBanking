@@ -8,18 +8,18 @@ export const navigationItems = [
 
 export const menuGroups = [
   {
-    title: 'Para voce',
+    title: 'Para você',
     items: [
       { label: 'Conta digital premium', href: '/conta-global' },
-      { label: 'Cartao Black', href: '/cartao-black' },
-      { label: 'Beneficios', href: '/beneficios' },
+      { label: 'Cartão Black', href: '/cartao-black' },
+      { label: 'Benefícios', href: '/beneficios' },
     ],
   },
   {
     title: 'Para empresas',
     items: [
-      { label: 'Solucoes para empresas', href: '/para-empresas' },
-      { label: 'Credito estruturado', href: '/para-empresas' },
+      { label: 'Soluções para empresas', href: '/para-empresas' },
+      { label: 'Crédito estruturado', href: '/para-empresas' },
       { label: 'Conta corporativa', href: '/para-empresas' },
     ],
   },
@@ -32,7 +32,7 @@ export const menuGroups = [
     ],
   },
   {
-    title: 'Conteudo',
+    title: 'Conteúdo',
     items: [
       { label: 'Manifesto', href: '/manifesto' },
       { label: 'Blog', href: '/blog' },
