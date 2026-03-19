@@ -1,38 +1,47 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Preloader() {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false)
-    }, 900) // tempo mínimo elegante
-
-    return () => clearTimeout(timeout)
-  }, [])
+    const timeout = window.setTimeout(() => setLoading(false), 2400);
+    return () => window.clearTimeout(timeout);
+  }, []);
 
   return (
     <AnimatePresence>
-      {loading && (
+      {loading ? (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
+          exit={{ opacity: 0, transition: { duration: 0.55, ease: 'easeInOut' } }}
+          className="fixed inset-0 z-[9999] overflow-hidden bg-[#121113]"
         >
-          <motion.span
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="font-montserrat text-[11px] tracking-[0.4em] text-white"
+          <video
+            className="absolute inset-0 h-full w-full scale-105 object-cover opacity-40 blur-sm"
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
           >
-            BOSS BANK
-          </motion.span>
+            <source src="/videos/Composi%C3%A7%C3%A3o%202_2.mp4" type="video/mp4" />
+          </video>
+
+          <video
+            className="relative h-full w-full scale-[0.92] object-contain sm:scale-[0.9]"
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+          >
+            <source src="/videos/Composi%C3%A7%C3%A3o%202_2.mp4" type="video/mp4" />
+          </video>
+
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.06),transparent_22%,transparent_78%,rgba(0,0,0,0.12))]" />
         </motion.div>
-      )}
+      ) : null}
     </AnimatePresence>
-  )
+  );
 }
