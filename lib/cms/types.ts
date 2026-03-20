@@ -75,6 +75,7 @@ export type FeatureSplitSection = {
 export type TestimonialMetric = {
   value: string;
   label: string;
+  icon?: 'handshake';
 };
 
 export type TestimonialProofSection = {

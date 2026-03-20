@@ -9,18 +9,35 @@ import SectionHeading from '@/components/site/ui/SectionHeading';
 import type { MediaShowcaseSection as MediaShowcaseSectionType } from '@/lib/cms/types';
 
 function FullscreenMedia({ section }: { section: MediaShowcaseSectionType }) {
+  const HOME_CARD_START_TIME = 1;
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasVideo = section.media?.src?.endsWith('.mp4');
   const hasImage = !!section.media?.src && !hasVideo;
   const isHomeCard = section.id === 'home-card';
+  const homeCardTitleLines = isHomeCard
+    ? ['Um cartão personalizado,', 'para clientes selecionados,', 'como você.']
+    : null;
 
   useEffect(() => {
     if (!isHomeCard || !videoRef.current) {
       return;
     }
 
-    videoRef.current.playbackRate = 0.72;
+    const video = videoRef.current;
+    video.playbackRate = 0.72;
+
+    const handleLoadedMetadata = () => {
+      video.currentTime = Math.min(HOME_CARD_START_TIME, Math.max(video.duration - 0.04, 0));
+    };
+
+    if (video.readyState >= 1) {
+      handleLoadedMetadata();
+    } else {
+      video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    }
+
+    return () => video.removeEventListener('loadedmetadata', handleLoadedMetadata);
   }, [isHomeCard, section.media?.src]);
 
   useEffect(() => {
@@ -32,13 +49,13 @@ function FullscreenMedia({ section }: { section: MediaShowcaseSectionType }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          video.currentTime = 0;
+          video.currentTime = Math.min(HOME_CARD_START_TIME, Math.max(video.duration - 0.04, 0));
           void video.play();
           return;
         }
 
         video.pause();
-        video.currentTime = 0;
+        video.currentTime = Math.min(HOME_CARD_START_TIME, Math.max(video.duration - 0.04, 0));
       },
       {
         threshold: 0.35,
@@ -91,25 +108,31 @@ function FullscreenMedia({ section }: { section: MediaShowcaseSectionType }) {
       </div>
 
       <Container className="relative z-10 flex min-h-[calc(100vh-100px)] items-end py-16 md:py-20">
-        <div className="max-w-3xl space-y-5">
+        <div className={isHomeCard ? 'max-w-[24rem] space-y-5 pb-10 md:max-w-[30rem] md:pb-16' : 'max-w-3xl space-y-5'}>
           <Reveal>
             {section.eyebrow ? (
-              <p className="text-[10px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
+              <p className="text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
             ) : null}
             <h2
               className={
                 isHomeCard
-                  ? 'mt-4 max-w-[24ch] text-[1.5rem] font-light leading-[1.08] tracking-[-0.03em] text-white md:text-[1.5rem]'
+                  ? 'mt-4 max-w-[11ch] text-[2.3rem] font-light leading-[1.02] tracking-[-0.05em] text-white md:text-[3.8rem]'
                   : 'mt-4 max-w-3xl text-4xl font-light leading-[1.02] tracking-[-0.04em] text-white md:text-6xl'
               }
             >
-              {section.title}
+              {homeCardTitleLines
+                ? homeCardTitleLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))
+                : section.title}
             </h2>
           </Reveal>
 
           {section.description ? (
             <Reveal delay={0.08}>
-              <p className={isHomeCard ? 'max-w-lg text-sm leading-7 text-white/68 md:text-[0.95rem]' : 'max-w-xl text-sm leading-7 text-white/68 md:text-base'}>
+              <p className={isHomeCard ? 'max-w-[28rem] text-sm leading-7 text-white/68 md:text-[0.98rem]' : 'max-w-xl text-sm leading-7 text-white/68 md:text-base'}>
                 {section.description}
               </p>
             </Reveal>
@@ -146,8 +169,7 @@ export default function MediaShowcaseSection({ section }: { section: MediaShowca
                 {section.highlights.map((item, index) => (
                   <Reveal key={item.title} delay={0.12 * index}>
                     <div className="minimal-glass-card rounded-[1.5rem] p-4 md:p-5">
-                      <p className="text-[10px] uppercase tracking-[0.34em] text-white/34">0{index + 1}</p>
-                      <p className="mt-4 text-sm font-medium text-white">{item.title}</p>
+                      <p className="text-sm font-medium text-white">{item.title}</p>
                       <p className="mt-3 text-sm leading-7 text-white/55">{item.description}</p>
                     </div>
                   </Reveal>

@@ -202,7 +202,7 @@ export default function SiteHeader() {
                         >
                           <div className="absolute inset-0 rounded-[0.65rem] bg-[radial-gradient(circle_at_top_right,rgba(221,178,95,0.06),transparent_32%)]" />
                           <div className="relative">
-                            <p className="mb-3 text-[0.62rem] uppercase tracking-[0.28em] text-[#ddb25f]">
+                            <p className="mb-3 text-[11px] uppercase tracking-[0.28em] text-[#ddb25f]">
                               {group.label}
                             </p>
                             {items.map((item, index) => (

@@ -171,6 +171,9 @@ const storeLinks = [
   { label: 'App Store', href: '#', eyebrow: 'Baixar na', icon: WalletGoldIcon },
 ];
 
+const legalDisclaimer =
+  'Este material foi elaborado pela Boss Pay LTDA, inscrita no CNPJ sob o nº 62.169.944/0001-44, marca Boss Ledger ("Boss Ledger"), e possui caráter meramente informativo, não constituindo oferta, recomendação e/ou garantia de contratação dos produtos e serviços aqui mencionados. Todo conteúdo deste material está sujeito às análises internas de elegibilidade, crédito, compliance e cadastro, além de não configurar recomendação quanto à manutenção, compra ou venda de ativos financeiros e valores mobiliários. Os prazos, taxas, benefícios e demais condições aqui contidos são meramente indicativos e poderão ser alterados sem aviso prévio. Quaisquer condições promocionais aqui previstas poderão ser alteradas, suspensas ou canceladas a qualquer tempo, sem necessidade de prévia ciência ou concordância do cliente. A Boss Ledger não se responsabiliza por endividamentos, prejuízos diretos ou indiretos, que decorram da utilização deste material. Eventuais ativos, operações, fundos e/ou instrumentos financeiros discutidos neste material podem não ser adequados para todos os clientes. Este material não considera objetivos, situação financeira ou necessidades específicas de qualquer cliente. Antes de tomar qualquer decisão de investimento e/ou contratação de produtos e serviços aqui mencionados, recomenda-se a obtenção de orientação financeira independente. Desempenhos anteriores não são necessariamente indicativos de resultados futuros. Investimentos em mercados financeiros e de capitais estão sujeitos a riscos, inclusive de perda superior ao valor do capital investido. Em caso de conflito entre os termos deste material e eventuais instrumentos contratuais, regulamentos ou condições específicas aplicáveis, estes últimos prevalecerão. Algumas operações estão sujeitas a cobranças. Este material é destinado à circulação exclusiva para a rede de relacionamento da Boss Ledger, não podendo ser reproduzido ou distribuído a terceiros sem consentimento prévio e expresso. O cliente consente com o uso de dados pela Boss Ledger nos termos de sua Política de Privacidade. Para mais informações sobre produtos, tabelas de custos operacionais e políticas de cobrança, entre em contato pelos canais oficiais: (51) 2165-9459, 0800 130 1212 e contato@bossbanking.com.br.';
+
 export default function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-[#050505]">
@@ -180,7 +183,7 @@ export default function SiteFooter() {
           <div className="grid gap-6 xl:min-h-[30vh] xl:grid-cols-[0.82fr_0.56fr_0.78fr_0.92fr] xl:items-start">
             <div className="space-y-3 xl:pt-1 xl:pr-5">
               <div className="space-y-2">
-                <p className="text-[0.64rem] font-semibold uppercase tracking-[0.3em] text-[#ddb25f]">Contato</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#ddb25f]">Contato</p>
                 <div className="max-w-[14rem] space-y-1.5 text-[0.84rem] leading-5 text-white/50 md:text-[0.86rem]">
                   <p>Av. Whilhelm Rotermund 124, Morro do Espelho</p>
                   <p>São Leopoldo/RS, CEP 93.030.135</p>
@@ -194,7 +197,7 @@ export default function SiteFooter() {
 
             <div className="space-y-3 xl:border-l xl:border-white/8 xl:pl-6">
               <div className="space-y-2">
-                <p className="text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Menu</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Menu</p>
                 <div className="grid gap-y-2.5 text-sm text-white/62 md:text-[0.93rem]">
                   {navigationLinks.map((item) => (
                     <Link
@@ -211,7 +214,7 @@ export default function SiteFooter() {
 
             <div className="space-y-3 xl:border-l xl:border-white/8 xl:pl-6">
               <div className="space-y-2">
-                <p className="text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Políticas</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Políticas</p>
                 <div className="grid max-w-[13rem] gap-y-2.5 text-sm text-white/42 md:text-[0.87rem]">
                   {policyLinks.map((item) => (
                     <Link
@@ -228,7 +231,7 @@ export default function SiteFooter() {
 
             <div className="space-y-4 xl:justify-self-end xl:border-l xl:border-white/8 xl:pl-6">
               <div className="space-y-1.5">
-                <p className="text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Aplicativo</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Aplicativo</p>
                 <p className="max-w-[13rem] text-[0.98rem] font-medium leading-[1.02] tracking-[-0.04em] text-white md:text-[1.12rem]">
                   Baixe o app Boss.
                 </p>
@@ -255,7 +258,7 @@ export default function SiteFooter() {
               </div>
 
               <div className="space-y-2.5 pt-0.5">
-                <p className="text-[0.64rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Redes sociais</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#ddb25f]">Redes sociais</p>
                 <div className="flex flex-wrap gap-2.5">
                   {socialLinks.map((item) => {
                     const Icon = item.icon;
@@ -279,6 +282,15 @@ export default function SiteFooter() {
           </div>
 
           <div className="mt-4 h-px w-full bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0.1),rgba(255,255,255,0))]" />
+
+          <div className="mt-5 px-1 py-1 md:px-1 md:py-1">
+            <div className="mb-2">
+              <p className="text-[0.58rem] font-medium uppercase tracking-[0.26em] text-white/22">Informações Legais</p>
+            </div>
+            <p className="max-w-none text-[0.67rem] leading-5 text-white/50 md:text-[0.72rem] md:leading-5">
+              {legalDisclaimer}
+            </p>
+          </div>
 
           <div className="flex flex-col gap-2 pt-3 text-[0.72rem] text-white/30 lg:flex-row lg:items-center lg:justify-between">
             <div className="text-white/24">&copy; 2025 por Boss Pay LTDA - CNPJ: 62.169.944/0001-44.</div>

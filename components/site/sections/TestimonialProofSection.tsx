@@ -1,9 +1,14 @@
 'use client';
 
+import { Handshake } from 'lucide-react';
 import Container from '@/components/site/ui/Container';
 import Reveal from '@/components/site/ui/Reveal';
 import SectionHeading from '@/components/site/ui/SectionHeading';
 import type { TestimonialProofSection as TestimonialProofSectionType } from '@/lib/cms/types';
+
+const metricIcons = {
+  handshake: Handshake,
+} as const;
 
 export default function TestimonialProofSection({ section }: { section: TestimonialProofSectionType }) {
   const hasQuoteContent = Boolean(section.quote || section.attribution);
@@ -28,7 +33,7 @@ export default function TestimonialProofSection({ section }: { section: Testimon
             ) : (
               <div className="max-w-2xl">
                 {section.eyebrow ? (
-                  <p className="mb-5 text-[10px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
+                  <p className="mb-5 text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
                 ) : null}
                 <h2 className="max-w-[12ch] font-[family:var(--font-display)] text-[2.3rem] font-semibold leading-[0.97] tracking-[-0.06em] text-white md:text-[3.8rem]">
                   {premiumTitle.split('\n').map((line) => (
@@ -73,7 +78,7 @@ export default function TestimonialProofSection({ section }: { section: Testimon
                     <p className="text-2xl font-light leading-10 text-white/90 md:text-3xl">{section.quote}</p>
                   ) : null}
                   {section.attribution ? (
-                    <p className="mt-7 text-[10px] uppercase tracking-[0.36em] text-[#ddb25f]">{section.attribution}</p>
+                    <p className="mt-7 text-[11px] uppercase tracking-[0.36em] text-[#ddb25f]">{section.attribution}</p>
                   ) : null}
                 </>
               ) : (
@@ -86,20 +91,30 @@ export default function TestimonialProofSection({ section }: { section: Testimon
               )}
 
               <div className={hasQuoteContent ? 'mt-10 grid gap-3 sm:grid-cols-3' : 'grid gap-3 md:grid-cols-3'}>
-                {section.metrics.map((metric, index) => (
-                  <Reveal key={metric.label} delay={0.1 * index}>
-                    <div className="relative flex min-h-[10.5rem] flex-col justify-between overflow-hidden rounded-[1.1rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.012))] px-5 py-6">
-                      <div className="absolute inset-x-0 top-0 h-20 bg-[radial-gradient(circle_at_top,rgba(221,178,95,0.08),transparent_70%)]" />
-                      <div className="absolute left-5 right-5 top-0 h-px bg-gradient-to-r from-transparent via-[#ddb25f]/20 to-transparent" />
-                      <div className="space-y-2">
-                        <p className="font-[family:var(--font-display)] text-[2rem] font-light text-white md:text-[2.5rem]">
-                          {metric.value}
-                        </p>
+                {section.metrics.map((metric, index) => {
+                  const MetricIcon = metric.icon ? metricIcons[metric.icon] : null;
+
+                  return (
+                    <Reveal key={metric.label} delay={0.1 * index}>
+                      <div className="relative flex min-h-[10.5rem] flex-col justify-between overflow-hidden rounded-[1.1rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.012))] px-5 py-6">
+                        <div className="absolute inset-x-0 top-0 h-20 bg-[radial-gradient(circle_at_top,rgba(221,178,95,0.08),transparent_70%)]" />
+                        <div className="absolute left-5 right-5 top-0 h-px bg-gradient-to-r from-transparent via-[#ddb25f]/20 to-transparent" />
+                        <div className="space-y-3">
+                          {MetricIcon ? (
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#ddb25f]/10 text-[#f3d08a] ring-1 ring-inset ring-[#ddb25f]/16">
+                              <MetricIcon className="h-5 w-5 stroke-[1.9]" />
+                            </div>
+                          ) : (
+                            <p className="font-[family:var(--font-display)] text-[2rem] font-light text-white md:text-[2.5rem]">
+                              {metric.value}
+                            </p>
+                          )}
+                        </div>
+                        <p className="max-w-[18ch] text-[10px] uppercase leading-5 tracking-[0.24em] text-white/42">{metric.label}</p>
                       </div>
-                      <p className="max-w-[14ch] text-[10px] uppercase tracking-[0.24em] text-white/42">{metric.label}</p>
-                    </div>
-                  </Reveal>
-                ))}
+                    </Reveal>
+                  );
+                })}
               </div>
             </div>
 

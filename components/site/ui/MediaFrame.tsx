@@ -133,7 +133,7 @@ export default function MediaFrame({
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <div className="space-y-4 px-6 text-center">
-              <p className="text-[10px] uppercase tracking-[0.42em] text-[#ddb25f]">{fallbackLabel}</p>
+              <p className="text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{fallbackLabel}</p>
               <p className="max-w-xs text-sm leading-7 text-white/55">{alt}</p>
             </div>
           </div>

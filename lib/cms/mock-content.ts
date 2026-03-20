@@ -43,7 +43,7 @@ export const marketingPages: Page[] = [
           alt: 'Vídeo principal da Boss Ledger com diferentes perfis de empreendedores em atividade',
         },
         actions: [],
-        scrollLabel: 'Descubra a experiência',
+        scrollLabel: 'Descubra a melhor experiencia PJ',
       },
       {
         id: 'home-proof',
@@ -51,13 +51,13 @@ export const marketingPages: Page[] = [
         eyebrow: 'Atendimento',
         title: 'Atendimento humanizado, gerentes dedicados',
         description:
-          'Com toda certeza, um atendimento bancário que você nunca viu. Diferente de qualquer outro banco.',
+          'Um atendimento bancario diferente de qualquer outro',
         quote:
-          'Uma experiência mais próxima, clara e presente para clientes que esperam relacionamento real com o banco.',
-        attribution: 'Boss Ledger | Relacionamento dedicado',
+          'Uma experiencia mais proxima, segura e lucrativa para empresas que buscam um relacionamento real com o Banco',
+        attribution: 'Suporte por telefone e WhatsApp',
         metrics: [
           { value: '24h', label: 'acesso digital' },
-          { value: '1:1', label: 'atendimento dedicado' },
+          { value: '1:1', label: 'Atendimento humanizado', icon: 'handshake' },
           { value: '365', label: 'presença ao longo do ano' },
         ],
       },
@@ -67,8 +67,6 @@ export const marketingPages: Page[] = [
         variant: 'phone',
         eyebrow: 'Aplicativo',
         title: 'Um aplicativo fácil de usar, uma estrutura com segurança dobrada.',
-        description:
-          'Acompanhe saldos, movimentações e serviços em uma experiência feita para o dia a dia.',
         media: {
           src: 'https://prod.spline.design/x5wn5bZMT-Kfm7MB/scene.splinecode',
           poster: '/images/Free iPhone 16 Pro Mockup@1-1707x811 (1).png',
@@ -79,12 +77,12 @@ export const marketingPages: Page[] = [
         },
         highlights: [
           {
-            title: 'Visão clara',
-            description: 'Informações organizadas para facilitar a consulta de saldo, extrato e movimentações.',
+            title: 'Fácil de usar',
+            description: 'Interface organizada com foco na sua experiência',
           },
           {
-            title: 'Acesso contínuo',
-            description: 'Recursos disponíveis com fluidez no celular, no escritório e na rotina de trabalho.',
+            title: 'Tranquilidade',
+            description: 'Tecnologias adicionais com foco de segurança em seu capital',
           },
         ],
       },
@@ -94,20 +92,20 @@ export const marketingPages: Page[] = [
         eyebrow: 'Único',
         title: 'Boss Ledger senta com você e entende sua operação.',
         description:
-          'Um banco que entende a estrutura da sua empresa e organiza soluções que acompanham a operação de forma mais próxima.',
+          'Um banco que entende a estrutura da sua empresa e apresenta soluções reais com foco e desempenho',
         items: [
-          {
-            kicker: 'holding',
-            title: 'Estrutura para holdings e organização societária',
-            description:
-              'Uma frente pensada para centralizar leitura patrimonial, relacionamento financeiro e necessidades de uma operação com estrutura mais complexa.',
-          },
-          {
-            kicker: 'offshore',
-            title: 'Apoio para operações com conta offshore',
-            description:
-              'Uma abordagem voltada para empresas e clientes que precisam de mais clareza no acompanhamento de estruturas internacionais e fluxos relacionados.',
-          },
+            {
+              kicker: 'holdings',
+              title: 'Apoio de estruturação para holdings',
+              description:
+                '• Redução de IR sobre aluguéis: de 27,5% para até 11,33%\n• Sucessão sem inventário (economia de até 35%)\n• Proteção jurídica do patrimônio familiar\n• Separação entre CPF e riscos operacionais\n• Centralização de lucros e dividendos com eficiência fiscal',
+            },
+            {
+              kicker: 'offshores',
+              title: 'Apoio de estruturação para offshores',
+              description:
+                '• Imposto ZERO sobre lucros no exterior (diferimento)\n• Reinvestimento integral de lucros em moeda estrangeira\n• Proteção contra desvalorização do Real e risco Brasil',
+            },
           {
             kicker: 'splitpayment',
             title: 'Split payment para operações com divisão financeira',
@@ -135,81 +133,95 @@ export const marketingPages: Page[] = [
         id: 'home-statement',
         type: 'statement',
         eyebrow: 'Depoimentos / Cases de sucesso',
-        title: 'Quem vive a experiência Boss Ledger percebe a diferença.',
+        title: 'Somente quem vive a experiência Boss Ledger sabe a diferença.',
         description:
           'Relatos de clientes que encontraram uma relação bancária mais próxima, mais clara e mais alinhada com a própria operação.',
-        testimonials: [
-          {
-            name: 'Roberto Alencar',
-            role: 'Holding patrimonial',
-            quote:
-              'A estrutura de atendimento trouxe mais clareza para nossas decisões e deixou a rotina financeira muito mais organizada.',
-            rating: 5,
-          },
-          {
-            name: 'Fernanda Araújo',
-            role: 'Operação internacional',
-            quote:
-              'Conseguimos acompanhar melhor a operação e ter um relacionamento mais presente, sem a distância comum de bancos tradicionais.',
-            rating: 5,
-          },
-          {
-            name: 'Marcelo Tavares',
-            role: 'Empresa em crescimento',
-            quote:
-              'O suporte fez diferença desde o início. A sensação é de ter um banco que realmente entende o contexto do negócio.',
-            rating: 5,
-          },
-          {
-            name: 'Juliana Martins',
-            role: 'Estrutura comercial',
-            quote:
-              'A experiência ficou mais fluida, com atendimento direto e uma leitura muito mais prática da nossa operação financeira.',
-            rating: 5,
-          },
-          {
-            name: 'Ricardo Mello',
-            role: 'Grupo empresarial',
-            quote:
-              'O atendimento é rápido, objetivo e sempre muito próximo. Isso trouxe mais confiança para conduzir nossa operação com tranquilidade.',
-            rating: 5,
-          },
-          {
-            name: 'Patricia Nogueira',
-            role: 'Gestão patrimonial',
-            quote:
-              'Passamos a ter mais visibilidade sobre a estrutura financeira e um acompanhamento que realmente ajuda nas decisões do dia a dia.',
-            rating: 5,
-          },
-          {
-            name: 'Eduardo Sampaio',
-            role: 'Operação multissetorial',
-            quote:
-              'A diferença está na proximidade. Sempre que precisamos, existe alguém que conhece nossa realidade e responde com agilidade.',
-            rating: 5,
-          },
-          {
-            name: 'Camila Torres',
-            role: 'Empresa familiar',
-            quote:
-              'O relacionamento ficou muito mais claro e humano. É um tipo de atendimento que transmite segurança desde o primeiro contato.',
-            rating: 5,
-          },
-          {
-            name: 'Gustavo Farias',
-            role: 'Expansão comercial',
-            quote:
-              'A organização financeira evoluiu bastante depois que passamos a contar com uma estrutura mais dedicada e próxima da nossa rotina.',
-            rating: 5,
-          },
-          {
-            name: 'Renata Barros',
-            role: 'Operação premium',
-            quote:
-              'Encontramos uma experiência mais alinhada ao nosso perfil, com mais clareza, presença e suporte real para a operação.',
-            rating: 5,
-          },
-        ],
+          testimonials: [
+            {
+              name: 'Rafael Carvalho',
+              role: 'Google • 3 anos atrás',
+              quote:
+                'excelente atendimento e cuidado com o cliente, super satisfeito.',
+              rating: 5,
+            },
+            {
+              name: 'Rogerio Longhi',
+              role: 'Google • 3 anos atrás',
+              quote:
+                'Ótimo atendimento, muito profissional e atencioso.',
+              rating: 5,
+            },
+            {
+              name: 'Nara Romeu',
+              role: 'Google • Editado 3 anos atrás',
+              quote:
+                'Atendimento Excelente! O Dr. Eduardo é muito atencioso e um profissional competente. Sempre que entrei em contato, fui atendida logo e com muita paciência para sanar minhas dúvidas e incertezas. Recomendo a Bosqueroli Assessoria e Consultoria!',
+              rating: 5,
+            },
+            {
+              name: 'Marcos Vinicius',
+              role: 'Google • 2 anos atrás',
+              quote:
+                'Excelente atendimento, nota 10.',
+              rating: 5,
+            },
+            {
+              name: 'Robson Bordignon Pólvora',
+              role: 'Google • 4 anos atrás',
+              quote:
+                'Profissionais altamente qualificados e muito prestativos. O analista atende com muita atenção e se expressa com clareza... recomendo',
+              rating: 5,
+            },
+            {
+              name: 'Eliana Bastianel',
+              role: 'Google • Editado 2 anos atrás',
+              quote:
+                'Excelente profissional, atendimento super atencioso.',
+              rating: 5,
+            },
+            {
+              name: 'Rodrigo Peña',
+              role: 'Google • 3 anos atrás',
+              quote:
+                'Excelente!! Ótimos profissionais.',
+              rating: 5,
+            },
+            {
+              name: 'dulce weber',
+              role: 'Google • 4 anos atrás',
+              quote:
+                'Indico sempre, resolveram minha situação com maestria! Gratidão!',
+              rating: 5,
+            },
+            {
+              name: 'Renan Correa',
+              role: 'Google • 3 anos atrás',
+              quote:
+                'Ótimo atendimento!',
+              rating: 5,
+            },
+            {
+              name: 'Vilson Butierres',
+              role: 'Google • Editado 2 anos atrás',
+              quote:
+                'Muito bem entendido, foi ágil e atencioso.',
+              rating: 5,
+            },
+            {
+              name: 'Jéssica Pagliosa',
+              role: 'Google • 3 anos atrás',
+              quote:
+                'Ótimo atendimento.',
+              rating: 5,
+            },
+            {
+              name: 'Fabiano Goulart',
+              role: 'Google • 3 anos atrás',
+              quote:
+                'Atendimento primoroso!',
+              rating: 5,
+            },
+          ],
       },
       {
         id: 'home-concept',

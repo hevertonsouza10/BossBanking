@@ -20,23 +20,43 @@ export default function BenefitsGridSection({ section }: { section: BenefitsGrid
         </Reveal>
 
         <div className="grid gap-5 md:grid-cols-3">
-          {section.items.map((item, index) => (
-            <Reveal key={item.title} delay={0.1 * index}>
-              <article className="minimal-glass-card h-full rounded-[1.75rem] p-7 md:p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <p className="text-[10px] uppercase tracking-[0.36em] text-[#ddb25f]">{item.kicker}</p>
-                  <span className="text-[10px] tracking-[0.28em] text-white/28">
-                    0{index + 1}
-                  </span>
-                </div>
-                <div className="minimal-glass-separator mt-6" />
-                <h3 className="mt-6 max-w-[12ch] text-[1.5rem] font-light leading-[1.12] text-white md:text-[1.7rem]">
-                  {item.title}
-                </h3>
-                <p className="mt-4 max-w-[34ch] text-sm leading-7 text-white/54">{item.description}</p>
-              </article>
-            </Reveal>
-          ))}
+          {section.items.map((item, index) => {
+            const bulletLines = item.description
+              .split('\n')
+              .map((line) => line.trim())
+              .filter(Boolean);
+            const hasBulletList = bulletLines.every((line) => line.startsWith('•'));
+
+            return (
+              <Reveal key={item.title} delay={0.1 * index}>
+                <article className="minimal-glass-card h-full rounded-[1.75rem] p-7 md:p-8">
+                  {item.kicker ? (
+                    <div className="flex items-center gap-4">
+                      <p className="text-[11px] uppercase tracking-[0.36em] text-[#ddb25f]">{item.kicker}</p>
+                    </div>
+                  ) : null}
+                  <div className="minimal-glass-separator mt-6" />
+                  <h3 className="mt-6 max-w-[18ch] text-[1.35rem] font-light leading-[1.14] text-white md:text-[1.55rem]">
+                    {item.title}
+                  </h3>
+                  {hasBulletList ? (
+                    <div className="mt-5">
+                      {bulletLines.map((line, lineIndex) => (
+                        <div
+                          key={line}
+                          className={lineIndex === 0 ? 'py-3 text-[0.98rem] leading-8 text-white/68' : 'border-t border-white/8 py-3 text-[0.98rem] leading-8 text-white/68'}
+                        >
+                          {line.replace(/^•\s*/, '')}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="mt-4 max-w-none whitespace-pre-line text-sm leading-7 text-white/54">{item.description}</p>
+                  )}
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </Container>
     </section>

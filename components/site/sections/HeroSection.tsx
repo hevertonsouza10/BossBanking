@@ -167,7 +167,7 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
             aria-label="Ir para a próxima seção"
           >
             <span className="text-[10px] uppercase tracking-[0.36em]">
-              {section.scrollLabel ?? 'Descubra a experiência'}
+              {section.scrollLabel ?? 'Descubra a melhor experiencia PJ'}
             </span>
             <motion.span
               animate={{ y: [0, 5, 0] }}

@@ -119,7 +119,7 @@ export default function StatementSection({ section }: { section: StatementSectio
       <Container className="space-y-10 md:space-y-12">
         <Reveal className="mx-auto max-w-4xl text-center">
           {section.eyebrow ? (
-            <p className="mb-4 text-[10px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
+            <p className="mb-4 text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
           ) : null}
           <h2 className="mx-auto max-w-3xl font-[family:var(--font-display)] text-3xl font-light leading-[1.02] tracking-[-0.03em] text-white md:text-5xl">
             {section.title}
@@ -137,13 +137,10 @@ export default function StatementSection({ section }: { section: StatementSectio
             <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#050505] via-[#050505]/55 to-transparent md:w-16" />
 
             <div className="mb-5 flex items-center justify-between gap-4 md:mb-6">
-              <p className="pl-1 text-[11px] uppercase tracking-[0.3em] text-white/68 md:pl-3">
+              <p className="pl-[30px] text-[11px] uppercase tracking-[0.3em] text-white/68">
                 Cases em destaque
               </p>
               <div className="relative z-20 flex items-center gap-3">
-                <p className="hidden text-[0.7rem] uppercase tracking-[0.24em] text-white/38 md:block">
-                  {String(activeIndex + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
-                </p>
                 <button
                   type="button"
                   onClick={handlePrev}
@@ -245,7 +242,7 @@ export default function StatementSection({ section }: { section: StatementSectio
                       key={`dot-${index}`}
                       type="button"
                       onClick={() => handleDotClick(index)}
-                      className={index === activeIndex ? 'h-2.5 w-8 rounded-full bg-[#ddb25f]' : 'h-2.5 w-2.5 rounded-full bg-white/18'}
+                      className={index === activeIndex ? 'h-2.5 w-8 rounded-full bg-[#ddb25f]' : 'h-2.5 w-2.5 rounded-full border border-white/32 bg-transparent'}
                       aria-label={`Ir para o case ${index + 1}`}
                     />
                 ))}
