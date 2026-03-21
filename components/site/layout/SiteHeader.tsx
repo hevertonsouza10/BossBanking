@@ -88,6 +88,8 @@ function NavItemLink({
 export default function SiteHeader() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement | null>(null);
+  const previousBodyOverflowRef = useRef<string | null>(null);
+  const previousHtmlOverflowRef = useRef<string | null>(null);
   const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSectionOpen, setMobileSectionOpen] = useState<string | null>(null);
@@ -123,11 +125,21 @@ export default function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : previousOverflow;
+    if (!mobileMenuOpen) {
+      return;
+    }
+
+    previousBodyOverflowRef.current = document.body.style.overflow;
+    previousHtmlOverflowRef.current = document.documentElement.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousBodyOverflowRef.current ?? '';
+      document.documentElement.style.overflow = previousHtmlOverflowRef.current ?? '';
+      previousBodyOverflowRef.current = null;
+      previousHtmlOverflowRef.current = null;
     };
   }, [mobileMenuOpen]);
 
