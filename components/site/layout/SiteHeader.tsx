@@ -234,7 +234,7 @@ export default function SiteHeader() {
                 href="https://bossbanking.idez.com.br/login"
                 target="_blank"
                 rel="noreferrer"
-                className="lux-button lux-button-dark xl:min-h-[2.2rem] xl:min-w-[10.45rem] xl:px-4.5 xl:py-1.5 xl:text-[0.56rem] xl:tracking-[0.17em]"
+                className="inline-flex items-center justify-center whitespace-nowrap px-2 py-1 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[#b9b9bb] transition duration-200 hover:text-[#ededee]"
               >
                 Minha conta
               </Link>
