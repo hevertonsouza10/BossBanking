@@ -137,12 +137,12 @@ export default function Preloader() {
               setPhase('hidden');
             }
           }}
-          className="fixed inset-0 z-[9999] overflow-hidden bg-[#121113]"
+          className="fixed inset-0 z-[9999] overflow-hidden bg-[#111111]"
           aria-hidden="true"
         >
           <video
             ref={videoRef}
-            className="absolute inset-0 h-full w-full scale-[0.7] object-contain object-center sm:scale-100 sm:object-cover"
+            className="absolute inset-0 h-full w-full scale-[0.84] object-contain object-center sm:scale-100 sm:object-cover"
             muted
             playsInline
             preload="auto"
