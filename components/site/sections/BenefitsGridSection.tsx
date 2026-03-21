@@ -32,7 +32,7 @@ export default function BenefitsGridSection({ section }: { section: BenefitsGrid
                 <article className="minimal-glass-card h-full rounded-[1.75rem] p-7 md:p-8">
                   {item.kicker ? (
                     <div className="flex items-center gap-4">
-                      <p className="text-[11px] uppercase tracking-[0.36em] text-[#ddb25f]">{item.kicker}</p>
+                      <p className="text-[12px] uppercase tracking-[0.36em] text-[#ddb25f]">{item.kicker}</p>
                     </div>
                   ) : null}
                   <div className="minimal-glass-separator mt-6" />

@@ -119,7 +119,7 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.12 }}
-              className="mb-6 inline-flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.34em] text-[#e1c58f]"
+              className="mb-6 inline-flex items-center gap-3 text-[12px] uppercase tracking-[0.34em] text-[#e1c58f]"
             >
               <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#ddb25f]" />
               Boss Ledger
@@ -135,8 +135,8 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
           >
             {isHomeHero ? (
               <>
-                <span className="block">O primeiro banco</span>
-                <span className="mt-1 block md:mt-2">select do Brasil</span>
+                <span className="block">A primeira fintech</span>
+                <span className="mt-1 block md:mt-2">financeira select do Brasil</span>
   
               </>
             ) : (

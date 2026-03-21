@@ -18,7 +18,7 @@ export default function SectionHeading({
   return (
     <div className={cn(align === 'center' ? 'mx-auto text-center' : '', className)}>
       {eyebrow ? (
-        <p className="mb-4 text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{eyebrow}</p>
+        <p className="mb-4 text-[12px] uppercase tracking-[0.42em] text-[#ddb25f]">{eyebrow}</p>
       ) : null}
       <h2 className="font-[family:var(--font-display)] text-4xl font-light leading-[1.02] tracking-[-0.03em] text-white md:text-6xl">
         {title}

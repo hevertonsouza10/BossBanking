@@ -19,7 +19,7 @@ export default function CtaSection({ section }: { section: CtaSectionType }) {
               <div className="pointer-events-none absolute bottom-0 right-[8%] h-28 w-28 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.12),transparent_72%)] blur-3xl" />
 
               <div className="relative z-10">
-                <p className="text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
+                <p className="text-[12px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
                 <h2 className="mx-auto mt-5 max-w-4xl font-[family:var(--font-display)] text-[2.5rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white md:text-6xl">
                   {section.title}
                 </h2>
@@ -39,8 +39,8 @@ export default function CtaSection({ section }: { section: CtaSectionType }) {
                           rel={action.external ? 'noreferrer' : undefined}
                           className={
                             isSecondary
-                              ? 'lux-button lux-button-dark min-w-[12.5rem] px-7 opacity-80 sm:justify-self-start sm:translate-x-4 sm:scale-[0.92]'
-                              : 'lux-button lux-button-gold min-w-[16.5rem] px-10 text-[0.78rem] tracking-[0.32em] shadow-[0_18px_46px_rgba(201,162,77,0.24)] sm:col-start-2 sm:min-w-[18.5rem] sm:justify-self-center'
+                              ? 'hidden lux-button lux-button-dark min-h-[3.1rem] justify-self-center px-7 text-[0.68rem] tracking-[0.18em] opacity-95 sm:inline-flex sm:min-h-[3.2rem] sm:min-w-[15.25rem] sm:px-8 sm:text-[0.75rem] sm:justify-self-start'
+                              : 'lux-button lux-button-gold min-h-[3.1rem] justify-self-center px-7 text-[0.68rem] tracking-[0.22em] shadow-[0_18px_46px_rgba(201,162,77,0.24)] sm:col-start-2 sm:min-h-[3.2rem] sm:min-w-[18.25rem] sm:px-9 sm:text-[0.78rem] sm:tracking-[0.24em] sm:justify-self-center'
                           }
                         >
                           {action.label}

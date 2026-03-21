@@ -119,7 +119,7 @@ export default function StatementSection({ section }: { section: StatementSectio
       <Container className="space-y-10 md:space-y-12">
         <Reveal className="mx-auto max-w-4xl text-center">
           {section.eyebrow ? (
-            <p className="mb-4 text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
+            <p className="mb-4 text-[12px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
           ) : null}
           <h2 className="mx-auto max-w-3xl font-[family:var(--font-display)] text-3xl font-light leading-[1.02] tracking-[-0.03em] text-white md:text-5xl">
             {section.title}

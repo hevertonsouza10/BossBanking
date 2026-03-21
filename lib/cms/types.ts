@@ -5,6 +5,7 @@ export type MediaAsset = {
   caption?: string;
   ratio?: 'video' | 'square' | 'portrait' | 'wide';
   fallbackLabel?: string;
+  loopUntilSeconds?: number;
 };
 
 export type SectionAction = {

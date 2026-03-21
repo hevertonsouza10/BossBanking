@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Script from 'next/script';
+import Spline from '@splinetool/react-spline';
 
 type MediaFrameProps = {
   src?: string;
@@ -33,7 +33,6 @@ export default function MediaFrame({
   frameless = false,
 }: MediaFrameProps) {
   const frameRef = useRef<HTMLElement | null>(null);
-  const splineViewerRef = useRef<HTMLElement | null>(null);
   const isVideo = !!src && src.endsWith('.mp4');
   const isSplineScene = !!src && src.endsWith('.splinecode');
   const [shouldRenderSpline, setShouldRenderSpline] = useState(false);
@@ -66,30 +65,18 @@ export default function MediaFrame({
   useEffect(() => {
     if (!isSplineScene || !shouldRenderSpline) {
       setIsSplineReady(false);
-      return;
+      return undefined;
     }
 
-    const viewer = splineViewerRef.current;
-    const handleLoad = () => setIsSplineReady(true);
     const fallbackTimer = window.setTimeout(() => setIsSplineReady(true), 2200);
-
-    viewer?.addEventListener('load', handleLoad);
 
     return () => {
       window.clearTimeout(fallbackTimer);
-      viewer?.removeEventListener('load', handleLoad);
     };
   }, [isSplineScene, shouldRenderSpline]);
 
   return (
     <figure ref={frameRef} className={figureClassName}>
-      {isSplineScene && shouldRenderSpline ? (
-        <Script
-          src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"
-          type="module"
-          strategy="afterInteractive"
-        />
-      ) : null}
       <div
         className={`relative ${ratioMap[ratio]} ${frameless ? 'bg-transparent' : 'bg-[radial-gradient(circle_at_top,rgba(201,162,77,0.18),transparent_35%),linear-gradient(180deg,#121212,#050505)]'}`}
       >
@@ -119,12 +106,11 @@ export default function MediaFrame({
               <source src={src} type="video/mp4" />
             </video>
           ) : isSplineScene && shouldRenderSpline ? (
-            <spline-viewer
-              ref={splineViewerRef}
-              url={src}
-              loading-anim-type="spinner-small-dark"
-              className={`block h-full w-full transition-opacity duration-500 ${isSplineReady ? 'opacity-100' : 'opacity-0'} ${frameless ? 'bg-transparent' : 'bg-[radial-gradient(circle_at_top,rgba(201,162,77,0.12),transparent_36%),linear-gradient(180deg,#111,#060606)]'}`}
-            />
+            <div
+              className={`h-full w-full transition-opacity duration-500 ${isSplineReady ? 'opacity-100' : 'opacity-0'} ${frameless ? 'bg-transparent' : 'bg-[radial-gradient(circle_at_top,rgba(201,162,77,0.12),transparent_36%),linear-gradient(180deg,#111,#060606)]'}`}
+            >
+              <Spline scene={src} onLoad={() => setIsSplineReady(true)} />
+            </div>
           ) : isSplineScene ? (
             <div className="h-full w-full bg-transparent" />
           ) : (

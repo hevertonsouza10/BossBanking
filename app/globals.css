@@ -256,16 +256,21 @@ video {
 
   .lux-button {
     position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
     border-radius: 9999px;
-    min-height: 3.1rem;
-    padding: 0.84rem 1.7rem;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.22em;
+    width: fit-content;
+    max-width: 100%;
+    min-height: auto;
+    padding: 0.78rem 1.5rem;
+    font-size: 0.64rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
     text-transform: uppercase;
     transition:
       transform 180ms ease,
@@ -290,14 +295,15 @@ video {
 
   .lux-button-dark {
     background:
-      linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.025)),
-      linear-gradient(180deg, rgba(23,23,26,0.72), rgba(11,11,14,0.58));
-    border: 1px solid rgba(255,255,255,0.16);
+      linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02)),
+      linear-gradient(180deg, rgba(28,28,31,0.86), rgba(9,9,11,0.92));
+    border: 1px solid rgba(255,255,255,0.08);
     color: rgba(255,255,255,0.88);
     box-shadow:
-      0 10px 24px rgba(0,0,0,0.18),
-      inset 0 1px 0 rgba(255,255,255,0.2),
-      inset 0 -8px 12px rgba(0,0,0,0.04);
+      0 16px 34px rgba(0,0,0,0.26),
+      inset 0 1px 0 rgba(255,255,255,0.12),
+      inset 0 -10px 16px rgba(0,0,0,0.16),
+      inset 0 0 0 1px rgba(255,255,255,0.03);
     backdrop-filter: url(#glass-distortion) blur(20px) saturate(150%);
   }
 
@@ -307,22 +313,18 @@ video {
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.16),
-      inset 0 -1px 0 rgba(255,255,255,0.02);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.18), transparent 22%),
+      linear-gradient(90deg, rgba(255,255,255,0.05), transparent 28%, transparent 72%, rgba(255,255,255,0.03));
+    opacity: 0.72;
   }
 
   .lux-button-dark::after {
     content: '';
     position: absolute;
-    left: 10%;
-    right: 10%;
-    bottom: 0;
-    height: 8px;
-    border-radius: 9999px;
-    background: radial-gradient(ellipse at center, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.12) 42%, transparent 78%);
-    opacity: 0.84;
-    filter: blur(1.3px);
+    inset: 1px;
+    border-radius: inherit;
+    border: 1px solid rgba(255,255,255,0.04);
     pointer-events: none;
   }
 
@@ -333,7 +335,7 @@ video {
   }
 
   .lux-button-dark:hover {
-    border-color: rgba(255,255,255,0.24);
+    border-color: rgba(255,255,255,0.12);
     color: #fff;
   }
 
@@ -341,12 +343,13 @@ video {
     background:
       linear-gradient(180deg, rgba(255,233,189,0.28), rgba(255,233,189,0.06)),
       linear-gradient(180deg, #dfbb6f, #cf9f49);
-    border: 1px solid rgba(255, 235, 186, 0.42);
+    border: 1px solid rgba(255, 235, 186, 0.24);
     color: #090909;
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,0.28),
       inset 0 -6px 12px rgba(126,84,18,0.05),
-      0 10px 24px rgba(201,162,77,0.14);
+      0 14px 30px rgba(201,162,77,0.18),
+      inset 0 0 0 1px rgba(255,255,255,0.08);
   }
 
   .lux-button-gold::before {

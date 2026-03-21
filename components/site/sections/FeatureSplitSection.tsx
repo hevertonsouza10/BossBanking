@@ -10,9 +10,10 @@ import SectionHeading from '@/components/site/ui/SectionHeading';
 import type { FeatureSplitSection as FeatureSplitSectionType } from '@/lib/cms/types';
 
 type VimeoPlayerInstance = {
-  on: (event: 'pause' | 'play', callback: () => void) => void;
-  off: (event: 'pause' | 'play', callback: () => void) => void;
+  on: (event: 'pause' | 'play' | 'timeupdate', callback: (data?: { seconds: number }) => void) => void;
+  off: (event: 'pause' | 'play' | 'timeupdate', callback: (data?: { seconds: number }) => void) => void;
   play: () => Promise<void>;
+  setCurrentTime: (seconds: number) => Promise<number>;
 };
 
 type VimeoWindow = Window & {
@@ -39,6 +40,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
     isVimeoEmbed && section.media?.src
       ? `${section.media.src}${section.media.src.includes('?') ? '&' : '?'}autoplay=1&title=0&byline=0&portrait=0&api=1`
       : section.media?.src;
+  const loopUntilSeconds = section.media?.loopUntilSeconds;
 
   const handleStart = () => {
     setHasStarted(true);
@@ -71,6 +73,16 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
     const handlePlay = () => {
       if (isMounted) {
         setIsPaused(false);
+      }
+    };
+
+    const handleTimeUpdate = (data?: { seconds: number }) => {
+      if (!loopUntilSeconds || !vimeoPlayerRef.current || !data) {
+        return;
+      }
+
+      if (data.seconds >= loopUntilSeconds) {
+        void vimeoPlayerRef.current.setCurrentTime(0).then(() => vimeoPlayerRef.current?.play());
       }
     };
 
@@ -109,6 +121,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
       vimeoPlayerRef.current = new (window as VimeoWindow).Vimeo!.Player(iframeRef.current);
       vimeoPlayerRef.current.on('pause', handlePause);
       vimeoPlayerRef.current.on('play', handlePlay);
+      vimeoPlayerRef.current.on('timeupdate', handleTimeUpdate);
     };
 
     void setupVimeoPlayer();
@@ -118,9 +131,10 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
       if (vimeoPlayerRef.current) {
         vimeoPlayerRef.current.off('pause', handlePause);
         vimeoPlayerRef.current.off('play', handlePlay);
+        vimeoPlayerRef.current.off('timeupdate', handleTimeUpdate);
       }
     };
-  }, [hasStarted, isVimeoEmbed, section.layout]);
+  }, [hasStarted, isVimeoEmbed, loopUntilSeconds, section.layout]);
 
   if (section.layout === 'immersive') {
     return (
@@ -140,7 +154,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
             ) : !hasStarted && isVimeoEmbed ? (
               <iframe
                 src={backgroundSrc}
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] w-full min-w-full -translate-x-1/2 -translate-y-1/2 grayscale sm:h-[56.25vw] sm:min-h-full sm:w-[177.78vh] sm:min-w-full"
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[88vh] w-[245vw] min-w-[245vw] -translate-x-1/2 -translate-y-[48%] scale-[1.18] grayscale sm:h-[56.25vw] sm:min-h-full sm:w-[177.78vh] sm:min-w-full sm:-translate-y-1/2 sm:scale-100"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
@@ -191,24 +205,24 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
         </div>
 
         {!hasStarted ? (
-          <Container className="relative z-10 flex min-h-screen items-center justify-center px-6 py-20">
+          <Container className="relative z-10 flex min-h-screen items-center justify-center px-5 py-16 sm:px-6 sm:py-20">
             <Reveal className="mx-auto max-w-4xl text-center">
               <p className="mb-5 text-[10px] uppercase tracking-[0.46em] text-white/58">Narrativa audiovisual</p>
-              <h2 className="mx-auto max-w-3xl font-[family:var(--font-display)] text-[2.8rem] font-light leading-[0.96] tracking-[-0.05em] text-white md:text-[5.6rem]">
+              <h2 className="mx-auto max-w-3xl font-[family:var(--font-display)] text-[3.2rem] font-light leading-[0.92] tracking-[-0.05em] text-white sm:text-[3.5rem] md:text-[5.6rem]">
                 Filme conceito
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/66 md:text-[1.02rem]">
-                Um manifesto visual sobre ambição, movimento e a relação entre empresários e um banco feito para acompanhar esse ritmo.
+                Um manifesto visual sobre ambicao, movimento e a relacao entre empresarios e uma fintech feita para acompanhar esse ritmo.
               </p>
 
               <button
                 type="button"
                 onClick={handleStart}
-                className="group mx-auto mt-10 flex h-24 w-24 items-center justify-center rounded-full border border-white/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(10,10,10,0.72))] text-white shadow-[0_24px_54px_rgba(0,0,0,0.42)] backdrop-blur-md transition duration-300 hover:scale-[1.03] hover:border-white/34"
+                className="group mx-auto mt-10 flex h-28 w-28 items-center justify-center rounded-full border border-white/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(10,10,10,0.72))] text-white shadow-[0_24px_54px_rgba(0,0,0,0.42)] backdrop-blur-md transition duration-300 hover:scale-[1.03] hover:border-white/34 sm:h-24 sm:w-24"
                 aria-label="Assistir filme conceito"
               >
-                <span className="absolute h-24 w-24 rounded-full border border-white/12 transition duration-300 group-hover:scale-[1.12]" />
-                <Play className="relative ml-1 h-8 w-8 fill-current text-white" />
+                <span className="absolute h-28 w-28 rounded-full border border-white/12 transition duration-300 group-hover:scale-[1.12] sm:h-24 sm:w-24" />
+                <Play className="relative ml-1 h-9 w-9 fill-current text-white sm:h-8 sm:w-8" />
               </button>
 
               <p className="mt-5 text-[0.72rem] font-medium uppercase tracking-[0.32em] text-white/74">Assistir agora</p>
@@ -266,3 +280,4 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
     </section>
   );
 }
+

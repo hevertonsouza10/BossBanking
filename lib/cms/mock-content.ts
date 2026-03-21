@@ -2,8 +2,8 @@ import type { BlogCategory, BlogPost, Page } from '@/lib/cms/types';
 
 const categories: BlogCategory[] = [
   {
-    slug: 'private-banking',
-    name: 'Private Banking',
+    slug: 'private-finance',
+    name: 'Private Finance',
     description: 'Estratégias, produtos e decisões para clientes de alta exigência.',
   },
   {
@@ -30,14 +30,14 @@ export const marketingPages: Page[] = [
     summary: 'Home cinematográfica com vídeo humano, manifesto, app, benefícios, cartão e vídeo conceito.',
     navigationLabel: 'Início',
     seo: {
-      title: 'Boss Ledger | Private Digital Banking',
+      title: 'Boss Ledger | Plataforma Financeira Premium',
       description: 'Uma home premium com linguagem de luxo, tecnologia e narrativa visual.',
     },
     sections: [
       {
         id: 'home-hero',
         type: 'hero',
-        title: 'Um banco digital que ajuda você e o seu negócio a chegar ao topo',
+        title: 'Uma Fintech digital que ajuda você e o seu negócio a chegar ao topo',
         media: {
           src: 'https://player.vimeo.com/video/1174914823',
           alt: 'Vídeo principal da Boss Ledger com diferentes perfis de empreendedores em atividade',
@@ -51,9 +51,9 @@ export const marketingPages: Page[] = [
         eyebrow: 'Atendimento',
         title: 'Atendimento humanizado, gerentes dedicados',
         description:
-          'Um atendimento bancario diferente de qualquer outro',
+          'Um atendimento financeiro diferente de qualquer outro',
         quote:
-          'Uma experiencia mais proxima, segura e lucrativa para empresas que buscam um relacionamento real com o Banco',
+          'Uma experiencia mais proxima, segura e lucrativa para empresas que buscam um relacionamento',
         attribution: 'Suporte por telefone e WhatsApp',
         metrics: [
           { value: '24h', label: 'acesso digital' },
@@ -92,7 +92,7 @@ export const marketingPages: Page[] = [
         eyebrow: 'Único',
         title: 'Boss Ledger senta com você e entende sua operação.',
         description:
-          'Um banco que entende a estrutura da sua empresa e apresenta soluções reais com foco e desempenho',
+          'Entendemos a estrutura da sua empresa e apresenta soluções reais com foco e desempenho',
         items: [
             {
               kicker: 'holdings',
@@ -135,7 +135,7 @@ export const marketingPages: Page[] = [
         eyebrow: 'Depoimentos / Cases de sucesso',
         title: 'Somente quem vive a experiência Boss Ledger sabe a diferença.',
         description:
-          'Relatos de clientes que encontraram uma relação bancária mais próxima, mais clara e mais alinhada com a própria operação.',
+          'Relatos de clientes que encontraram um Relacionamento mais próximo, mais claro e mais alinhado com a própria operação.',
           testimonials: [
             {
               name: 'Rafael Carvalho',
@@ -227,14 +227,15 @@ export const marketingPages: Page[] = [
         id: 'home-concept',
         type: 'featureSplit',
         eyebrow: 'Filme conceito',
-        title: 'Uma história sobre empresários, ambição e o banco que acompanha esse ritmo.',
+        title: 'Uma história sobre empresários, ambição e uma Fintech que acompanha esse ritmo.',
         description:
-          'Assista ao filme conceito da Boss Ledger e acompanhe uma narrativa que apresenta contexto, visão e a proposta do banco em uma experiência cinematográfica.',
+          'Assista ao filme conceito da Boss Ledger e acompanhe uma narrativa que apresenta contexto, visão e a proposta da Fintech em uma experiência cinematográfica.',
         media: {
-          src: 'https://player.vimeo.com/video/1174912133?badge=0&autopause=0&player_id=0&app_id=58479',
+          src: 'https://player.vimeo.com/video/1175664452?badge=0&autopause=0&player_id=0&app_id=58479',
           alt: 'Vídeo conceito da Boss Ledger',
           ratio: 'video',
           fallbackLabel: 'Boss Ledger',
+          loopUntilSeconds: 114,
         },
         layout: 'immersive',
         points: [
@@ -256,7 +257,7 @@ export const marketingPages: Page[] = [
         id: 'home-cta',
         type: 'cta',
         eyebrow: 'Convite',
-        title: 'Nós do BOSS LEDGER reinventamos o conceito de banco.',
+        title: 'Nos da BOSS LEDGER reinventamos o conceito de experiencia financeira.',
         description:
           'Faça parte dessa história, solicite seu convite hoje mesmo.',
         actions: [
@@ -470,13 +471,13 @@ export const marketingPages: Page[] = [
 export const blogPosts: BlogPost[] = [
   {
     slug: 'como-estruturar-um-site-premium-para-banco-digital',
-    title: 'Como estruturar um site premium para um banco digital sem virar um projeto descartável',
+    title: 'Como estruturar um site premium para uma fintech sem virar um projeto descartavel',
     excerpt: 'Separar rotas, sistema de blocos, SEO e contratos de conteúdo desde o início evita retrabalho quando o site cresce.',
     publishedAt: '10 de março de 2026',
     author: 'Equipe Boss Ledger',
     category: categoryMap.tecnologia,
     seo: {
-      title: 'Como estruturar um site premium para banco digital',
+      title: 'Como estruturar um site premium para fintech',
       description: 'Base arquitetural para landing, páginas institucionais e blog no mesmo projeto.',
     },
     body: [
@@ -499,14 +500,14 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'porque-um-blog-ajuda-um-site-de-banco-digital',
-    title: 'Por que um blog bem estruturado fortalece um site de banco digital',
+    title: 'Por que um blog bem estruturado fortalece o site de uma fintech',
     excerpt: 'Blog não é só conteúdo: é aquisição, SEO, confiança e argumento comercial contínuo.',
     publishedAt: '08 de março de 2026',
     author: 'Equipe Boss Ledger',
-    category: categoryMap['private-banking'],
+    category: categoryMap['private-finance'],
     seo: {
-      title: 'Por que um blog ajuda um site de banco digital',
-      description: 'Entenda o papel editorial e comercial de um blog para fintech e banco digital.',
+      title: 'Por que um blog ajuda o site de uma fintech',
+      description: 'Entenda o papel editorial e comercial de um blog para uma fintech.',
     },
     body: [
       {

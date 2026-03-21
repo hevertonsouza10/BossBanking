@@ -23,17 +23,19 @@ export default function TestimonialProofSection({ section }: { section: Testimon
     <section className="py-24 md:py-32" data-scroll-scene="true">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1.16fr)] lg:items-start lg:gap-16">
         <Reveal>
-          <div className="max-w-[34rem] space-y-7 pt-1">
+          <div className="max-w-[34rem] space-y-7 pt-1 text-center lg:text-left">
             {hasQuoteContent ? (
-              <SectionHeading
-                eyebrow={section.eyebrow}
-                title={section.title}
-                description={showDescriptionAboveCard ? undefined : section.description}
-              />
+              <div className="mx-auto max-w-[24rem] lg:mx-0 lg:max-w-none">
+                <SectionHeading
+                  eyebrow={section.eyebrow}
+                  title={section.title}
+                  description={showDescriptionAboveCard ? undefined : section.description}
+                />
+              </div>
             ) : (
-              <div className="max-w-2xl">
+              <div className="mx-auto max-w-2xl lg:mx-0">
                 {section.eyebrow ? (
-                  <p className="mb-5 text-[11px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
+                  <p className="mb-5 text-[12px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
                 ) : null}
                 <h2 className="max-w-[12ch] font-[family:var(--font-display)] text-[2.3rem] font-semibold leading-[0.97] tracking-[-0.06em] text-white md:text-[3.8rem]">
                   {premiumTitle.split('\n').map((line) => (
@@ -47,10 +49,10 @@ export default function TestimonialProofSection({ section }: { section: Testimon
 
             {!hasQuoteContent ? (
               <div className="space-y-4 pt-1">
-                <div className="flex flex-wrap items-center gap-4">
+                <div className="flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                   <a
                     href="/contato"
-                    className="inline-flex min-h-[3.15rem] items-center justify-center rounded-full border border-[#d9dde2]/18 bg-[linear-gradient(180deg,#f4dcab_0%,#ddb25f_52%,#b9832e_100%)] px-6 text-[0.64rem] font-semibold uppercase tracking-[0.2em] text-[#130f08] shadow-[0_0_18px_rgba(173,177,184,0.08),0_10px_26px_rgba(201,162,77,0.14)] transition duration-300 ease-out hover:-translate-y-[1px] hover:scale-[1.01] hover:brightness-[1.02]"
+                    className="lux-button lux-button-gold px-6 text-[0.64rem]"
                   >
                     Entrar em contato
                   </a>
@@ -61,9 +63,9 @@ export default function TestimonialProofSection({ section }: { section: Testimon
         </Reveal>
 
         <Reveal delay={0.08}>
-          <div className="space-y-5 pt-1">
+          <div className="space-y-5 pt-1 text-center lg:text-left">
             {showDescriptionAboveCard ? (
-              <div className="max-w-[42rem] border-l border-[#ddb25f]/24 pl-5">
+              <div className="mx-auto max-w-[42rem] border-t border-[#ddb25f]/24 pt-5 lg:mx-0 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
                 <p className="max-w-[34rem] text-sm leading-7 text-white/64 md:text-[1.02rem]">{section.description}</p>
               </div>
             ) : null}
@@ -78,7 +80,7 @@ export default function TestimonialProofSection({ section }: { section: Testimon
                     <p className="text-2xl font-light leading-10 text-white/90 md:text-3xl">{section.quote}</p>
                   ) : null}
                   {section.attribution ? (
-                    <p className="mt-7 text-[11px] uppercase tracking-[0.36em] text-[#ddb25f]">{section.attribution}</p>
+                    <p className="mt-7 text-[12px] uppercase tracking-[0.36em] text-[#ddb25f]">{section.attribution}</p>
                   ) : null}
                 </>
               ) : (
@@ -96,21 +98,24 @@ export default function TestimonialProofSection({ section }: { section: Testimon
 
                   return (
                     <Reveal key={metric.label} delay={0.1 * index}>
-                      <div className="relative flex min-h-[10.5rem] flex-col justify-between overflow-hidden rounded-[1.1rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.012))] px-5 py-6">
+                      <div className="relative flex min-h-[10.5rem] flex-col items-center justify-center overflow-hidden rounded-[1.1rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.012))] px-5 py-6 text-center">
                         <div className="absolute inset-x-0 top-0 h-20 bg-[radial-gradient(circle_at_top,rgba(221,178,95,0.08),transparent_70%)]" />
                         <div className="absolute left-5 right-5 top-0 h-px bg-gradient-to-r from-transparent via-[#ddb25f]/20 to-transparent" />
-                        <div className="space-y-3">
+                        <div className="flex flex-1 flex-col items-center justify-center gap-3">
                           {MetricIcon ? (
-                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#ddb25f]/10 text-[#f3d08a] ring-1 ring-inset ring-[#ddb25f]/16">
-                              <MetricIcon className="h-5 w-5 stroke-[1.9]" />
+                            <div className="relative flex h-12 w-12 items-center justify-center rounded-[1rem] border border-white/10 bg-[linear-gradient(180deg,rgba(48,48,50,0.9),rgba(10,10,11,0.96))] shadow-[0_12px_28px_rgba(0,0,0,0.28)]">
+                              <div className="absolute inset-0 rounded-[1rem] bg-[radial-gradient(circle_at_top,rgba(255,236,196,0.08),transparent_60%)]" />
+                              <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-[linear-gradient(180deg,#f7e49f_0%,#ddb25f_52%,#b8862e_100%)]">
+                                <MetricIcon className="h-4 w-4 text-[#0b0b0c] stroke-[2.2]" />
+                              </div>
                             </div>
                           ) : (
                             <p className="font-[family:var(--font-display)] text-[2rem] font-light text-white md:text-[2.5rem]">
                               {metric.value}
                             </p>
                           )}
+                          <p className="max-w-[18ch] text-[10px] uppercase leading-5 tracking-[0.24em] text-white/42">{metric.label}</p>
                         </div>
-                        <p className="max-w-[18ch] text-[10px] uppercase leading-5 tracking-[0.24em] text-white/42">{metric.label}</p>
                       </div>
                     </Reveal>
                   );
@@ -119,7 +124,7 @@ export default function TestimonialProofSection({ section }: { section: Testimon
             </div>
 
             {!hasQuoteContent ? (
-              <div className="flex flex-wrap items-center justify-start gap-x-8 gap-y-2 pt-1">
+              <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 pt-1 lg:justify-start">
                 <div className="flex items-center gap-3 text-[0.74rem] uppercase tracking-[0.16em] text-white/46">
                   <span className="h-px w-8 bg-gradient-to-r from-[#ddb25f]/40 to-transparent" />
                   <span>WhatsApp: +55 11 99999-9999</span>

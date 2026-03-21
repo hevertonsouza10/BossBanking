@@ -29,7 +29,7 @@ const navigationGroups: MenuGroup[] = [
       { label: 'Compliance', href: '#' },
       { label: 'Consultoria financeira', href: '#' },
       { label: 'Assessoria Boss', href: '#' },
-      { label: 'Encontre nosso banco', href: '#' },
+      { label: 'Conheca nossa fintech', href: '#' },
       { label: 'Notícias Boss', href: '/blog' },
     ],
   },
@@ -142,12 +142,12 @@ export default function SiteHeader() {
             <Link href="/" className="relative flex shrink-0 items-center" aria-label="Boss Ledger Home">
               <div className="pointer-events-none absolute left-[-2.8rem] top-1/2 h-16 w-36 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(221,178,95,0.18),rgba(221,178,95,0.08)_42%,transparent_74%)] blur-2xl" />
               <Image
-                src="/brand/LOGO%20BOSS%20LEDGER%20horizontall%20editavel%20c%C3%B3pia%209PNG.png"
+                src="/brand/LOGO%20BOSS%20LEDGER%20horizontall%20editavel%20c%C3%B3pia%209-webp.webp"
                 alt="Boss Ledger"
                 width={768}
                 height={768}
                 priority
-                className="relative h-auto w-[126px] sm:w-[142px] lg:w-[160px]"
+                className="relative h-auto w-[128px] sm:w-[144px] lg:w-[164px]"
               />
             </Link>
 
@@ -222,21 +222,23 @@ export default function SiteHeader() {
             </nav>
           </div>
 
-          <div className="relative flex items-center justify-end gap-2 lg:gap-3 xl:ml-12 xl:border-l xl:border-white/8 xl:pl-10">
-            <Link
-              href="/convites"
-              className="hidden rounded-full border border-[#d9dde2]/28 bg-[linear-gradient(180deg,#f4dcab_0%,#ddb25f_52%,#b9832e_100%)] px-5 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-[#130f08] shadow-[0_0_18px_rgba(173,177,184,0.1),0_10px_26px_rgba(201,162,77,0.18)] transition duration-300 ease-out hover:-translate-y-[1px] hover:scale-[1.02] hover:brightness-[1.03] hover:shadow-[0_0_24px_rgba(173,177,184,0.14),0_14px_32px_rgba(201,162,77,0.22)] md:inline-flex"
-            >
-              Solicitar convite
-            </Link>
-            <Link
-              href="https://bossbanking.idez.com.br/login"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden px-3 py-1 text-[0.62rem] font-medium uppercase tracking-[0.2em] text-[#b9b9bb] transition duration-300 ease-out hover:text-[#ededee] md:inline-flex"
-            >
-              Minha conta
-            </Link>
+          <div className="relative flex items-center justify-end gap-2 md:gap-2.5 lg:gap-3 xl:ml-12 xl:border-l xl:border-white/8 xl:pl-10">
+            <div className="hidden xl:flex xl:items-center xl:gap-3">
+              <Link
+                href="/convites"
+                className="lux-button lux-button-gold xl:min-h-[2.2rem] xl:min-w-[10.45rem] xl:px-4.5 xl:py-1.5 xl:text-[0.56rem] xl:tracking-[0.2em]"
+              >
+                Solicitar convite
+              </Link>
+              <Link
+                href="https://bossbanking.idez.com.br/login"
+                target="_blank"
+                rel="noreferrer"
+                className="lux-button lux-button-dark xl:min-h-[2.2rem] xl:min-w-[10.45rem] xl:px-4.5 xl:py-1.5 xl:text-[0.56rem] xl:tracking-[0.17em]"
+              >
+                Minha conta
+              </Link>
+            </div>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((current) => !current)}
@@ -260,8 +262,8 @@ export default function SiteHeader() {
             transition={{ duration: 0.2 }}
             className="border-t border-white/8 bg-[linear-gradient(180deg,rgba(10,10,10,0.97),rgba(5,5,5,0.95))] xl:hidden"
           >
-            <Container className="py-4">
-              <div className="space-y-3">
+            <Container className="max-h-[calc(100vh-100px)] overflow-y-auto py-4 sm:py-5">
+              <div className="space-y-3 pb-4">
                 {navigationGroups.map((group) => {
                   const hasDropdown = !!group.items?.length;
                   const isOpen = mobileSectionOpen === group.label;
@@ -273,7 +275,7 @@ export default function SiteHeader() {
                         key={group.label}
                         href={group.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center justify-between rounded-[1.15rem] border border-white/8 bg-white/[0.02] px-4 py-3.5 text-sm text-white/78 transition hover:border-[#ddb25f]/28 hover:text-white"
+                        className="flex items-center justify-between border-b border-white/[0.045] px-0 py-4 text-[0.95rem] text-[#b9b9bb] transition duration-200 hover:text-[#ececee]"
                       >
                         <span>{group.label}</span>
                         <ChevronRight className="h-4 w-4 text-[#ddb25f]" />
@@ -282,11 +284,11 @@ export default function SiteHeader() {
                   }
 
                   return (
-                    <div key={group.label} className="rounded-[1.15rem] border border-white/8 bg-white/[0.02]">
+                    <div key={group.label} className="border-b border-white/[0.045]">
                       <button
                         type="button"
                         onClick={() => setMobileSectionOpen((current) => (current === group.label ? null : group.label))}
-                        className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left text-sm font-medium uppercase tracking-[0.12em] text-white/82"
+                        className="flex w-full items-center justify-between gap-3 px-0 py-4 text-left text-[0.95rem] text-[#b9b9bb] transition duration-200 hover:text-[#ececee]"
                         aria-expanded={isOpen}
                       >
                         <span>{group.label}</span>
@@ -302,13 +304,13 @@ export default function SiteHeader() {
                             transition={{ duration: 0.18 }}
                             className="overflow-hidden"
                           >
-                            <div className="space-y-2 border-t border-white/8 px-3 pb-3 pt-3">
+                            <div className="border-t border-white/[0.045] pb-1 pt-2">
                               {items.map((item, index) => (
                                 <NavItemLink
                                   key={`${group.label}-${item.label}`}
                                   item={item}
                                   isLast={index === items.length - 1}
-                                  className="px-1 py-3"
+                                  className="px-0 py-3"
                                   onClick={() => setMobileMenuOpen(false)}
                                 />
                               ))}
@@ -324,7 +326,7 @@ export default function SiteHeader() {
                   <Link
                     href="/convites"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-center rounded-full border border-[#f6deb0]/34 bg-[linear-gradient(180deg,#f5ddb0_0%,#ddb25f_48%,#b9832e_100%)] px-5 py-3 text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-[#130f08]"
+                    className="lux-button lux-button-gold min-h-[3rem] justify-self-center px-6 py-3 text-[0.62rem] tracking-[0.2em] sm:min-w-[14rem]"
                   >
                     Solicitar convite
                   </Link>
@@ -333,7 +335,7 @@ export default function SiteHeader() {
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="inline-flex items-center justify-center rounded-full border border-[#ddb25f]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.025),rgba(255,255,255,0.01))] px-5 py-3 text-[0.66rem] font-medium uppercase tracking-[0.2em] text-white/88"
+                    className="lux-button lux-button-dark min-h-[3rem] justify-self-center px-6 py-3 text-[0.62rem] tracking-[0.18em] sm:min-w-[14rem]"
                   >
                     Minha conta
                   </Link>
