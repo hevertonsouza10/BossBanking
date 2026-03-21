@@ -1,13 +1,6 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import Preloader from '@/components/Preloader';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bossledger.example'),
@@ -50,9 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${inter.variable} bg-obsidian text-white antialiased`}
-      >
+      <body className="bg-obsidian text-white antialiased">
         <svg
           aria-hidden="true"
           className="pointer-events-none absolute h-0 w-0 opacity-0"

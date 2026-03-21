@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const PRELOADER_VIDEO_SRC = '/videos/Composi%C3%A7%C3%A3o%202_2.mp4';
+const PRELOADER_VIDEO_SRC = '/videos/composicao-2-2.mp4';
 const EXIT_ANIMATION_MS = 550;
 const FINAL_FRAME_OFFSET = 0.04;
 
@@ -73,10 +73,8 @@ export default function Preloader() {
     document.body.style.overflow = 'hidden';
 
     return () => {
-      if (phase === 'hidden') {
-        document.documentElement.style.overflow = previousHtmlOverflowRef.current ?? '';
-        document.body.style.overflow = previousBodyOverflowRef.current ?? '';
-      }
+      document.documentElement.style.overflow = previousHtmlOverflowRef.current ?? '';
+      document.body.style.overflow = previousBodyOverflowRef.current ?? '';
     };
   }, [hideScroll, phase]);
 

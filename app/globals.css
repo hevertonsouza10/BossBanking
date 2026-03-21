@@ -4,6 +4,7 @@
 
 :root {
   --bg: #050505;
+  --font-sans: "Segoe UI", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   --font-display: var(--font-sans);
   --surface: rgba(255, 255, 255, 0.06);
   --border: rgba(255, 255, 255, 0.14);
