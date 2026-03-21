@@ -10,8 +10,8 @@ import SectionHeading from '@/components/site/ui/SectionHeading';
 import type { FeatureSplitSection as FeatureSplitSectionType } from '@/lib/cms/types';
 
 type VimeoPlayerInstance = {
-  on: (event: 'pause' | 'play' | 'timeupdate', callback: (data?: { seconds: number }) => void) => void;
-  off: (event: 'pause' | 'play' | 'timeupdate', callback: (data?: { seconds: number }) => void) => void;
+  on: (event: 'pause' | 'play' | 'timeupdate' | 'ended', callback: (data?: { seconds: number }) => void) => void;
+  off: (event: 'pause' | 'play' | 'timeupdate' | 'ended', callback: (data?: { seconds: number }) => void) => void;
   play: () => Promise<void>;
   setCurrentTime: (seconds: number) => Promise<number>;
 };
@@ -38,7 +38,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
       : section.media?.src;
   const autoplaySrc =
     isVimeoEmbed && section.media?.src
-      ? `${section.media.src}${section.media.src.includes('?') ? '&' : '?'}autoplay=1&title=0&byline=0&portrait=0&api=1`
+      ? `${section.media.src}${section.media.src.includes('?') ? '&' : '?'}autoplay=1&loop=1&autopause=0&title=0&byline=0&portrait=0&api=1`
       : section.media?.src;
   const loopUntilSeconds = section.media?.loopUntilSeconds;
 
@@ -86,6 +86,14 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
       }
     };
 
+    const handleEnded = () => {
+      if (!vimeoPlayerRef.current) {
+        return;
+      }
+
+      void vimeoPlayerRef.current.setCurrentTime(0).then(() => vimeoPlayerRef.current?.play());
+    };
+
     const setupVimeoPlayer = async () => {
       const currentWindow = window as VimeoWindow;
 
@@ -122,6 +130,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
       vimeoPlayerRef.current.on('pause', handlePause);
       vimeoPlayerRef.current.on('play', handlePlay);
       vimeoPlayerRef.current.on('timeupdate', handleTimeUpdate);
+      vimeoPlayerRef.current.on('ended', handleEnded);
     };
 
     void setupVimeoPlayer();
@@ -132,6 +141,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
         vimeoPlayerRef.current.off('pause', handlePause);
         vimeoPlayerRef.current.off('play', handlePlay);
         vimeoPlayerRef.current.off('timeupdate', handleTimeUpdate);
+        vimeoPlayerRef.current.off('ended', handleEnded);
       }
     };
   }, [hasStarted, isVimeoEmbed, loopUntilSeconds, section.layout]);
