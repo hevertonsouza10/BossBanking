@@ -13,6 +13,8 @@ type MenuItem = {
   label: string;
   href: string;
   external?: boolean;
+  disabled?: boolean;
+  badge?: string;
 };
 
 type MenuGroup = {
@@ -25,34 +27,31 @@ const navigationGroups: MenuGroup[] = [
   {
     label: 'Sobre',
     items: [
-      { label: 'Quem somos', href: '#' },
-      { label: 'Compliance', href: '#' },
-      { label: 'Consultoria financeira', href: '#' },
-      { label: 'Assessoria Boss', href: '#' },
-      { label: 'Conheca nossa fintech', href: '#' },
-      { label: 'Notícias Boss', href: '/blog' },
+      { label: 'Quem somos', href: '/#home-concept' },
+      { label: 'Compliance', href: '/compliance' },
+      { label: 'Conheça nossa fintech', href: '/conheca-nossa-fintech' },
+      { label: 'Notícias Boss', href: '/noticias-boss' },
     ],
   },
   {
     label: 'Produtos',
     items: [
-      { label: 'Assessoria Boss', href: '#' },
-      { label: 'Cartão de crédito', href: '#' },
-      { label: 'Consultoria financeira', href: '#' },
+      { label: 'Assessoria Boss', href: '/assessoria-boss' },
+      { label: 'Cartões', href: '#', disabled: true, badge: 'Em breve' },
+      { label: 'Consultoria financeira', href: '/consultoria-financeira' },
     ],
   },
   {
     label: 'Dúvidas',
     items: [
-      { label: 'Central de atendimento', href: '#' },
-      { label: 'Custos operacionais (iniciação)', href: '#' },
-      { label: 'Bloqueio de acesso', href: '#' },
-      { label: 'Dicas de segurança', href: '#' },
+      { label: 'Central de atendimento', href: '/contato' },
+      { label: 'Custos operacionais (iniciação)', href: '/custos-operacionais' },
+      { label: 'Dicas de segurança', href: '/dicas-de-seguranca' },
     ],
   },
   {
     label: 'Notícias',
-    href: '/blog',
+    href: '/noticias-boss',
   },
 ];
 
@@ -67,6 +66,25 @@ function NavItemLink({
   onClick?: () => void;
   isLast?: boolean;
 }) {
+  if (item.disabled) {
+    return (
+      <div
+        className={cn(
+          'flex items-center justify-between gap-4 px-0 py-3 text-[0.95rem] text-white/52',
+          !isLast && 'border-b border-white/[0.045]',
+          className,
+        )}
+      >
+        <span>{item.label}</span>
+        {item.badge ? (
+          <span className="rounded-full border border-[rgba(221,178,95,0.16)] bg-[rgba(201,162,77,0.08)] px-2.5 py-1 text-[0.6rem] font-medium uppercase tracking-[0.2em] text-[#ddb25f]">
+            {item.badge}
+          </span>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <Link
       href={item.href}
@@ -159,7 +177,7 @@ export default function SiteHeader() {
                 width={768}
                 height={768}
                 priority
-                className="relative h-auto w-[128px] sm:w-[144px] lg:w-[164px]"
+                className="relative h-auto w-[123px] sm:w-[139px] lg:w-[159px]"
               />
             </Link>
 
@@ -193,14 +211,17 @@ export default function SiteHeader() {
                       onClick={() => setDesktopOpen((current) => (current === group.label ? null : group.label))}
                       className={cn(
                         'inline-flex items-center gap-2 whitespace-nowrap px-3 py-1 text-[0.64rem] font-medium uppercase tracking-[0.2em] transition duration-200',
-                        isOpen
-                          ? 'text-[#f0f0f1]'
-                          : 'text-[#b5b5b8] hover:text-[#ededee]',
+                        isOpen ? 'text-[#f0f0f1]' : 'text-[#b5b5b8] hover:text-[#ededee]',
                       )}
                       aria-expanded={isOpen}
                     >
                       <span>{group.label}</span>
-                      <ChevronDown className={cn('h-3.5 w-3.5 transition duration-200', isOpen ? 'rotate-180 text-[#ddb25f]' : 'text-white/55')} />
+                      <ChevronDown
+                        className={cn(
+                          'h-3.5 w-3.5 transition duration-200',
+                          isOpen ? 'rotate-180 text-[#ddb25f]' : 'text-white/55',
+                        )}
+                      />
                     </button>
 
                     <AnimatePresence>
@@ -304,7 +325,9 @@ export default function SiteHeader() {
                         aria-expanded={isOpen}
                       >
                         <span>{group.label}</span>
-                        <ChevronDown className={cn('h-4 w-4 transition duration-200', isOpen ? 'rotate-180 text-[#ddb25f]' : 'text-white/55')} />
+                        <ChevronDown
+                          className={cn('h-4 w-4 transition duration-200', isOpen ? 'rotate-180 text-[#ddb25f]' : 'text-white/55')}
+                        />
                       </button>
 
                       <AnimatePresence initial={false}>

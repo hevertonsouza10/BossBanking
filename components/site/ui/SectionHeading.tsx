@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn, keepBossLedgerTogether } from '@/lib/utils';
 
 type SectionHeadingProps = {
   eyebrow?: string;
@@ -21,9 +21,9 @@ export default function SectionHeading({
         <p className="mb-4 text-[12px] uppercase tracking-[0.42em] text-[#ddb25f]">{eyebrow}</p>
       ) : null}
       <h2 className="font-[family:var(--font-display)] text-4xl font-light leading-[1.02] tracking-[-0.03em] text-white md:text-6xl">
-        {title}
+        {keepBossLedgerTogether(title)}
       </h2>
-      {description ? <p className="mt-5 max-w-2xl text-sm leading-7 text-white/60 md:text-base">{description}</p> : null}
+      {description ? <p className="mt-5 max-w-2xl text-sm leading-7 text-white/60 md:text-base">{keepBossLedgerTogether(description)}</p> : null}
     </div>
   );
 }

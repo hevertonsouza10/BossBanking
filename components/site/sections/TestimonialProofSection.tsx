@@ -5,6 +5,7 @@ import Container from '@/components/site/ui/Container';
 import Reveal from '@/components/site/ui/Reveal';
 import SectionHeading from '@/components/site/ui/SectionHeading';
 import type { TestimonialProofSection as TestimonialProofSectionType } from '@/lib/cms/types';
+import { keepBossLedgerTogether } from '@/lib/utils';
 
 const metricIcons = {
   handshake: Handshake,
@@ -14,10 +15,10 @@ export default function TestimonialProofSection({ section }: { section: Testimon
   const hasQuoteContent = Boolean(section.quote || section.attribution);
   const showDescriptionAboveCard = !hasQuoteContent && Boolean(section.description);
   const premiumTitle = !hasQuoteContent
-    ? section.title
+    ? keepBossLedgerTogether(section.title)
         .replace('Atendimento humanizado', 'Atendimento humanizado\n')
         .replace('Gerentes Dedicados', 'Gerentes Dedicados\n')
-    : section.title;
+    : keepBossLedgerTogether(section.title);
 
   return (
     <section className="py-24 md:py-32" data-scroll-scene="true">
@@ -77,7 +78,7 @@ export default function TestimonialProofSection({ section }: { section: Testimon
               {hasQuoteContent ? (
                 <>
                   {section.quote ? (
-                    <p className="text-2xl font-light leading-10 text-white/90 md:text-3xl">{section.quote}</p>
+                    <p className="text-2xl font-light leading-10 text-white/90 md:text-3xl">{keepBossLedgerTogether(section.quote)}</p>
                   ) : null}
                   {section.attribution ? (
                     <p className="mt-7 text-[12px] uppercase tracking-[0.36em] text-[#ddb25f]">{section.attribution}</p>

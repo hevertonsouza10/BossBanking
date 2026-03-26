@@ -1,9 +1,11 @@
 'use client';
 
 import { useRef } from 'react';
+import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Container from '@/components/site/ui/Container';
+import { keepBossLedgerTogether } from '@/lib/utils';
 import type { HeroSection as HeroSectionType } from '@/lib/cms/types';
 
 function getHeroEmbed(src?: string) {
@@ -109,20 +111,41 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#040404] to-transparent" />
       </motion.div>
 
-      <Container className="relative flex min-h-[calc(100vh-100px)] items-center justify-center px-5 py-10 md:px-8 md:py-12">
+      <Container
+        className={
+          isHomeHero
+            ? 'relative flex min-h-[calc(100vh-100px)] items-center justify-center px-5 md:px-8'
+            : 'relative flex min-h-[calc(100vh-100px)] items-center justify-center px-5 py-8 md:px-8 md:py-10'
+        }
+      >
         <motion.div
           style={isHomeHero ? { opacity: contentOpacity, y: contentY } : undefined}
-          className="flex w-full max-w-5xl -translate-y-[30px] flex-col items-center text-center md:-translate-y-[36px]"
+          className={
+            isHomeHero
+              ? 'flex w-full max-w-[72rem] -translate-y-[148px] flex-col items-center text-center md:-translate-y-[160px]'
+              : 'flex w-full max-w-5xl -translate-y-[30px] flex-col items-center text-center md:-translate-y-[36px]'
+          }
         >
           {isHomeHero ? (
             <motion.span
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.12 }}
-              className="mb-6 inline-flex items-center gap-3 text-[12px] uppercase tracking-[0.34em] text-[#e1c58f]"
+              className="mb-4 inline-flex items-center gap-3 font-[family:var(--font-display)] text-[12px] uppercase tracking-[0.34em] text-[#e1c58f] md:mb-5"
             >
               <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#ddb25f]" />
               Boss Ledger
+              <span className="h-px w-10 bg-gradient-to-l from-transparent to-[#ddb25f]" />
+            </motion.span>
+          ) : section.eyebrow ? (
+            <motion.span
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="mb-5 inline-flex items-center gap-3 font-[family:var(--font-display)] text-[11px] uppercase tracking-[0.34em] text-[#e1c58f]"
+            >
+              <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#ddb25f]" />
+              {keepBossLedgerTogether(section.eyebrow)}
               <span className="h-px w-10 bg-gradient-to-l from-transparent to-[#ddb25f]" />
             </motion.span>
           ) : null}
@@ -131,16 +154,19 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.95, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto max-w-4xl font-[family:var(--font-sans)] text-[1.8rem] font-semibold leading-[1.05] tracking-[-0.072em] text-white [text-wrap:balance] md:text-[3.2rem] xl:text-[4.1rem]"
+            className={
+              isHomeHero
+                ? 'mx-auto max-w-[18ch] text-center font-[family:var(--font-sans)] text-[1.85rem] font-semibold leading-[0.96] tracking-[-0.072em] text-white [text-wrap:balance] sm:text-[2.2rem] md:text-[3.55rem] xl:text-[4.55rem]'
+                : 'mx-auto max-w-4xl font-[family:var(--font-sans)] text-[1.8rem] font-semibold leading-[1.05] tracking-[-0.072em] text-white [text-wrap:balance] md:text-[3.2rem] xl:text-[4.1rem]'
+            }
           >
             {isHomeHero ? (
               <>
-                <span className="block">A primeira fintech</span>
-                <span className="mt-1 block md:mt-2">financeira select do Brasil</span>
-  
+                <span className="block">O primeiro banking</span>
+                <span className="mt-0.5 block md:mt-1">as a service select do Brasil</span>
               </>
             ) : (
-              section.title
+              keepBossLedgerTogether(section.title)
             )}
           </motion.h1>
 
@@ -149,11 +175,33 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="mx-auto mt-5 max-w-md text-[11px] uppercase leading-6 tracking-[0.34em] text-white/42 md:text-xs"
+              className="mx-auto mt-6 max-w-2xl text-[0.98rem] leading-8 text-white/62 md:text-[1.06rem]"
             >
-              {section.description}
+              {keepBossLedgerTogether(section.description)}
             </motion.p>
           ) : null}
+
+          {!isHomeHero && section.actions.length ? (
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.62 }}
+              className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+            >
+              {section.actions.map((action) => (
+                <Link
+                  key={`${section.id}-${action.href}-${action.label}`}
+                  href={action.href}
+                  target={action.external ? '_blank' : undefined}
+                  rel={action.external ? 'noreferrer' : undefined}
+                  className={action.variant === 'secondary' ? 'lux-button lux-button-dark' : 'lux-button lux-button-gold'}
+                >
+                  {action.label}
+                </Link>
+              ))}
+            </motion.div>
+          ) : null}
+
         </motion.div>
 
         <div className="absolute inset-x-0 bottom-6 flex justify-center md:bottom-8">
@@ -167,7 +215,7 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
             aria-label="Ir para a próxima seção"
           >
             <span className="text-[10px] uppercase tracking-[0.36em]">
-              {section.scrollLabel ?? 'Descubra a melhor experiencia PJ'}
+              {section.scrollLabel ?? 'Descubra a melhor experiência PJ'}
             </span>
             <motion.span
               animate={{ y: [0, 5, 0] }}

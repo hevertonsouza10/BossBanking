@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Container from '@/components/site/ui/Container';
 import Reveal from '@/components/site/ui/Reveal';
 import type { CtaSection as CtaSectionType } from '@/lib/cms/types';
+import { keepBossLedgerTogether } from '@/lib/utils';
 
 export default function CtaSection({ section }: { section: CtaSectionType }) {
   const isHomeCta = section.id === 'home-cta';
@@ -21,10 +22,10 @@ export default function CtaSection({ section }: { section: CtaSectionType }) {
               <div className="relative z-10">
                 <p className="text-[12px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
                 <h2 className="mx-auto mt-5 max-w-4xl font-[family:var(--font-display)] text-[2.5rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white md:text-6xl">
-                  {section.title}
+                  {keepBossLedgerTogether(section.title)}
                 </h2>
                 {section.description ? (
-                  <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/64 md:text-base">{section.description}</p>
+                  <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/64 md:text-base">{keepBossLedgerTogether(section.description)}</p>
                 ) : null}
                 {isHomeCta ? (
                   <div className="mt-10 flex flex-col items-center gap-4 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-6">

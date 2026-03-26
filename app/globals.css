@@ -4,8 +4,8 @@
 
 :root {
   --bg: #050505;
-  --font-sans: "Segoe UI", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-  --font-display: var(--font-sans);
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --font-display: var(--font-dm-sans), var(--font-sans);
   --surface: rgba(255, 255, 255, 0.06);
   --border: rgba(255, 255, 255, 0.14);
   --text: #f7f3ea;
@@ -151,6 +151,47 @@ video {
     height: 1px;
     width: 100%;
     background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.16), rgba(255,255,255,0));
+  }
+
+  .luxury-panel-subtle {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top right, rgba(230,194,122,0.07), transparent 30%),
+      linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012)),
+      linear-gradient(180deg, rgba(18,18,20,0.84), rgba(9,9,10,0.68));
+    border: 1px solid rgba(201,162,77,0.12);
+    box-shadow:
+      0 20px 44px rgba(0,0,0,0.24),
+      inset 0 1px 0 rgba(255,245,220,0.04),
+      inset 0 -10px 18px rgba(0,0,0,0.12);
+    backdrop-filter: url(#glass-distortion) blur(24px) saturate(138%);
+  }
+
+  .luxury-panel-subtle::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    border: 1px solid rgba(255,235,186,0.035);
+  }
+
+  .luxury-panel-subtle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.07), transparent 16%),
+      linear-gradient(90deg, transparent 0%, rgba(255,235,186,0.03) 18%, transparent 60%);
+    opacity: 0.75;
+  }
+
+  .luxury-panel-subtle > * {
+    position: relative;
+    z-index: 1;
   }
 
   .cta-luxury-shell {

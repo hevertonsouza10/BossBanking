@@ -51,7 +51,7 @@ export default function BenefitsGridSection({ section }: { section: BenefitsGrid
                       ))}
                     </div>
                   ) : (
-                    <p className="mt-4 max-w-none whitespace-pre-line text-sm leading-7 text-white/54">{item.description}</p>
+                    <p className="mt-4 max-w-none whitespace-pre-line text-[0.98rem] leading-8 text-white/68">{item.description}</p>
                   )}
                 </article>
               </Reveal>

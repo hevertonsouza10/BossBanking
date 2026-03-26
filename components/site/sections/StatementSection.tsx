@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Container from '@/components/site/ui/Container';
 import Reveal from '@/components/site/ui/Reveal';
+import { keepBossLedgerTogether } from '@/lib/utils';
 import type { StatementSection as StatementSectionType } from '@/lib/cms/types';
 
 export default function StatementSection({ section }: { section: StatementSectionType }) {
@@ -122,11 +123,11 @@ export default function StatementSection({ section }: { section: StatementSectio
             <p className="mb-4 text-[12px] uppercase tracking-[0.42em] text-[#ddb25f]">{section.eyebrow}</p>
           ) : null}
           <h2 className="mx-auto max-w-3xl font-[family:var(--font-display)] text-3xl font-light leading-[1.02] tracking-[-0.03em] text-white md:text-5xl">
-            {section.title}
+            {keepBossLedgerTogether(section.title)}
           </h2>
           {section.description ? (
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/60 md:text-base">
-              {section.description}
+              {keepBossLedgerTogether(section.description)}
             </p>
           ) : null}
         </Reveal>

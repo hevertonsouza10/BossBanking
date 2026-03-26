@@ -43,17 +43,15 @@ export const marketingPages: Page[] = [
           alt: 'Vídeo principal da Boss Ledger com diferentes perfis de empreendedores em atividade',
         },
         actions: [],
-        scrollLabel: 'Descubra a melhor experiencia PJ',
+        scrollLabel: 'Descubra a melhor experiência PJ',
       },
       {
         id: 'home-proof',
         type: 'testimonialProof',
         eyebrow: 'Atendimento',
         title: 'Atendimento humanizado, gerentes dedicados',
-        description:
-          'Um atendimento financeiro diferente de qualquer outro',
-        quote:
-          'Uma experiencia mais proxima, segura e lucrativa para empresas que buscam um relacionamento',
+        description: 'Um atendimento financeiro diferente de qualquer outro',
+        quote: 'Uma experiência mais próxima, segura e lucrativa para empresas que buscam um relacionamento',
         attribution: 'Suporte por telefone e WhatsApp',
         metrics: [
           { value: '24h', label: 'acesso digital' },
@@ -82,7 +80,7 @@ export const marketingPages: Page[] = [
           },
           {
             title: 'Tranquilidade',
-            description: 'Tecnologias adicionais com foco de segurança em seu capital',
+            description: 'Tecnologias adicionais com foco na segurança do seu capital',
           },
         ],
       },
@@ -91,21 +89,20 @@ export const marketingPages: Page[] = [
         type: 'benefitsGrid',
         eyebrow: 'Único',
         title: 'Boss Ledger senta com você e entende sua operação.',
-        description:
-          'Entendemos a estrutura da sua empresa e apresenta soluções reais com foco e desempenho',
+        description: 'Entendemos a estrutura da sua empresa e apresentamos soluções reais com foco e desempenho',
         items: [
-            {
-              kicker: 'holdings',
-              title: 'Apoio de estruturação para holdings',
-              description:
-                '• Redução de IR sobre aluguéis: de 27,5% para até 11,33%\n• Sucessão sem inventário (economia de até 35%)\n• Proteção jurídica do patrimônio familiar\n• Separação entre CPF e riscos operacionais\n• Centralização de lucros e dividendos com eficiência fiscal',
-            },
-            {
-              kicker: 'offshores',
-              title: 'Apoio de estruturação para offshores',
-              description:
-                '• Imposto ZERO sobre lucros no exterior (diferimento)\n• Reinvestimento integral de lucros em moeda estrangeira\n• Proteção contra desvalorização do Real e risco Brasil',
-            },
+          {
+            kicker: 'holdings',
+            title: 'Apoio de estruturação para holdings',
+            description:
+              '• Redução de IR sobre aluguéis: de 27,5% para até 11,33%\n• Sucessão sem inventário (economia de até 35%)\n• Proteção jurídica do patrimônio familiar\n• Separação entre CPF e riscos operacionais\n• Centralização de lucros e dividendos com eficiência fiscal',
+          },
+          {
+            kicker: 'offshores',
+            title: 'Apoio de estruturação para offshores',
+            description:
+              '• Imposto ZERO sobre lucros no exterior (diferimento)\n• Reinvestimento integral de lucros em moeda estrangeira\n• Proteção contra desvalorização do Real e risco Brasil',
+          },
           {
             kicker: 'splitpayment',
             title: 'Split payment para operações com divisão financeira',
@@ -135,93 +132,83 @@ export const marketingPages: Page[] = [
         eyebrow: 'Depoimentos / Cases de sucesso',
         title: 'Somente quem vive a experiência Boss Ledger sabe a diferença.',
         description:
-          'Relatos de clientes que encontraram um Relacionamento mais próximo, mais claro e mais alinhado com a própria operação.',
-          testimonials: [
-            {
-              name: 'Rafael Carvalho',
-              role: 'Google • 3 anos atrás',
-              quote:
-                'excelente atendimento e cuidado com o cliente, super satisfeito.',
-              rating: 5,
-            },
-            {
-              name: 'Rogerio Longhi',
-              role: 'Google • 3 anos atrás',
-              quote:
-                'Ótimo atendimento, muito profissional e atencioso.',
-              rating: 5,
-            },
-            {
-              name: 'Nara Romeu',
-              role: 'Google • Editado 3 anos atrás',
-              quote:
-                'Atendimento Excelente! O Dr. Eduardo é muito atencioso e um profissional competente. Sempre que entrei em contato, fui atendida logo e com muita paciência para sanar minhas dúvidas e incertezas. Recomendo a Bosqueroli Assessoria e Consultoria!',
-              rating: 5,
-            },
-            {
-              name: 'Marcos Vinicius',
-              role: 'Google • 2 anos atrás',
-              quote:
-                'Excelente atendimento, nota 10.',
-              rating: 5,
-            },
-            {
-              name: 'Robson Bordignon Pólvora',
-              role: 'Google • 4 anos atrás',
-              quote:
-                'Profissionais altamente qualificados e muito prestativos. O analista atende com muita atenção e se expressa com clareza... recomendo',
-              rating: 5,
-            },
-            {
-              name: 'Eliana Bastianel',
-              role: 'Google • Editado 2 anos atrás',
-              quote:
-                'Excelente profissional, atendimento super atencioso.',
-              rating: 5,
-            },
-            {
-              name: 'Rodrigo Peña',
-              role: 'Google • 3 anos atrás',
-              quote:
-                'Excelente!! Ótimos profissionais.',
-              rating: 5,
-            },
-            {
-              name: 'dulce weber',
-              role: 'Google • 4 anos atrás',
-              quote:
-                'Indico sempre, resolveram minha situação com maestria! Gratidão!',
-              rating: 5,
-            },
-            {
-              name: 'Renan Correa',
-              role: 'Google • 3 anos atrás',
-              quote:
-                'Ótimo atendimento!',
-              rating: 5,
-            },
-            {
-              name: 'Vilson Butierres',
-              role: 'Google • Editado 2 anos atrás',
-              quote:
-                'Muito bem entendido, foi ágil e atencioso.',
-              rating: 5,
-            },
-            {
-              name: 'Jéssica Pagliosa',
-              role: 'Google • 3 anos atrás',
-              quote:
-                'Ótimo atendimento.',
-              rating: 5,
-            },
-            {
-              name: 'Fabiano Goulart',
-              role: 'Google • 3 anos atrás',
-              quote:
-                'Atendimento primoroso!',
-              rating: 5,
-            },
-          ],
+          'Relatos de clientes que encontraram um relacionamento mais próximo, mais claro e mais alinhado com a própria operação.',
+        testimonials: [
+          {
+            name: 'Rafael Carvalho',
+            role: 'Google • 3 anos atrás',
+            quote: 'Excelente atendimento e cuidado com o cliente, super satisfeito.',
+            rating: 5,
+          },
+          {
+            name: 'Rogerio Longhi',
+            role: 'Google • 3 anos atrás',
+            quote: 'Ótimo atendimento, muito profissional e atencioso.',
+            rating: 5,
+          },
+          {
+            name: 'Nara Romeu',
+            role: 'Google • Editado 3 anos atrás',
+            quote:
+              'Atendimento excelente! O Dr. Eduardo é muito atencioso e um profissional competente. Sempre que entrei em contato, fui atendida logo e com muita paciência para sanar minhas dúvidas e incertezas. Recomendo a Bosqueroli Assessoria e Consultoria!',
+            rating: 5,
+          },
+          {
+            name: 'Marcos Vinicius',
+            role: 'Google • 2 anos atrás',
+            quote: 'Excelente atendimento, nota 10.',
+            rating: 5,
+          },
+          {
+            name: 'Robson Bordignon Pólvora',
+            role: 'Google • 4 anos atrás',
+            quote:
+              'Profissionais altamente qualificados e muito prestativos. O analista atende com muita atenção e se expressa com clareza... recomendo',
+            rating: 5,
+          },
+          {
+            name: 'Eliana Bastianel',
+            role: 'Google • Editado 2 anos atrás',
+            quote: 'Excelente profissional, atendimento super atencioso.',
+            rating: 5,
+          },
+          {
+            name: 'Rodrigo Peña',
+            role: 'Google • 3 anos atrás',
+            quote: 'Excelente!! Ótimos profissionais.',
+            rating: 5,
+          },
+          {
+            name: 'dulce weber',
+            role: 'Google • 4 anos atrás',
+            quote: 'Indico sempre, resolveram minha situação com maestria! Gratidão!',
+            rating: 5,
+          },
+          {
+            name: 'Renan Correa',
+            role: 'Google • 3 anos atrás',
+            quote: 'Ótimo atendimento!',
+            rating: 5,
+          },
+          {
+            name: 'Vilson Butierres',
+            role: 'Google • Editado 2 anos atrás',
+            quote: 'Muito bem entendido, foi ágil e atencioso.',
+            rating: 5,
+          },
+          {
+            name: 'Jéssica Pagliosa',
+            role: 'Google • 3 anos atrás',
+            quote: 'Ótimo atendimento.',
+            rating: 5,
+          },
+          {
+            name: 'Fabiano Goulart',
+            role: 'Google • 3 anos atrás',
+            quote: 'Atendimento primoroso!',
+            rating: 5,
+          },
+        ],
       },
       {
         id: 'home-concept',
@@ -257,9 +244,8 @@ export const marketingPages: Page[] = [
         id: 'home-cta',
         type: 'cta',
         eyebrow: 'Convite',
-        title: 'Nos da BOSS LEDGER reinventamos o conceito de experiencia financeira.',
-        description:
-          'Faça parte dessa história, solicite seu convite hoje mesmo.',
+        title: 'Nós da BOSS LEDGER reinventamos o conceito de experiência financeira.',
+        description: 'Faça parte dessa história, solicite seu convite hoje mesmo.',
         actions: [
           { label: 'Solicitar convite', href: '/convites' },
           { label: 'Minha conta', href: 'https://bossbanking.idez.com.br/login', variant: 'secondary', external: true },
@@ -406,24 +392,39 @@ export const marketingPages: Page[] = [
   },
   {
     slug: 'convites',
-    title: 'Convites',
-    summary: 'Página de captação.',
+    title: 'Solicitar convite',
+    summary: 'Página de pré-cadastro e contato da Boss Ledger.',
     navigationLabel: 'Convites',
     seo: {
-      title: 'Convites',
-      description: 'Página de solicitação de convite e captação.',
+      title: 'Solicitar convite',
+      description: 'Página premium de pré-cadastro para iniciar a experiência Boss Ledger.',
     },
     sections: [
       {
         id: 'invite-hero',
         type: 'hero',
-        eyebrow: 'Convite',
-        title: 'Uma rota pronta para captação, formulário e campanhas futuras.',
-        description: 'A primeira versão pode começar simples e depois receber integrações reais sem mudar o esqueleto.',
-        actions: [
-          { label: 'Abrir conta', href: 'https://bossbanking.idez.com.br/login', external: true },
-          { label: 'Voltar para home', href: '/', variant: 'secondary' },
-        ],
+        eyebrow: 'Acesso inicial à experiência Boss Ledger',
+        title: 'Solicite seu convite',
+        description:
+          'Preencha seus dados para iniciar seu pré-cadastro. Nossa equipe entrará em contato para conhecer melhor o seu perfil e apresentar os próximos passos.',
+        actions: [],
+        scrollLabel: 'Iniciar pré-cadastro',
+      },
+      {
+        id: 'invite-form',
+        type: 'inviteForm',
+        eyebrow: 'Pré-cadastro',
+        title: 'Solicite seu convite',
+        subtitle: 'Acesso inicial à experiência Boss Ledger',
+        description:
+          'Preencha seus dados para iniciar seu pré-cadastro. Nossa equipe entrará em contato para conhecer melhor o seu perfil e apresentar os próximos passos.',
+        messagePlaceholder: 'Conte brevemente como podemos ajudar você ou sua empresa.',
+        buttonLabel: 'Solicitar convite',
+        subject: 'Solicitação de convite',
+        bottomText:
+          'A Boss Ledger foi desenvolvida para atender clientes que valorizam organização, atendimento personalizado e uma experiência financeira mais estratégica.',
+        successMessage: 'Solicitação enviada com sucesso. Nossa equipe entrará em contato em breve.',
+        recipientEmail: 'heversouz@gmail.com',
       },
     ],
   },
@@ -449,20 +450,53 @@ export const marketingPages: Page[] = [
   },
   {
     slug: 'contato',
-    title: 'Contato',
-    summary: 'Página de contato.',
-    navigationLabel: 'Contato',
+    title: 'Central de atendimento',
+    summary: 'Página institucional com canais oficiais de atendimento.',
+    navigationLabel: 'Central de atendimento',
     seo: {
-      title: 'Contato',
-      description: 'Página de contato institucional pronta para evoluir com integrações.',
+      title: 'Central de atendimento',
+      description: 'Canais oficiais de contato da Boss Ledger com atendimento direto e sem intermediários.',
     },
     sections: [
       {
         id: 'contact-hero',
         type: 'hero',
-        eyebrow: 'Contato',
-        title: 'Uma rota final simples para centralizar suporte, comercial ou relacionamento.',
-        actions: [{ label: 'Solicitar convite', href: '/convites' }],
+        eyebrow: 'Atendimento direto e sem intermediários',
+        title: 'Central de atendimento',
+        description:
+          'Entre em contato com nossa equipe através dos canais oficiais. Estamos disponíveis para orientar você com clareza e agilidade.',
+        actions: [],
+        scrollLabel: 'Ver canais oficiais',
+      },
+      {
+        id: 'contact-channels',
+        type: 'contactChannels',
+        eyebrow: 'Canais oficiais',
+        title: 'Fale com a nossa equipe',
+        description: 'Escolha o canal mais conveniente para você.',
+        items: [
+          {
+            label: 'WhatsApp',
+            value: '(51) 2165-9459',
+            href: 'https://wa.me/555121659459',
+            description: 'Canal direto para um atendimento mais rápido e objetivo.',
+            primary: true,
+          },
+          {
+            label: 'Telefone',
+            value: '0800 130 1212',
+            href: 'tel:+558001301212',
+            description: 'Atendimento por ligação para suporte e orientações iniciais.',
+          },
+          {
+            label: 'E-mail',
+            value: 'contato@bossbanking.com.br',
+            href: 'mailto:contato@bossbanking.com.br',
+            description: 'Envie sua mensagem e nossa equipe retornará pelos canais oficiais.',
+          },
+        ],
+        bottomText:
+          'Nosso atendimento é conduzido de forma personalizada, com foco em entender cada necessidade e oferecer direcionamentos claros e eficientes.',
       },
     ],
   },
@@ -471,7 +505,7 @@ export const marketingPages: Page[] = [
 export const blogPosts: BlogPost[] = [
   {
     slug: 'como-estruturar-um-site-premium-para-banco-digital',
-    title: 'Como estruturar um site premium para uma fintech sem virar um projeto descartavel',
+    title: 'Como estruturar um site premium para uma fintech sem virar um projeto descartável',
     excerpt: 'Separar rotas, sistema de blocos, SEO e contratos de conteúdo desde o início evita retrabalho quando o site cresce.',
     publishedAt: '10 de março de 2026',
     author: 'Equipe Boss Ledger',
@@ -545,4 +579,3 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export { categories as blogCategories };
-

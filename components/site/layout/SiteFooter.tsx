@@ -149,30 +149,40 @@ const navigationLinks = [
   { label: 'Sobre', href: '#' },
   { label: 'Produtos', href: '#' },
   { label: 'Dúvidas', href: '#' },
-  { label: 'Notícias', href: '/blog' },
+  { label: 'Notícias', href: '/noticias-boss' },
 ];
 
 const socialLinks = [
   { label: 'WhatsApp', href: 'https://wa.me/555121659459', icon: WhatsAppGoldIcon },
-  { label: 'Facebook', href: '#', icon: FacebookGoldIcon },
-  { label: 'Instagram', href: '#', icon: InstagramGoldIcon },
-  { label: 'X', href: '#', icon: XGoldIcon },
+  { label: 'Facebook', href: 'https://www.facebook.com/sejabossbank/', icon: FacebookGoldIcon },
+  { label: 'Instagram', href: 'https://www.instagram.com/sejabossbank', icon: InstagramGoldIcon },
+  { label: 'X', href: 'https://x.com/sejabossbank', icon: XGoldIcon },
 ];
 
 const policyLinks = [
-  { label: 'Privacidade e Dados', href: '#' },
-  { label: 'Nossas Políticas', href: '#' },
-  { label: 'Segurança Cibernética', href: '#' },
-  { label: 'Anticorrupção', href: '#' },
+  { label: 'Privacidade e Dados', href: '/compliance/privacidade-e-protecao-de-dados' },
+  { label: 'Nossas Políticas', href: '/compliance/nossas-politicas' },
+  { label: 'Segurança Cibernética', href: '/compliance/seguranca-cibernetica' },
+  { label: 'Anticorrupção', href: '/compliance/politica-anticorrupcao' },
 ];
 
 const storeLinks = [
-  { label: 'Google Play', href: '#', eyebrow: 'Disponível no', icon: PhoneGoldIcon },
-  { label: 'App Store', href: '#', eyebrow: 'Baixar na', icon: WalletGoldIcon },
+  {
+    label: 'Google Play',
+    href: 'https://play.google.com/store/apps/details?id=br.com.idez.bossbanking',
+    eyebrow: 'Disponível no',
+    icon: PhoneGoldIcon,
+  },
+  {
+    label: 'App Store',
+    href: 'https://apps.apple.com/br/app/boss-banking/id6755701201',
+    eyebrow: 'Baixar na',
+    icon: WalletGoldIcon,
+  },
 ];
 
 const legalDisclaimer =
-  'Este material foi elaborado pela Boss Pay LTDA, inscrita no CNPJ sob o nº 62.169.944/0001-44, marca Boss Ledger ("Boss Ledger"), e possui caráter meramente informativo, não constituindo oferta, recomendação e/ou garantia de contratação dos produtos e serviços aqui mencionados. Todo conteúdo deste material está sujeito às análises internas de elegibilidade, crédito, compliance e cadastro, além de não configurar recomendação quanto à manutenção, compra ou venda de ativos financeiros e valores mobiliários. Os prazos, taxas, benefícios e demais condições aqui contidos são meramente indicativos e poderão ser alterados sem aviso prévio. Quaisquer condições promocionais aqui previstas poderão ser alteradas, suspensas ou canceladas a qualquer tempo, sem necessidade de prévia ciência ou concordância do cliente. A Boss Ledger não se responsabiliza por endividamentos, prejuízos diretos ou indiretos, que decorram da utilização deste material. Eventuais ativos, operações, fundos e/ou instrumentos financeiros discutidos neste material podem não ser adequados para todos os clientes. Este material não considera objetivos, situação financeira ou necessidades específicas de qualquer cliente. Antes de tomar qualquer decisão de investimento e/ou contratação de produtos e serviços aqui mencionados, recomenda-se a obtenção de orientação financeira independente. Desempenhos anteriores não são necessariamente indicativos de resultados futuros. Investimentos em mercados financeiros e de capitais estão sujeitos a riscos, inclusive de perda superior ao valor do capital investido. Em caso de conflito entre os termos deste material e eventuais instrumentos contratuais, regulamentos ou condições específicas aplicáveis, estes últimos prevalecerão. Algumas operações estão sujeitas a cobranças. Este material é destinado à circulação exclusiva para a rede de relacionamento da Boss Ledger, não podendo ser reproduzido ou distribuído a terceiros sem consentimento prévio e expresso. O cliente consente com o uso de dados pela Boss Ledger nos termos de sua Política de Privacidade. Para mais informações sobre produtos, tabelas de custos operacionais e políticas de cobrança, entre em contato pelos canais oficiais: (51) 2165-9459, 0800 130 1212 e contato@bossbanking.com.br.';
+  'Este material foi elaborado pela Boss Ledger LTDA, inscrita no CNPJ sob o nº 62.169.944/0001-44, marca Boss Ledger ("Boss Ledger"), e possui caráter meramente informativo, não constituindo oferta, recomendação e/ou garantia de contratação dos produtos e serviços aqui mencionados. Todo conteúdo deste material está sujeito às análises internas de elegibilidade, crédito, compliance e cadastro, além de não configurar recomendação quanto à manutenção, compra ou venda de ativos financeiros e valores mobiliários. Os prazos, taxas, benefícios e demais condições aqui contidos são meramente indicativos e poderão ser alterados sem aviso prévio. Quaisquer condições promocionais aqui previstas poderão ser alteradas, suspensas ou canceladas a qualquer tempo, sem necessidade de prévia ciência ou concordância do cliente. A Boss Ledger não se responsabiliza por endividamentos, prejuízos diretos ou indiretos, que decorram da utilização deste material. Eventuais ativos, operações, fundos e/ou instrumentos financeiros discutidos neste material podem não ser adequados para todos os clientes. Este material não considera objetivos, situação financeira ou necessidades específicas de qualquer cliente. Antes de tomar qualquer decisão de investimento e/ou contratação de produtos e serviços aqui mencionados, recomenda-se a obtenção de orientação financeira independente. Desempenhos anteriores não são necessariamente indicativos de resultados futuros. Investimentos em mercados financeiros e de capitais estão sujeitos a riscos, inclusive de perda superior ao valor do capital investido. Em caso de conflito entre os termos deste material e eventuais instrumentos contratuais, regulamentos ou condições específicas aplicáveis, estes últimos prevalecerão. Algumas operações estão sujeitas a cobranças. Este material é destinado à circulação exclusiva para a rede de relacionamento da Boss Ledger, não podendo ser reproduzido ou distribuído a terceiros sem consentimento prévio e expresso. O cliente consente com o uso de dados pela Boss Ledger nos termos de sua Política de Privacidade. Para mais informações sobre produtos, tabelas de custos operacionais e políticas de cobrança, entre em contato pelos canais oficiais: (51) 2165-9459, 0800 130 1212 e contato@bossbanking.com.br.';
 
 export default function SiteFooter() {
   return (
@@ -293,7 +303,7 @@ export default function SiteFooter() {
           </div>
 
           <div className="flex flex-col gap-2 pt-3 text-[0.72rem] text-white/30 lg:flex-row lg:items-center lg:justify-between">
-            <div className="text-white/24">&copy; 2025 por Boss Pay LTDA - CNPJ: 62.169.944/0001-44.</div>
+            <div className="text-white/24">&copy; 2025 por Boss Ledger LTDA - CNPJ: 62.169.944/0001-44.</div>
             <div className="text-white/24 lg:text-right">
               Todos os direitos reservados.
             </div>

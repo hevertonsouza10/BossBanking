@@ -148,7 +148,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
 
   if (section.layout === 'immersive') {
     return (
-      <section className="cinematic-section relative min-h-screen overflow-hidden" data-scroll-scene="true">
+      <section id={section.id} className="cinematic-section relative min-h-screen overflow-hidden" data-scroll-scene="true">
         <div className="absolute inset-0 z-0 bg-[#030303]">
           <div className="absolute inset-0 overflow-hidden">
             {hasStarted && isVimeoEmbed ? (
@@ -217,14 +217,6 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
         {!hasStarted ? (
           <Container className="relative z-10 flex min-h-screen items-center justify-center px-5 py-16 sm:px-6 sm:py-20">
             <Reveal className="mx-auto max-w-4xl text-center">
-              <p className="mb-5 text-[10px] uppercase tracking-[0.46em] text-white/58">Narrativa audiovisual</p>
-              <h2 className="mx-auto max-w-3xl font-[family:var(--font-display)] text-[3.2rem] font-light leading-[0.92] tracking-[-0.05em] text-white sm:text-[3.5rem] md:text-[5.6rem]">
-                Filme conceito
-              </h2>
-              <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/66 md:text-[1.02rem]">
-                Um manifesto visual sobre ambicao, movimento e a relacao entre empresarios e uma fintech feita para acompanhar esse ritmo.
-              </p>
-
               <button
                 type="button"
                 onClick={handleStart}
@@ -235,7 +227,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
                 <Play className="relative ml-1 h-9 w-9 fill-current text-white sm:h-8 sm:w-8" />
               </button>
 
-              <p className="mt-5 text-[0.72rem] font-medium uppercase tracking-[0.32em] text-white/74">Assistir agora</p>
+              <p className="mt-5 text-[0.72rem] font-medium uppercase tracking-[0.32em] text-white/74">ASSISTIR AGORA</p>
             </Reveal>
           </Container>
         ) : null}
@@ -258,7 +250,7 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
   }
 
   return (
-    <section className="py-24 md:py-32" data-scroll-scene="true">
+    <section id={section.id} className="py-24 md:py-32" data-scroll-scene="true">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
           <Reveal>

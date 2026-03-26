@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Component, type ErrorInfo, type ReactNode, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Spline from '@splinetool/react-spline';
+import Spline from '@splinetool/react-spline/next';
 
 type MediaFrameProps = {
   src?: string;
@@ -22,6 +22,32 @@ const ratioMap = {
   wide: 'aspect-[16/7]',
 };
 
+class SplineErrorBoundary extends Component<
+  { children: ReactNode; onError: () => void },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode; onError: () => void }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(_error: Error, _errorInfo: ErrorInfo) {
+    this.props.onError();
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+
+    return this.props.children;
+  }
+}
+
 export default function MediaFrame({
   src,
   poster,
@@ -36,7 +62,9 @@ export default function MediaFrame({
   const isVideo = !!src && src.endsWith('.mp4');
   const isSplineScene = !!src && src.endsWith('.splinecode');
   const [shouldRenderSpline, setShouldRenderSpline] = useState(false);
+  const [canRenderSpline, setCanRenderSpline] = useState(false);
   const [isSplineReady, setIsSplineReady] = useState(false);
+  const [hasSplineError, setHasSplineError] = useState(false);
   const figureClassName = frameless
     ? className
     : `luxury-outline glass-panel overflow-hidden rounded-[2.2rem] ${className}`;
@@ -64,7 +92,13 @@ export default function MediaFrame({
 
   useEffect(() => {
     if (!isSplineScene || !shouldRenderSpline) {
+      setCanRenderSpline(false);
       setIsSplineReady(false);
+      return undefined;
+    }
+
+    if (hasSplineError) {
+      setCanRenderSpline(false);
       return undefined;
     }
 
@@ -73,7 +107,50 @@ export default function MediaFrame({
     return () => {
       window.clearTimeout(fallbackTimer);
     };
-  }, [isSplineScene, shouldRenderSpline]);
+  }, [hasSplineError, isSplineScene, shouldRenderSpline]);
+
+  useEffect(() => {
+    if (!isSplineScene || !shouldRenderSpline || !src) {
+      return undefined;
+    }
+
+    let isMounted = true;
+    const controller = new AbortController();
+
+    setHasSplineError(false);
+    setCanRenderSpline(false);
+
+    const validateScene = async () => {
+      try {
+        const response = await fetch(src, {
+          method: 'GET',
+          signal: controller.signal,
+          cache: 'force-cache',
+        });
+
+        if (!response.ok) {
+          throw new Error(`Falha ao carregar cena Spline: ${response.status}`);
+        }
+
+        if (isMounted) {
+          setCanRenderSpline(true);
+        }
+      } catch {
+        if (isMounted) {
+          setHasSplineError(true);
+          setCanRenderSpline(false);
+          setIsSplineReady(false);
+        }
+      }
+    };
+
+    void validateScene();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [isSplineScene, shouldRenderSpline, src]);
 
   return (
     <figure ref={frameRef} className={figureClassName}>
@@ -81,7 +158,7 @@ export default function MediaFrame({
         className={`relative ${ratioMap[ratio]} ${frameless ? 'bg-transparent' : 'bg-[radial-gradient(circle_at_top,rgba(201,162,77,0.18),transparent_35%),linear-gradient(180deg,#121212,#050505)]'}`}
       >
         {isSplineScene && poster ? (
-          <div className={`absolute inset-0 transition-opacity duration-500 ${isSplineReady ? 'opacity-0' : 'opacity-100'}`}>
+          <div className={`absolute inset-0 transition-opacity duration-500 ${isSplineReady && !hasSplineError ? 'opacity-0' : 'opacity-100'}`}>
             <Image
               src={poster}
               alt={alt}
@@ -105,11 +182,19 @@ export default function MediaFrame({
             >
               <source src={src} type="video/mp4" />
             </video>
-          ) : isSplineScene && shouldRenderSpline ? (
+          ) : isSplineScene && shouldRenderSpline && canRenderSpline && !hasSplineError ? (
             <div
               className={`h-full w-full transition-opacity duration-500 ${isSplineReady ? 'opacity-100' : 'opacity-0'} ${frameless ? 'bg-transparent' : 'bg-[radial-gradient(circle_at_top,rgba(201,162,77,0.12),transparent_36%),linear-gradient(180deg,#111,#060606)]'}`}
             >
-              <Spline scene={src} onLoad={() => setIsSplineReady(true)} />
+              <SplineErrorBoundary
+                onError={() => {
+                  setHasSplineError(true);
+                  setCanRenderSpline(false);
+                  setIsSplineReady(false);
+                }}
+              >
+                <Spline scene={src} onLoad={() => setIsSplineReady(true)} />
+              </SplineErrorBoundary>
             </div>
           ) : isSplineScene ? (
             <div className="h-full w-full bg-transparent" />
@@ -128,7 +213,9 @@ export default function MediaFrame({
           <div className="pointer-events-none absolute inset-0 flex items-end justify-center pb-10">
             <div className="soft-glass-pill relative flex items-center gap-3 rounded-full px-4 py-3">
               <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#ddb25f]" />
-              <span className="text-[0.62rem] uppercase tracking-[0.22em] text-white/72">Carregando app 3D</span>
+              <span className="text-[0.62rem] uppercase tracking-[0.22em] text-white/72">
+                {hasSplineError ? 'Visual do app indisponível' : 'Carregando app 3D'}
+              </span>
             </div>
           </div>
         ) : null}

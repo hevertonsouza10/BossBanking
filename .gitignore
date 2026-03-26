@@ -15,7 +15,9 @@
 
 # next.js
 /.next/
+/.next-build/
 /out/
+/__buildcheck__/
 
 # production
 /build
@@ -23,6 +25,11 @@
 # misc
 .DS_Store
 *.pem
+build.log
+build-output.txt
+build-powershell.txt
+dev-*.log
+dev-*.err
 
 # debug
 npm-debug.log*

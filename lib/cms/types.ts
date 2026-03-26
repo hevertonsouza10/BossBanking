@@ -99,6 +99,39 @@ export type CtaSection = {
   actions: SectionAction[];
 };
 
+export type InviteFormSection = {
+  id: string;
+  type: 'inviteForm';
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  messagePlaceholder: string;
+  buttonLabel: string;
+  subject: string;
+  bottomText: string;
+  successMessage: string;
+  recipientEmail: string;
+};
+
+export type ContactChannelItem = {
+  label: string;
+  value: string;
+  href: string;
+  description?: string;
+  primary?: boolean;
+};
+
+export type ContactChannelsSection = {
+  id: string;
+  type: 'contactChannels';
+  eyebrow?: string;
+  title: string;
+  description: string;
+  items: ContactChannelItem[];
+  bottomText: string;
+};
+
 export type StatementSection = {
   id: string;
   type: 'statement';
@@ -120,6 +153,8 @@ export type PageSection =
   | FeatureSplitSection
   | TestimonialProofSection
   | CtaSection
+  | InviteFormSection
+  | ContactChannelsSection
   | StatementSection;
 
 export type SeoData = {
