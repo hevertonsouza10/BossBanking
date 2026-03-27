@@ -156,14 +156,15 @@ export default function HeroSection({ section }: { section: HeroSectionType }) {
             transition={{ duration: 0.95, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className={
               isHomeHero
-                ? 'mx-auto max-w-[18ch] text-center font-[family:var(--font-sans)] text-[1.85rem] font-semibold leading-[0.96] tracking-[-0.072em] text-white [text-wrap:balance] sm:text-[2.2rem] md:text-[3.55rem] xl:text-[4.55rem]'
+                ? 'mx-auto max-w-[18ch] text-center font-[family:var(--font-sans)] text-[1.85rem] font-semibold leading-[0.96] tracking-[-0.072em] text-white [text-wrap:balance] sm:max-w-[24ch] sm:text-[2.2rem] md:max-w-[26ch] md:text-[3.55rem] xl:text-[4.55rem]'
                 : 'mx-auto max-w-4xl font-[family:var(--font-sans)] text-[1.8rem] font-semibold leading-[1.05] tracking-[-0.072em] text-white [text-wrap:balance] md:text-[3.2rem] xl:text-[4.1rem]'
             }
           >
             {isHomeHero ? (
               <>
-                <span className="block">O primeiro banking</span>
-                <span className="mt-0.5 block md:mt-1">as a service select do Brasil</span>
+                <span className="block">O primeiro</span>
+                <span className="mt-0.5 block sm:whitespace-nowrap md:mt-1">banking as a service</span>
+                <span className="mt-0.5 block md:mt-1">select do Brasil</span>
               </>
             ) : (
               keepBossLedgerTogether(section.title)

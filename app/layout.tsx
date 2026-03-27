@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { DM_Sans, Inter } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import Preloader from '@/components/Preloader';
 
@@ -68,6 +69,23 @@ export default function RootLayout({
           </filter>
         </svg>
         <Preloader />
+        <Script id="chatbotmaker-webchat" strategy="afterInteractive">
+          {`
+            window.cbAsyncInit = function () {
+              CBM.ChatbotId = "cb126088892";
+              CBM.StartWebChat().then(function (webChat) {
+              }).catch(function (reason) {
+              });
+            };
+            (function (d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) { return; }
+              js = d.createElement(s); js.id = id;
+              js.src = "https://webchat.chatbotmaker.io/cbm-jssdk.js";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'cbm-jssdk'));
+          `}
+        </Script>
         {children}
       </body>
     </html>

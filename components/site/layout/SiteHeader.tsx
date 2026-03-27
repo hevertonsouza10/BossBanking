@@ -27,18 +27,17 @@ const navigationGroups: MenuGroup[] = [
   {
     label: 'Sobre',
     items: [
-      { label: 'Quem somos', href: '/#home-concept' },
       { label: 'Compliance', href: '/compliance' },
-      { label: 'Conheça nossa fintech', href: '/conheca-nossa-fintech' },
+      { label: 'Nos conheça', href: '/conheca-nossa-fintech' },
       { label: 'Notícias Boss', href: '/noticias-boss' },
     ],
   },
   {
     label: 'Produtos',
     items: [
-      { label: 'Assessoria Boss', href: '/assessoria-boss' },
+      { label: 'Operações estruturadas', href: '/operacoes-estruturadas' },
       { label: 'Cartões', href: '#', disabled: true, badge: 'Em breve' },
-      { label: 'Consultoria financeira', href: '/consultoria-financeira' },
+      { label: 'Consultoria Boss', href: '#', disabled: true, badge: 'Em breve' },
     ],
   },
   {

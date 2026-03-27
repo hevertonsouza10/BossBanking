@@ -266,10 +266,10 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
 
           <Reveal delay={0.1} className="space-y-7">
             <SectionHeading eyebrow={section.eyebrow} title={section.title} description={section.description} />
-            <div className="space-y-5">
+            <div className="space-y-2">
               {section.points.map((point, index) => (
                 <Reveal key={point.title} delay={0.08 * index}>
-                  <div className="border-b border-white/10 pb-5">
+                  <div className="border-b border-black/10 pb-5">
                     <h3 className="text-lg font-medium text-white">{point.title}</h3>
                     <p className="mt-2 text-sm leading-7 text-white/58">{point.description}</p>
                   </div>

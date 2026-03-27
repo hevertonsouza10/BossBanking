@@ -28,7 +28,7 @@ const pillars = [
 const benefits = ['Organização', 'Eficiência', 'Redução de risco', 'Visão estratégica'];
 
 export const metadata: Metadata = {
-  title: 'Assessoria Boss',
+  title: 'Operações estruturadas',
   description:
     'Estruturação financeira estratégica para empresas e investidores com foco em organização patrimonial, eficiência e visão de longo prazo.',
 };
@@ -54,7 +54,7 @@ export default function AssessoriaBossPage() {
                   className="hero-title max-w-3xl text-4xl font-semibold tracking-[-0.05em] text-[#f7f3ea] sm:text-5xl lg:text-7xl"
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
-                  Assessoria Boss
+                  Operações estruturadas
                 </h1>
                 <p className="max-w-2xl text-lg leading-8 text-white/76 md:text-[1.35rem] md:leading-9">
                   Estruturação financeira estratégica para empresas e investidores
@@ -95,14 +95,14 @@ export default function AssessoriaBossPage() {
               className="max-w-xl text-3xl font-semibold tracking-[-0.04em] text-[#f7f3ea] md:text-5xl"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              Assessoria financeira com profundidade técnica e leitura estratégica.
+              Operações estruturadas com profundidade técnica e leitura estratégica.
             </h2>
           </Reveal>
 
           <Reveal delay={0.08}>
             <div className="minimal-glass-card rounded-[1.75rem] border-white/[0.045] p-8 before:opacity-[0.24] after:opacity-[0.28] md:p-10">
               <p className="text-base leading-8 text-white/70 md:text-lg">
-                A Assessoria Boss atende empresas e investidores que precisam tomar decisões com mais estrutura,
+                A frente de Operações estruturadas atende empresas e investidores que precisam tomar decisões com mais estrutura,
                 governança e critério. Nosso trabalho conecta planejamento patrimonial, modelagem financeira e
                 execução orientada ao contexto de cada cliente, sempre com foco em preservação, eficiência e
                 sustentabilidade de longo prazo.

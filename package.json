@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "release:check": "node scripts/release-check.mjs"
   },
   "engines": {
     "node": "20.x"
