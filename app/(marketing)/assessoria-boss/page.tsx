@@ -47,7 +47,7 @@ export default function AssessoriaBossPage() {
             <div className="absolute inset-x-10 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(230,194,122,0.5),transparent)]" />
             <div className="relative max-w-4xl space-y-8">
               <span className="inline-flex rounded-full border border-[rgba(230,194,122,0.18)] bg-[rgba(201,162,77,0.08)] px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-[#e6c27a]">
-                Advisory Desk
+                Operações estruturadas
               </span>
               <div className="space-y-5">
                 <h1
