@@ -2,7 +2,7 @@
 
 import { Component, type ErrorInfo, type ReactNode, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Spline from '@splinetool/react-spline/next';
+import Spline from '@splinetool/react-spline';
 
 type MediaFrameProps = {
   src?: string;
@@ -62,7 +62,6 @@ export default function MediaFrame({
   const isVideo = !!src && src.endsWith('.mp4');
   const isSplineScene = !!src && src.endsWith('.splinecode');
   const [shouldRenderSpline, setShouldRenderSpline] = useState(false);
-  const [canRenderSpline, setCanRenderSpline] = useState(false);
   const [isSplineReady, setIsSplineReady] = useState(false);
   const [hasSplineError, setHasSplineError] = useState(false);
   const figureClassName = frameless
@@ -92,13 +91,11 @@ export default function MediaFrame({
 
   useEffect(() => {
     if (!isSplineScene || !shouldRenderSpline) {
-      setCanRenderSpline(false);
       setIsSplineReady(false);
       return undefined;
     }
 
     if (hasSplineError) {
-      setCanRenderSpline(false);
       return undefined;
     }
 
@@ -110,47 +107,12 @@ export default function MediaFrame({
   }, [hasSplineError, isSplineScene, shouldRenderSpline]);
 
   useEffect(() => {
-    if (!isSplineScene || !shouldRenderSpline || !src) {
-      return undefined;
+    if (!isSplineScene || !shouldRenderSpline) {
+      return;
     }
 
-    let isMounted = true;
-    const controller = new AbortController();
-
     setHasSplineError(false);
-    setCanRenderSpline(false);
-
-    const validateScene = async () => {
-      try {
-        const response = await fetch(src, {
-          method: 'GET',
-          signal: controller.signal,
-          cache: 'force-cache',
-        });
-
-        if (!response.ok) {
-          throw new Error(`Falha ao carregar cena Spline: ${response.status}`);
-        }
-
-        if (isMounted) {
-          setCanRenderSpline(true);
-        }
-      } catch {
-        if (isMounted) {
-          setHasSplineError(true);
-          setCanRenderSpline(false);
-          setIsSplineReady(false);
-        }
-      }
-    };
-
-    void validateScene();
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, [isSplineScene, shouldRenderSpline, src]);
+  }, [isSplineScene, shouldRenderSpline]);
 
   return (
     <figure ref={frameRef} className={figureClassName}>
@@ -182,14 +144,13 @@ export default function MediaFrame({
             >
               <source src={src} type="video/mp4" />
             </video>
-          ) : isSplineScene && shouldRenderSpline && canRenderSpline && !hasSplineError ? (
+          ) : isSplineScene && shouldRenderSpline && !hasSplineError ? (
             <div
               className={`h-full w-full transition-opacity duration-500 ${isSplineReady ? 'opacity-100' : 'opacity-0'} ${frameless ? 'bg-transparent' : 'bg-[radial-gradient(circle_at_top,rgba(201,162,77,0.12),transparent_36%),linear-gradient(180deg,#111,#060606)]'}`}
             >
               <SplineErrorBoundary
                 onError={() => {
                   setHasSplineError(true);
-                  setCanRenderSpline(false);
                   setIsSplineReady(false);
                 }}
               >
