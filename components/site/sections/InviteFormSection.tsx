@@ -25,30 +25,46 @@ const initialFormState: FormState = {
 export default function InviteFormSection({ section }: { section: InviteFormSectionType }) {
   const [formState, setFormState] = useState<FormState>(initialFormState);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const body = [
-      `${section.subject}`,
-      '',
-      `Nome completo: ${formState.fullName}`,
-      `E-mail: ${formState.email}`,
-      `Telefone / WhatsApp: ${formState.phone}`,
-      `Empresa ou negócio: ${formState.company}`,
-      '',
-      'Mensagem:',
-      formState.message,
-    ].join('\n');
+    setIsSubmitting(true);
+    setIsSubmitted(false);
+    setSubmitError(null);
 
-    const params = new URLSearchParams({
-      subject: section.subject,
-      body,
-    });
+    const payload = new FormData();
+    payload.append('name', formState.fullName);
+    payload.append('email', formState.email);
+    payload.append('phone', formState.phone);
+    payload.append('company', formState.company);
+    payload.append('message', formState.message);
+    payload.append('_subject', section.subject);
+    payload.append('_template', 'table');
+    payload.append('_captcha', 'false');
 
-    setIsSubmitted(true);
-    setFormState(initialFormState);
-    window.location.href = `mailto:${section.recipientEmail}?${params.toString()}`;
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${section.recipientEmail}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: payload,
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha no envio do formulário.');
+      }
+
+      setIsSubmitted(true);
+      setFormState(initialFormState);
+    } catch {
+      setSubmitError('Não foi possível enviar agora. Tente novamente em instantes.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -123,13 +139,23 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
                   />
 
                   <div className="flex flex-col gap-4 pt-2">
-                    <button type="submit" className="lux-button lux-button-gold min-h-[3.3rem] w-full justify-center px-7 text-[0.7rem] tracking-[0.22em] sm:w-auto sm:min-w-[17rem]">
-                      {section.buttonLabel}
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="lux-button lux-button-gold min-h-[3.3rem] w-full justify-center px-7 text-[0.7rem] tracking-[0.22em] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:min-w-[17rem]"
+                    >
+                      {isSubmitting ? 'Enviando...' : section.buttonLabel}
                     </button>
 
                     {isSubmitted ? (
                       <p className="rounded-[1rem] border border-[#ddb25f]/16 bg-[#ddb25f]/[0.06] px-4 py-3 text-sm leading-6 text-white/82">
-                        {section.successMessage}
+                        {section.successMessage} Se este for o primeiro envio pelo FormSubmit, confirme o endereço no e-mail recebido.
+                      </p>
+                    ) : null}
+
+                    {submitError ? (
+                      <p className="rounded-[1rem] border border-white/10 bg-white/[0.03] px-4 py-3 text-sm leading-6 text-white/76">
+                        {submitError}
                       </p>
                     ) : null}
                   </div>

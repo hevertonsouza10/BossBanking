@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   description:
     'A Boss Ledger é uma agência com soluções financeiras, cartões, benefícios e inteligência para empresas.',
   icons: {
-    icon: '/brand/boss-ledger-logo.svg',
-    shortcut: '/brand/boss-ledger-logo.svg',
-    apple: '/brand/boss-ledger-logo.svg',
+    icon: '/brand/logo%20simples.svg',
+    shortcut: '/brand/logo%20simples.svg',
+    apple: '/brand/logo%20simples.svg',
   },
   openGraph: {
     title: 'Boss Ledger | Agência para empresas',
