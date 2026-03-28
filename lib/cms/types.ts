@@ -111,7 +111,6 @@ export type InviteFormSection = {
   subject: string;
   bottomText: string;
   successMessage: string;
-  recipientEmail: string;
 };
 
 export type ContactChannelItem = {

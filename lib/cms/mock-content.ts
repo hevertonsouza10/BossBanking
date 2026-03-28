@@ -424,7 +424,6 @@ export const marketingPages: Page[] = [
         bottomText:
           'A Boss Ledger foi desenvolvida para atender clientes que valorizam organização, atendimento personalizado e uma experiência financeira mais estratégica.',
         successMessage: 'Solicitação enviada com sucesso. Nossa equipe entrará em contato em breve.',
-        recipientEmail: 'contato@bossbanking.com.br',
       },
     ],
   },

@@ -12,6 +12,7 @@ type FormState = {
   phone: string;
   company: string;
   message: string;
+  website: string;
 };
 
 const initialFormState: FormState = {
@@ -20,10 +21,12 @@ const initialFormState: FormState = {
   phone: '',
   company: '',
   message: '',
+  website: '',
 };
 
 export default function InviteFormSection({ section }: { section: InviteFormSectionType }) {
   const [formState, setFormState] = useState<FormState>(initialFormState);
+  const [startedAt] = useState(() => Date.now());
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -35,33 +38,34 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
     setIsSubmitted(false);
     setSubmitError(null);
 
-    const payload = new FormData();
-    payload.append('name', formState.fullName);
-    payload.append('email', formState.email);
-    payload.append('phone', formState.phone);
-    payload.append('company', formState.company);
-    payload.append('message', formState.message);
-    payload.append('_subject', section.subject);
-    payload.append('_template', 'table');
-    payload.append('_captcha', 'false');
-
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${section.recipientEmail}`, {
+      const response = await fetch('/api/invite', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: payload,
+        body: JSON.stringify({
+          fullName: formState.fullName,
+          email: formState.email,
+          phone: formState.phone,
+          company: formState.company,
+          message: formState.message,
+          website: formState.website,
+          startedAt,
+        }),
       });
 
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+
       if (!response.ok) {
-        throw new Error('Falha no envio do formulário.');
+        throw new Error(result?.message ?? 'Não foi possível enviar agora. Tente novamente em instantes.');
       }
 
       setIsSubmitted(true);
       setFormState(initialFormState);
-    } catch {
-      setSubmitError('Não foi possível enviar agora. Tente novamente em instantes.');
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Não foi possível enviar agora. Tente novamente em instantes.');
     } finally {
       setIsSubmitting(false);
     }
@@ -105,26 +109,42 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
                 <div className="pointer-events-none absolute right-[8%] top-6 h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(230,194,122,0.18),transparent_70%)] blur-3xl" />
                 <div className="pointer-events-none absolute bottom-0 left-[10%] h-28 w-28 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent_72%)] blur-3xl" />
 
-                <form onSubmit={handleSubmit} className="relative z-10 space-y-5">
+                <form onSubmit={handleSubmit} className="relative z-10 space-y-5" noValidate>
+                  <div className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden opacity-0" aria-hidden="true">
+                    <label htmlFor="invite-website">Website</label>
+                    <input
+                      id="invite-website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formState.website}
+                      onChange={(event) => setFormState((current) => ({ ...current, website: event.target.value }))}
+                    />
+                  </div>
+
                   <div className="grid gap-4 md:grid-cols-2">
                     <Field
                       label="Nome completo"
+                      autoComplete="name"
                       value={formState.fullName}
                       onChange={(value) => setFormState((current) => ({ ...current, fullName: value }))}
                     />
                     <Field
                       label="E-mail"
                       type="email"
+                      autoComplete="email"
                       value={formState.email}
                       onChange={(value) => setFormState((current) => ({ ...current, email: value }))}
                     />
                     <Field
                       label="Telefone / WhatsApp"
+                      autoComplete="tel"
                       value={formState.phone}
                       onChange={(value) => setFormState((current) => ({ ...current, phone: value }))}
                     />
                     <Field
                       label="Empresa ou negócio"
+                      autoComplete="organization"
                       value={formState.company}
                       onChange={(value) => setFormState((current) => ({ ...current, company: value }))}
                     />
@@ -149,7 +169,7 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
 
                     {isSubmitted ? (
                       <p className="rounded-[1rem] border border-[#ddb25f]/16 bg-[#ddb25f]/[0.06] px-4 py-3 text-sm leading-6 text-white/82">
-                        {section.successMessage} Se este for o primeiro envio pelo FormSubmit, confirme o endereço no e-mail recebido.
+                        {section.successMessage}
                       </p>
                     ) : null}
 
@@ -180,6 +200,7 @@ function Field({
   value,
   onChange,
   placeholder,
+  autoComplete,
   type = 'text',
   multiline = false,
 }: {
@@ -187,6 +208,7 @@ function Field({
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  autoComplete?: string;
   type?: 'text' | 'email';
   multiline?: boolean;
 }) {
@@ -202,6 +224,7 @@ function Field({
           rows={6}
           value={value}
           placeholder={placeholder}
+          autoComplete={autoComplete}
           onChange={(event) => onChange(event.target.value)}
           className={`${baseClassName} resize-none`}
         />
@@ -211,6 +234,7 @@ function Field({
           type={type}
           value={value}
           placeholder={placeholder}
+          autoComplete={autoComplete}
           onChange={(event) => onChange(event.target.value)}
           className={baseClassName}
         />
