@@ -11,7 +11,7 @@ const accountCosts = [
   {
     service: 'Manutenção mensal',
     description: 'Valor de referência para manutenção da estrutura operacional da conta.',
-    value: 'R$ 11,00',
+    value: 'Personalizado',
   },
   {
     service: 'Transferências internas',
@@ -19,14 +19,14 @@ const accountCosts = [
     value: 'R$ 0,00',
   },
   {
-    service: 'Transferência externa',
-    description: 'Envio de recursos para outras instituições.',
-    value: 'R$ 11,00',
+    service: 'Transferência externa - TED',
+    description: 'Envio de recursos para outras instituições via TED.',
+    value: 'R$ 5,00',
   },
   {
     service: 'Pagamentos',
     description: 'Liquidação de boletos, contas e compromissos operacionais.',
-    value: 'R$ 4,90',
+    value: 'R$ 0,00',
   },
 ];
 
@@ -34,27 +34,17 @@ const serviceCosts = [
   {
     service: 'Emissão de boleto',
     description: 'Geração de boleto para cobrança ou recebimento.',
-    value: 'R$ 3,50',
-  },
-  {
-    service: 'Depósito identificado',
-    description: 'Entrada de recursos com conciliação operacional.',
-    value: 'R$ 2,90',
+    value: 'R$ 0,00',
   },
   {
     service: 'Segunda via de comprovante',
     description: 'Reemissão de comprovantes e documentos operacionais.',
-    value: 'R$ 11,00',
+    value: 'R$ 0,00',
   },
   {
     service: 'Suporte operacional prioritário',
     description: 'Acompanhamento operacional dedicado em demandas específicas.',
-    value: 'R$ 18,90',
-  },
-  {
-    service: 'Processamento adicional',
-    description: 'Serviços acessórios ligados a rotinas personalizadas da conta.',
-    value: 'Sob análise',
+    value: 'Personalizado',
   },
 ];
 
@@ -67,38 +57,13 @@ const cardCosts = [
   {
     service: 'Anuidade',
     description: 'Valor de referência para utilização e manutenção do cartão.',
-    value: 'R$ 11,00',
+    value: 'R$ 0,00',
   },
   {
     service: 'Segunda via do cartão',
     description: 'Reemissão em caso de perda, roubo ou substituição.',
-    value: 'R$ 24,90',
+    value: 'R$ 0,00',
   },
-  {
-    service: 'Saque emergencial',
-    description: 'Operação eventual de retirada de recursos via cartão.',
-    value: 'R$ 14,90',
-  },
-  {
-    service: 'Avaliação emergencial',
-    description: 'Análise extraordinária para tentativa de aprovação de compra.',
-    value: 'R$ 11,00',
-  },
-];
-
-const cardInstallmentRates = [
-  { installments: '1x', rate: 'Sem juros' },
-  { installments: '2x', rate: '1,49% a.m.' },
-  { installments: '3x', rate: '1,69% a.m.' },
-  { installments: '4x', rate: '1,89% a.m.' },
-  { installments: '5x', rate: '2,09% a.m.' },
-  { installments: '6x', rate: '2,29% a.m.' },
-  { installments: '7x', rate: '2,49% a.m.' },
-  { installments: '8x', rate: '2,69% a.m.' },
-  { installments: '9x', rate: '2,89% a.m.' },
-  { installments: '10x', rate: '3,09% a.m.' },
-  { installments: '11x', rate: '3,29% a.m.' },
-  { installments: '12x', rate: '3,49% a.m.' },
 ];
 
 const zeroFeeItems = [
@@ -245,79 +210,12 @@ export default function CustosOperacionaisPage() {
           </Reveal>
         </section>
 
-        <section className="border-t border-[rgba(201,162,77,0.1)] py-14 md:py-16 lg:py-20">
-          <Reveal className="pb-8 md:pb-10">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-4xl space-y-4">
-                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-[#ddb25f]">
-                  Cartões
-                </span>
-                <h2
-                  className="text-3xl font-semibold tracking-[-0.04em] text-[#f7f3ea] md:text-5xl"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  Referência de taxas relacionadas ao uso do cartão.
-                </h2>
-                <p className="max-w-3xl text-base leading-8 text-white/58 md:text-lg">
-                  Estrutura ilustrativa para anuidade, segunda via e serviços eventuais ligados ao cartão.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                disabled
-                aria-disabled="true"
-                className="lux-button lux-button-dark min-h-[3.15rem] w-full cursor-not-allowed justify-center px-6 text-[0.62rem] tracking-[0.2em] opacity-55 grayscale sm:w-auto sm:min-w-[16rem]"
-              >
-                Baixar doc de cartões
-              </button>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.05}>
-            <CostTable rows={cardCosts} />
-          </Reveal>
-
-          <Reveal delay={0.09}>
-            <div className="mt-8 overflow-hidden rounded-[1.8rem] border border-[rgba(201,162,77,0.12)] bg-[linear-gradient(180deg,rgba(255,255,255,0.022),rgba(255,255,255,0.01))]">
-              <div className="grid gap-4 border-b border-[rgba(201,162,77,0.08)] px-6 py-5 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f] md:grid-cols-[0.8fr_1.2fr] md:gap-6 md:px-8">
-                <span>Parcelamento</span>
-                <span>Juros de exemplo</span>
-              </div>
-
-              <div className="grid gap-0">
-                {cardInstallmentRates.map((item, index) => (
-                  <div
-                    key={item.installments}
-                    className={`grid gap-5 px-6 py-6 md:grid-cols-[0.8fr_1.2fr] md:gap-6 md:px-8 md:py-6 ${
-                      index !== cardInstallmentRates.length - 1 ? 'border-b border-[rgba(201,162,77,0.08)]' : ''
-                    }`}
-                  >
-                    <div className="space-y-1.5">
-                      <span className="text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-[#ddb25f] md:hidden">
-                        Parcelamento
-                      </span>
-                      <p
-                        className="text-[1rem] font-semibold tracking-[-0.02em] text-[#f7f3ea] md:text-[1.04rem]"
-                        style={{ fontFamily: 'var(--font-display)' }}
-                      >
-                        {item.installments}
-                      </p>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <span className="text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-[#ddb25f] md:hidden">
-                        Juros
-                      </span>
-                      <p className="text-sm font-semibold leading-7 text-[#ddb25f] md:text-[1rem]">{item.rate}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </section>
-
+        <CostSection
+          eyebrow="Cartão"
+          title="Taxas de referência do cartão em bloco separado."
+          description="Estrutura ilustrativa para emissão, anuidade e segunda via do cartão."
+          rows={cardCosts}
+        />
       </Container>
     </main>
   );

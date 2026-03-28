@@ -20,20 +20,20 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://bossledger.example'),
   applicationName: 'Boss Ledger',
   title: {
-    default: 'Boss Ledger | Fintech para empresas',
+    default: 'Boss Ledger | Agência para empresas',
     template: '%s | Boss Ledger',
   },
   description:
-    'A Boss Ledger e uma fintech com solucoes financeiras, cartoes, beneficios e inteligencia para empresas.',
+    'A Boss Ledger é uma agência com soluções financeiras, cartões, benefícios e inteligência para empresas.',
   icons: {
     icon: '/brand/boss-ledger-logo.svg',
     shortcut: '/brand/boss-ledger-logo.svg',
     apple: '/brand/boss-ledger-logo.svg',
   },
   openGraph: {
-    title: 'Boss Ledger | Fintech para empresas',
+    title: 'Boss Ledger | Agência para empresas',
     description:
-      'A Boss Ledger e uma fintech com solucoes financeiras, cartoes, beneficios e inteligencia para empresas.',
+      'A Boss Ledger é uma agência com soluções financeiras, cartões, benefícios e inteligência para empresas.',
     images: [
       {
         url: '/brand/boss-ledger-logo.svg',
@@ -43,9 +43,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: 'Boss Ledger | Fintech para empresas',
+    title: 'Boss Ledger | Agência para empresas',
     description:
-      'A Boss Ledger e uma fintech com solucoes financeiras, cartoes, beneficios e inteligencia para empresas.',
+      'A Boss Ledger é uma agência com soluções financeiras, cartões, benefícios e inteligência para empresas.',
     images: ['/brand/boss-ledger-logo.svg'],
   },
 };

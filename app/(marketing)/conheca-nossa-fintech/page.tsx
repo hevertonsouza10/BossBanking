@@ -12,12 +12,12 @@ const mapEmbedSrc =
   'https://www.google.com/maps?q=Av.%20Whilhelm%20Rotermund%20124%2C%20Morro%20do%20Espelho%2C%20Sao%20Leopoldo%20RS%2C%2093030-135&z=16&output=embed';
 
 export const metadata: Metadata = {
-  title: 'Conheça nossa fintech',
+  title: 'Conheça nossa agência',
   description:
     'Conheça a estrutura institucional da Boss Ledger, nossa localização e os canais oficiais de contato.',
 };
 
-export default function ConhecaNossaFintechPage() {
+export default function ConhecaNossaAgenciaPage() {
   return (
     <main className="relative overflow-hidden bg-[#050505] pt-[100px] text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(201,162,77,0.12),transparent_24%),linear-gradient(180deg,#090909_0%,#040404_100%)]" />
@@ -33,7 +33,7 @@ export default function ConhecaNossaFintechPage() {
                 className="hero-title text-4xl font-semibold tracking-[-0.05em] text-[#f7f3ea] sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                Conheça nossa fintech
+                Conheça nossa agência
               </h1>
               <p className="text-lg leading-8 text-white/76 md:text-[1.24rem] md:leading-9">
                 Tecnologia financeira com atendimento, estrutura e governança.
@@ -56,16 +56,16 @@ export default function ConhecaNossaFintechPage() {
               className="text-3xl font-semibold tracking-[-0.04em] text-[#f7f3ea] md:text-5xl"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              Uma fintech orientada por transparência, estrutura e relacionamento de longo prazo.
+              Uma agência orientada por transparência, estrutura e relacionamento de longo prazo.
             </h2>
           </Reveal>
 
           <Reveal delay={0.06}>
             <div className="luxury-panel-subtle rounded-[1.75rem] px-6 py-8 md:px-8 md:py-9">
               <p className="text-base leading-8 text-white/66 md:text-lg">
-                Nossa atuação institucional é sustentada por processos, conformidade e canais oficiais de
-                atendimento. Com base em uma estrutura profissional e em uma proposta de serviços financeiros
-                conectada ao contexto do cliente, buscamos oferecer uma experiência consistente, segura e previsível.
+                Nossa atuação institucional é sustentada por processos, conformidade e canais oficiais de atendimento.
+                Com base em uma estrutura profissional e em uma proposta de serviços financeiros conectada ao contexto
+                do cliente, buscamos oferecer uma experiência consistente, segura e previsível.
               </p>
             </div>
           </Reveal>

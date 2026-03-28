@@ -10,6 +10,11 @@ const socialChannels = [
     description: 'Conteúdos, bastidores e atualizações da marca.',
   },
   {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/sejabossbank/',
+    description: 'Acompanhe publicações, novidades e comunicados da marca.',
+  },
+  {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/search/results/all/?keywords=Boss%20Ledger',
     description: 'Acompanhe a presença institucional da marca na plataforma.',
@@ -18,6 +23,11 @@ const socialChannels = [
     label: 'X',
     href: 'https://x.com/sejabossbank',
     description: 'Acompanhe comunicados, novidades e atualizações da marca.',
+  },
+  {
+    label: 'YouTube',
+    href: 'https://www.youtube.com/@sejabossbank',
+    description: 'Veja vídeos, lançamentos e conteúdos da Boss Ledger.',
   },
 ];
 
@@ -57,7 +67,7 @@ export default function NoticiasBossPage() {
             </section>
           </Reveal>
 
-          <Reveal delay={0.08} className="mt-12 w-full max-w-4xl lg:mt-14">
+          <Reveal delay={0.08} className="mt-12 w-full max-w-5xl lg:mt-14">
             <section className="space-y-6">
               <div className="space-y-3">
                 <span className="text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-[#ddb25f]">
@@ -71,7 +81,7 @@ export default function NoticiasBossPage() {
                 </h2>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-3">
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                 {socialChannels.map((channel, index) => (
                   <Reveal key={channel.label} delay={0.12 + index * 0.05}>
                     <Link

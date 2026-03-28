@@ -37,7 +37,7 @@ export const marketingPages: Page[] = [
       {
         id: 'home-hero',
         type: 'hero',
-        title: 'Uma Fintech digital que ajuda você e o seu negócio a chegar ao topo',
+        title: 'Uma agência digital que ajuda você e o seu negócio a chegar ao topo',
         media: {
           src: 'https://player.vimeo.com/video/1174914823',
           alt: 'Vídeo principal da Boss Ledger com diferentes perfis de empreendedores em atividade',
@@ -214,9 +214,9 @@ export const marketingPages: Page[] = [
         id: 'home-concept',
         type: 'featureSplit',
         eyebrow: 'Filme conceito',
-        title: 'Uma história sobre empresários, ambição e uma Fintech que acompanha esse ritmo.',
+        title: 'Uma história sobre empresários, ambição e uma agência que acompanha esse ritmo.',
         description:
-          'Assista ao filme conceito da Boss Ledger e acompanhe uma narrativa que apresenta contexto, visão e a proposta da Fintech em uma experiência cinematográfica.',
+          'Assista ao filme conceito da Boss Ledger e acompanhe uma narrativa que apresenta contexto, visão e a proposta da agência em uma experiência cinematográfica.',
         media: {
           src: 'https://player.vimeo.com/video/1175664452?badge=0&autopause=0&player_id=0&app_id=58479',
           alt: 'Vídeo conceito da Boss Ledger',
@@ -505,13 +505,13 @@ export const marketingPages: Page[] = [
 export const blogPosts: BlogPost[] = [
   {
     slug: 'como-estruturar-um-site-premium-para-banco-digital',
-    title: 'Como estruturar um site premium para uma fintech sem virar um projeto descartável',
+    title: 'Como estruturar um site premium para uma agência financeira sem virar um projeto descartável',
     excerpt: 'Separar rotas, sistema de blocos, SEO e contratos de conteúdo desde o início evita retrabalho quando o site cresce.',
     publishedAt: '10 de março de 2026',
     author: 'Equipe Boss Ledger',
     category: categoryMap.tecnologia,
     seo: {
-      title: 'Como estruturar um site premium para fintech',
+      title: 'Como estruturar um site premium para agência financeira',
       description: 'Base arquitetural para landing, páginas institucionais e blog no mesmo projeto.',
     },
     body: [
@@ -534,14 +534,14 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: 'porque-um-blog-ajuda-um-site-de-banco-digital',
-    title: 'Por que um blog bem estruturado fortalece o site de uma fintech',
+    title: 'Por que um blog bem estruturado fortalece o site de uma agência financeira',
     excerpt: 'Blog não é só conteúdo: é aquisição, SEO, confiança e argumento comercial contínuo.',
     publishedAt: '08 de março de 2026',
     author: 'Equipe Boss Ledger',
     category: categoryMap['private-finance'],
     seo: {
-      title: 'Por que um blog ajuda o site de uma fintech',
-      description: 'Entenda o papel editorial e comercial de um blog para uma fintech.',
+      title: 'Por que um blog ajuda o site de uma agência financeira',
+      description: 'Entenda o papel editorial e comercial de um blog para uma agência financeira.',
     },
     body: [
       {

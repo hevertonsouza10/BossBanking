@@ -4,7 +4,7 @@ import { getAllCategories, getAllPosts } from '@/lib/cms/content-repository';
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Conteudo sobre fintech, beneficios, cartoes e inteligencia financeira.',
+  description: 'Conteúdo sobre a agência, benefícios, cartões e inteligência financeira.',
 };
 
 export default async function BlogPage() {

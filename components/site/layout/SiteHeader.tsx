@@ -28,7 +28,7 @@ const navigationGroups: MenuGroup[] = [
     label: 'Sobre',
     items: [
       { label: 'Compliance', href: '/compliance' },
-      { label: 'Nos conheça', href: '/conheca-nossa-fintech' },
+      { label: 'Nos conheça', href: '/conheca-nossa-agencia' },
       { label: 'Notícias Boss', href: '/noticias-boss' },
     ],
   },

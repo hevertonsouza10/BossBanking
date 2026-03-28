@@ -304,9 +304,7 @@ export default function SiteFooter() {
 
           <div className="flex flex-col gap-2 pt-3 text-[0.72rem] text-white/30 lg:flex-row lg:items-center lg:justify-between">
             <div className="text-white/24">&copy; 2025 por Boss Ledger LTDA - CNPJ: 62.169.944/0001-44.</div>
-            <div className="text-white/24 lg:text-right">
-              Todos os direitos reservados.
-            </div>
+            <div className="text-white/24 lg:text-right">Todos os direitos reservados.</div>
           </div>
         </div>
       </Container>
