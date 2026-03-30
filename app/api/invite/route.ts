@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
@@ -7,6 +8,7 @@ const MAX_ATTEMPTS = 5;
 const MIN_FILL_MS = 2000;
 const FORMSUBMIT_URL = 'https://formsubmit.co/ajax';
 const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+const RESEND_API_URL = 'https://api.resend.com/emails';
 
 type InvitePayload = {
   fullName: string;
@@ -29,17 +31,22 @@ type RecaptchaVerifyResponse = {
   'error-codes'?: string[];
 };
 
+type ResendErrorResponse = {
+  message?: string;
+  name?: string;
+};
+
 type FormSubmitResponse = {
   success?: boolean | string;
   message?: string;
 };
 
-class InviteFormForwardError extends Error {
+class InviteDeliveryError extends Error {
   readonly status: number;
 
   constructor(message: string, status = 502) {
     super(message);
-    this.name = 'InviteFormForwardError';
+    this.name = 'InviteDeliveryError';
     this.status = status;
   }
 }
@@ -70,6 +77,15 @@ function normalizeWhitespace(value: string) {
 
 function normalizeMessage(value: string) {
   return value.replace(/\r\n/g, '\n').trim();
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function getClientIp(request: NextRequest) {
@@ -196,27 +212,71 @@ function validateInvitePayload(payload: unknown) {
   return { ok: true as const, data, botLike: false };
 }
 
-function getFormSubmitTarget() {
-  return process.env.FORMSUBMIT_TARGET?.trim() || 'contato@bossbanking.com.br';
-}
-
-function getFormSubject() {
+function getInviteSubject() {
   return process.env.INVITE_SUBJECT?.trim() || 'Solicitacao de convite - Boss Ledger';
 }
 
-function getBlacklist() {
+function getInviteRecipient() {
   return (
-    process.env.FORMSUBMIT_BLACKLIST?.trim() ||
-    'viagra,casino,adult content,porn,crypto pump,seo package,backlink service'
+    process.env.INVITE_RECIPIENT_EMAIL?.trim() ||
+    process.env.FORMSUBMIT_TARGET?.trim() ||
+    'contato@bossbanking.com.br'
   );
 }
 
-function getRecaptchaSecret() {
-  return process.env.RECAPTCHA_SECRET_KEY?.trim() ?? '';
+function getResendApiKey() {
+  return process.env.RESEND_API_KEY?.trim() ?? '';
+}
+
+function getResendFromEmail() {
+  return process.env.RESEND_FROM_EMAIL?.trim() || 'Boss Ledger <onboarding@resend.dev>';
+}
+
+function buildInviteEmailHtml(data: InvitePayload, request: NextRequest) {
+  const origin = getRequestOrigin(request) || 'Origem nao informada';
+  const submittedAt = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
+  return `
+    <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#111827">
+      <h1 style="margin-bottom:16px;">Nova solicitacao de convite</h1>
+      <p style="margin:0 0 16px;">Um novo lead enviou o formulario do site.</p>
+      <table style="border-collapse:collapse;width:100%;max-width:720px;">
+        <tbody>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Nome</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${escapeHtml(data.fullName)}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>E-mail</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${escapeHtml(data.email)}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Telefone</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${escapeHtml(data.phone)}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Empresa</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${escapeHtml(data.company)}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Origem</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${escapeHtml(origin)}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e5e7eb;"><strong>Enviado em</strong></td><td style="padding:8px;border:1px solid #e5e7eb;">${escapeHtml(submittedAt)}</td></tr>
+        </tbody>
+      </table>
+      <h2 style="margin:24px 0 8px;">Mensagem</h2>
+      <p style="white-space:pre-wrap;border:1px solid #e5e7eb;padding:12px;border-radius:8px;">${escapeHtml(data.message)}</p>
+    </div>
+  `.trim();
+}
+
+function buildInviteEmailText(data: InvitePayload, request: NextRequest) {
+  const origin = getRequestOrigin(request) || 'Origem nao informada';
+  const submittedAt = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
+  return [
+    'Nova solicitacao de convite',
+    '',
+    `Nome: ${data.fullName}`,
+    `E-mail: ${data.email}`,
+    `Telefone: ${data.phone}`,
+    `Empresa: ${data.company}`,
+    `Origem: ${origin}`,
+    `Enviado em: ${submittedAt}`,
+    '',
+    'Mensagem:',
+    data.message,
+  ].join('\n');
 }
 
 async function verifyRecaptcha(request: NextRequest, token: string) {
-  const secret = getRecaptchaSecret();
+  const secret = process.env.RECAPTCHA_SECRET_KEY?.trim() ?? '';
 
   if (!secret) {
     return { success: false as const, configured: false as const, errors: ['missing-input-secret'] };
@@ -255,6 +315,39 @@ async function verifyRecaptcha(request: NextRequest, token: string) {
   };
 }
 
+async function sendViaResend(request: NextRequest, data: InvitePayload) {
+  const apiKey = getResendApiKey();
+
+  if (!apiKey) {
+    throw new InviteDeliveryError('RESEND_API_KEY nao configurada.', 503);
+  }
+
+  const response = await fetch(RESEND_API_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'Idempotency-Key': randomUUID(),
+    },
+    body: JSON.stringify({
+      from: getResendFromEmail(),
+      to: [getInviteRecipient()],
+      reply_to: data.email,
+      subject: getInviteSubject(),
+      html: buildInviteEmailHtml(data, request),
+      text: buildInviteEmailText(data, request),
+    }),
+    cache: 'no-store',
+  });
+
+  if (response.ok) {
+    return;
+  }
+
+  const result = (await response.json().catch(() => null)) as ResendErrorResponse | null;
+  throw new InviteDeliveryError(result?.message || `Resend responded with status ${response.status}`, response.status);
+}
+
 async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
   const payload = new FormData();
   const origin = getRequestOrigin(request);
@@ -264,14 +357,18 @@ async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
   payload.append('phone', data.phone);
   payload.append('company', data.company);
   payload.append('message', data.message);
-  payload.append('_subject', getFormSubject());
+  payload.append('_subject', getInviteSubject());
   payload.append('_template', 'table');
   payload.append('_replyto', data.email);
-  payload.append('_blacklist', getBlacklist());
+  payload.append(
+    '_blacklist',
+    process.env.FORMSUBMIT_BLACKLIST?.trim() ||
+      'viagra,casino,adult content,porn,crypto pump,seo package,backlink service',
+  );
   payload.append('_captcha', 'false');
   payload.append('_url', `${origin}/convites`);
 
-  const response = await fetch(`${FORMSUBMIT_URL}/${getFormSubmitTarget()}`, {
+  const response = await fetch(`${FORMSUBMIT_URL}/${getInviteRecipient()}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -289,14 +386,43 @@ async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
   const result = (await response.json().catch(() => null)) as FormSubmitResponse | null;
 
   if (!response.ok) {
-    throw new InviteFormForwardError(result?.message || `FormSubmit responded with status ${response.status}`, response.status);
+    throw new InviteDeliveryError(result?.message || `FormSubmit responded with status ${response.status}`, response.status);
   }
 
   if (String(result?.success).toLowerCase() === 'false') {
-    throw new InviteFormForwardError(result?.message || 'FormSubmit rejected the submission.', 400);
+    throw new InviteDeliveryError(result?.message || 'FormSubmit rejected the submission.', 400);
+  }
+}
+
+async function deliverInvite(request: NextRequest, data: InvitePayload) {
+  if (getResendApiKey()) {
+    await sendViaResend(request, data);
+    return;
   }
 
-  return result;
+  await forwardToFormSubmit(request, data);
+}
+
+function toClientDeliveryMessage(error: InviteDeliveryError) {
+  if (error.message.includes('RESEND_API_KEY')) {
+    return { status: 503, message: 'O envio de e-mail ainda nao foi configurado neste ambiente.' };
+  }
+
+  if (error.message.includes('needs Activation')) {
+    return {
+      status: 400,
+      message: 'O formulario ainda precisa ser ativado no FormSubmit. Verifique o e-mail contato@bossbanking.com.br e clique no link de ativacao.',
+    };
+  }
+
+  if (error.message.includes('FormSubmit responded with status 403')) {
+    return {
+      status: 502,
+      message: 'O provedor antigo de envio bloqueou esta solicitacao. Configure o Resend na Vercel para estabilizar o formulario.',
+    };
+  }
+
+  return { status: error.status, message: error.message };
 }
 
 export async function POST(request: NextRequest) {
@@ -352,21 +478,14 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await forwardToFormSubmit(request, validation.data);
-
+    await deliverInvite(request, validation.data);
     return json({ message: 'Solicitacao recebida com sucesso.' });
   } catch (error) {
-    console.error('Invite form forward failed', error);
+    console.error('Invite form delivery failed', error);
 
-    if (error instanceof InviteFormForwardError) {
-      if (error.message.includes('needs Activation')) {
-        return json(
-          { message: 'O formulario ainda precisa ser ativado no FormSubmit. Verifique o e-mail contato@bossbanking.com.br e clique no link de ativacao.' },
-          { status: 400 },
-        );
-      }
-
-      return json({ message: error.message }, { status: error.status });
+    if (error instanceof InviteDeliveryError) {
+      const clientError = toClientDeliveryMessage(error);
+      return json({ message: clientError.message }, { status: clientError.status });
     }
 
     return json({ message: 'Nao foi possivel enviar agora. Tente novamente em instantes.' }, { status: 502 });
