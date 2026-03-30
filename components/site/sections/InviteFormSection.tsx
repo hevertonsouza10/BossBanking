@@ -1,6 +1,7 @@
 'use client';
 
-import { type FormEvent, useState } from 'react';
+import Script from 'next/script';
+import { type FormEvent, useEffect, useRef, useState } from 'react';
 import Container from '@/components/site/ui/Container';
 import Reveal from '@/components/site/ui/Reveal';
 import type { InviteFormSection as InviteFormSectionType } from '@/lib/cms/types';
@@ -14,6 +15,27 @@ type FormState = {
   message: string;
   website: string;
 };
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      render: (
+        container: HTMLElement,
+        parameters: {
+          sitekey: string;
+          theme?: 'light' | 'dark';
+          callback?: (token: string) => void;
+          'expired-callback'?: () => void;
+          'error-callback'?: () => void;
+        },
+      ) => number;
+      reset: (widgetId?: number) => void;
+    };
+  }
+}
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? '';
 
 const initialFormState: FormState = {
   fullName: '',
@@ -30,9 +52,74 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
+  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const recaptchaContainerRef = useRef<HTMLDivElement | null>(null);
+  const recaptchaWidgetIdRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!RECAPTCHA_SITE_KEY || !isRecaptchaLoaded || !window.grecaptcha || !recaptchaContainerRef.current) {
+      return;
+    }
+
+    if (recaptchaWidgetIdRef.current !== null) {
+      setIsRecaptchaReady(true);
+      return;
+    }
+
+    window.grecaptcha.ready(() => {
+      if (!recaptchaContainerRef.current || recaptchaWidgetIdRef.current !== null) {
+        return;
+      }
+
+      const widgetId = window.grecaptcha?.render(recaptchaContainerRef.current, {
+        sitekey: RECAPTCHA_SITE_KEY,
+        theme: 'dark',
+        callback: (token) => {
+          setRecaptchaToken(token);
+          setSubmitError(null);
+        },
+        'expired-callback': () => {
+          setRecaptchaToken('');
+        },
+        'error-callback': () => {
+          setIsRecaptchaReady(false);
+          setRecaptchaToken('');
+          setSubmitError('Nao foi possivel carregar a verificacao de seguranca. Recarregue a pagina e tente novamente.');
+        },
+      });
+
+      recaptchaWidgetIdRef.current = widgetId ?? null;
+      setIsRecaptchaReady(true);
+    });
+  }, [isRecaptchaLoaded]);
+
+  const resetRecaptcha = () => {
+    setRecaptchaToken('');
+
+    if (window.grecaptcha && recaptchaWidgetIdRef.current !== null) {
+      window.grecaptcha.reset(recaptchaWidgetIdRef.current);
+    }
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!RECAPTCHA_SITE_KEY) {
+      setSubmitError('O reCAPTCHA ainda nao foi configurado neste ambiente.');
+      return;
+    }
+
+    if (!isRecaptchaReady) {
+      setSubmitError('A verificacao de seguranca ainda esta carregando. Tente novamente em alguns segundos.');
+      return;
+    }
+
+    if (!recaptchaToken) {
+      setSubmitError('Confirme o reCAPTCHA antes de enviar sua solicitacao.');
+      return;
+    }
 
     setIsSubmitting(true);
     setIsSubmitted(false);
@@ -53,33 +140,49 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
           message: formState.message,
           website: formState.website,
           startedAt,
+          recaptchaToken,
         }),
       });
 
       const result = (await response.json().catch(() => null)) as { message?: string } | null;
 
       if (!response.ok) {
-        throw new Error(result?.message ?? 'Não foi possível enviar agora. Tente novamente em instantes.');
+        throw new Error(result?.message ?? 'Nao foi possivel enviar agora. Tente novamente em instantes.');
       }
 
       setIsSubmitted(true);
       setFormState(initialFormState);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : 'Não foi possível enviar agora. Tente novamente em instantes.');
+      setSubmitError(error instanceof Error ? error.message : 'Nao foi possivel enviar agora. Tente novamente em instantes.');
     } finally {
       setIsSubmitting(false);
+      resetRecaptcha();
     }
   };
 
   return (
     <section className="relative py-24 md:py-32" data-scroll-scene="true">
+      {RECAPTCHA_SITE_KEY ? (
+        <Script
+          id="google-recaptcha"
+          src="https://www.google.com/recaptcha/api.js?render=explicit"
+          strategy="afterInteractive"
+          onReady={() => setIsRecaptchaLoaded(true)}
+          onError={() => {
+            setIsRecaptchaLoaded(false);
+            setIsRecaptchaReady(false);
+            setSubmitError('Nao foi possivel carregar o script do reCAPTCHA. Recarregue a pagina e tente novamente.');
+          }}
+        />
+      ) : null}
+
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(221,178,95,0.08),transparent_22%),linear-gradient(180deg,rgba(7,7,7,0),rgba(5,5,5,0.68)_18%,rgba(5,5,5,0.92))]" />
       <Container className="relative">
         <div className="grid gap-8 lg:grid-cols-[0.84fr_1.16fr] lg:items-start">
           <Reveal className="space-y-6 lg:sticky lg:top-[140px]">
             <div className="inline-flex w-fit items-center gap-3 rounded-full border border-[#ddb25f]/15 bg-white/[0.03] px-4 py-2 text-[0.62rem] uppercase tracking-[0.28em] text-[#ddb25f]">
               <span className="h-2 w-2 rounded-full bg-[#ddb25f]" />
-              {section.eyebrow ?? 'Pré-cadastro'}
+              {section.eyebrow ?? 'Pre-cadastro'}
             </div>
 
             <div className="space-y-5">
@@ -143,7 +246,7 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
                       onChange={(value) => setFormState((current) => ({ ...current, phone: value }))}
                     />
                     <Field
-                      label="Empresa ou negócio"
+                      label="Empresa ou negocio"
                       autoComplete="organization"
                       value={formState.company}
                       onChange={(value) => setFormState((current) => ({ ...current, company: value }))}
@@ -157,6 +260,19 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
                     value={formState.message}
                     onChange={(value) => setFormState((current) => ({ ...current, message: value }))}
                   />
+
+                  <div className="space-y-3">
+                    <div
+                      ref={recaptchaContainerRef}
+                      className="inline-flex min-h-[78px] max-w-full overflow-x-auto rounded-[1.15rem] border border-white/10 bg-white/[0.02] p-2"
+                    />
+
+                    {!RECAPTCHA_SITE_KEY ? (
+                      <p className="text-sm leading-6 text-white/52">Configure `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` para habilitar a verificacao.</p>
+                    ) : !isRecaptchaReady ? (
+                      <p className="text-sm leading-6 text-white/52">Carregando verificacao de seguranca...</p>
+                    ) : null}
+                  </div>
 
                   <div className="flex flex-col gap-4 pt-2">
                     <button

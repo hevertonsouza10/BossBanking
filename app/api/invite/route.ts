@@ -6,6 +6,7 @@ const WINDOW_MS = 15 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 const MIN_FILL_MS = 2000;
 const FORMSUBMIT_URL = 'https://formsubmit.co/ajax';
+const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
 type InvitePayload = {
   fullName: string;
@@ -15,11 +16,17 @@ type InvitePayload = {
   message: string;
   website: string;
   startedAt: number;
+  recaptchaToken: string;
 };
 
 type RateLimitEntry = {
   count: number;
   resetAt: number;
+};
+
+type RecaptchaVerifyResponse = {
+  success?: boolean;
+  'error-codes'?: string[];
 };
 
 declare global {
@@ -50,11 +57,16 @@ function normalizeMessage(value: string) {
   return value.replace(/\r\n/g, '\n').trim();
 }
 
-function getClientAddress(request: NextRequest) {
+function getClientIp(request: NextRequest) {
   const forwardedFor = request.headers.get('x-forwarded-for');
   const realIp = request.headers.get('x-real-ip');
+
+  return forwardedFor?.split(',')[0]?.trim() || realIp || '';
+}
+
+function getClientAddress(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') ?? 'unknown';
-  const ip = forwardedFor?.split(',')[0]?.trim() || realIp || 'unknown';
+  const ip = getClientIp(request) || 'unknown';
 
   return `${ip}:${userAgent.slice(0, 80)}`;
 }
@@ -98,7 +110,7 @@ function readString(value: unknown) {
 
 function validateInvitePayload(payload: unknown) {
   if (!payload || typeof payload !== 'object') {
-    return { ok: false as const, message: 'Solicitação inválida.' };
+    return { ok: false as const, message: 'Solicitacao invalida.' };
   }
 
   const body = payload as Record<string, unknown>;
@@ -111,6 +123,7 @@ function validateInvitePayload(payload: unknown) {
     message: normalizeMessage(readString(body.message)),
     website: normalizeWhitespace(readString(body.website)),
     startedAt: Number(body.startedAt) || 0,
+    recaptchaToken: normalizeWhitespace(readString(body.recaptchaToken)),
   };
 
   if (data.website) {
@@ -118,19 +131,19 @@ function validateInvitePayload(payload: unknown) {
   }
 
   if (!data.fullName || data.fullName.length < 3 || data.fullName.length > 120) {
-    return { ok: false as const, message: 'Informe um nome válido.' };
+    return { ok: false as const, message: 'Informe um nome valido.' };
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || data.email.length > 160) {
-    return { ok: false as const, message: 'Informe um e-mail válido.' };
+    return { ok: false as const, message: 'Informe um e-mail valido.' };
   }
 
   if (!data.phone || data.phone.length < 8 || data.phone.length > 30) {
-    return { ok: false as const, message: 'Informe um telefone válido.' };
+    return { ok: false as const, message: 'Informe um telefone valido.' };
   }
 
   if (!data.company || data.company.length < 2 || data.company.length > 120) {
-    return { ok: false as const, message: 'Informe o nome da empresa ou negócio.' };
+    return { ok: false as const, message: 'Informe o nome da empresa ou negocio.' };
   }
 
   if (!data.message || data.message.length < 10 || data.message.length > 2000) {
@@ -141,6 +154,10 @@ function validateInvitePayload(payload: unknown) {
     return { ok: true as const, data, botLike: true };
   }
 
+  if (!data.recaptchaToken) {
+    return { ok: false as const, message: 'Confirme o reCAPTCHA antes de enviar sua solicitacao.' };
+  }
+
   return { ok: true as const, data, botLike: false };
 }
 
@@ -149,7 +166,7 @@ function getFormSubmitTarget() {
 }
 
 function getFormSubject() {
-  return process.env.INVITE_SUBJECT?.trim() || 'Solicitação de convite - Boss Ledger';
+  return process.env.INVITE_SUBJECT?.trim() || 'Solicitacao de convite - Boss Ledger';
 }
 
 function getBlacklist() {
@@ -157,6 +174,50 @@ function getBlacklist() {
     process.env.FORMSUBMIT_BLACKLIST?.trim() ||
     'viagra,casino,adult content,porn,crypto pump,seo package,backlink service'
   );
+}
+
+function getRecaptchaSecret() {
+  return process.env.RECAPTCHA_SECRET_KEY?.trim() ?? '';
+}
+
+async function verifyRecaptcha(request: NextRequest, token: string) {
+  const secret = getRecaptchaSecret();
+
+  if (!secret) {
+    return { success: false as const, configured: false as const, errors: ['missing-input-secret'] };
+  }
+
+  const payload = new URLSearchParams({
+    secret,
+    response: token,
+  });
+
+  const remoteIp = getClientIp(request);
+
+  if (remoteIp) {
+    payload.append('remoteip', remoteIp);
+  }
+
+  const response = await fetch(RECAPTCHA_VERIFY_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: payload,
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error(`reCAPTCHA verify responded with status ${response.status}`);
+  }
+
+  const result = (await response.json()) as RecaptchaVerifyResponse;
+
+  return {
+    success: Boolean(result.success),
+    configured: true as const,
+    errors: result['error-codes'] ?? [],
+  };
 }
 
 async function forwardToFormSubmit(data: InvitePayload) {
@@ -185,7 +246,7 @@ async function forwardToFormSubmit(data: InvitePayload) {
 
 export async function POST(request: NextRequest) {
   if (!isAllowedOrigin(request)) {
-    return json({ message: 'Origem não autorizada.' }, { status: 403 });
+    return json({ message: 'Origem nao autorizada.' }, { status: 403 });
   }
 
   const rateLimit = isRateLimited(getClientAddress(request));
@@ -207,7 +268,7 @@ export async function POST(request: NextRequest) {
   try {
     payload = await request.json();
   } catch {
-    return json({ message: 'Não foi possível processar a solicitação.' }, { status: 400 });
+    return json({ message: 'Nao foi possivel processar a solicitacao.' }, { status: 400 });
   }
 
   const validation = validateInvitePayload(payload);
@@ -217,7 +278,22 @@ export async function POST(request: NextRequest) {
   }
 
   if (validation.botLike) {
-    return json({ message: 'Solicitação recebida com sucesso.' });
+    return json({ message: 'Solicitacao recebida com sucesso.' });
+  }
+
+  try {
+    const recaptcha = await verifyRecaptcha(request, validation.data.recaptchaToken);
+
+    if (!recaptcha.configured) {
+      return json({ message: 'A verificacao de seguranca nao esta configurada.' }, { status: 503 });
+    }
+
+    if (!recaptcha.success) {
+      return json({ message: 'Nao foi possivel confirmar o reCAPTCHA. Tente novamente.' }, { status: 400 });
+    }
+  } catch (error) {
+    console.error('Invite form reCAPTCHA verification failed', error);
+    return json({ message: 'Nao foi possivel validar a verificacao de seguranca. Tente novamente em instantes.' }, { status: 502 });
   }
 
   try {
@@ -227,9 +303,9 @@ export async function POST(request: NextRequest) {
       throw new Error(`FormSubmit responded with status ${response.status}`);
     }
 
-    return json({ message: 'Solicitação recebida com sucesso.' });
+    return json({ message: 'Solicitacao recebida com sucesso.' });
   } catch (error) {
     console.error('Invite form forward failed', error);
-    return json({ message: 'Não foi possível enviar agora. Tente novamente em instantes.' }, { status: 502 });
+    return json({ message: 'Nao foi possivel enviar agora. Tente novamente em instantes.' }, { status: 502 });
   }
 }
