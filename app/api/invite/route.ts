@@ -29,6 +29,11 @@ type RecaptchaVerifyResponse = {
   'error-codes'?: string[];
 };
 
+type FormSubmitResponse = {
+  success?: boolean | string;
+  message?: string;
+};
+
 declare global {
   var __inviteRateLimitStore: Map<string, RateLimitEntry> | undefined;
 }
@@ -62,6 +67,26 @@ function getClientIp(request: NextRequest) {
   const realIp = request.headers.get('x-real-ip');
 
   return forwardedFor?.split(',')[0]?.trim() || realIp || '';
+}
+
+function getRequestOrigin(request: NextRequest) {
+  const origin = request.headers.get('origin');
+
+  if (origin) {
+    return origin;
+  }
+
+  const forwardedProto = request.headers.get('x-forwarded-proto');
+  const forwardedHost = request.headers.get('x-forwarded-host');
+  const host = forwardedHost ?? request.headers.get('host');
+
+  if (!host) {
+    return '';
+  }
+
+  const protocol = forwardedProto ?? 'https';
+
+  return `${protocol}://${host}`;
 }
 
 function getClientAddress(request: NextRequest) {
@@ -220,8 +245,9 @@ async function verifyRecaptcha(request: NextRequest, token: string) {
   };
 }
 
-async function forwardToFormSubmit(data: InvitePayload) {
+async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
   const payload = new FormData();
+  const origin = getRequestOrigin(request);
 
   payload.append('name', data.fullName);
   payload.append('email', data.email);
@@ -233,15 +259,34 @@ async function forwardToFormSubmit(data: InvitePayload) {
   payload.append('_replyto', data.email);
   payload.append('_blacklist', getBlacklist());
   payload.append('_captcha', 'false');
+  payload.append('_url', `${origin}/convites`);
 
-  return fetch(`${FORMSUBMIT_URL}/${getFormSubmitTarget()}`, {
+  const response = await fetch(`${FORMSUBMIT_URL}/${getFormSubmitTarget()}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
+      ...(origin
+        ? {
+            Origin: origin,
+            Referer: `${origin}/convites`,
+          }
+        : {}),
     },
     body: payload,
     cache: 'no-store',
   });
+
+  const result = (await response.json().catch(() => null)) as FormSubmitResponse | null;
+
+  if (!response.ok) {
+    throw new Error(result?.message || `FormSubmit responded with status ${response.status}`);
+  }
+
+  if (String(result?.success).toLowerCase() === 'false') {
+    throw new Error(result?.message || 'FormSubmit rejected the submission.');
+  }
+
+  return result;
 }
 
 export async function POST(request: NextRequest) {
@@ -297,11 +342,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const response = await forwardToFormSubmit(validation.data);
-
-    if (!response.ok) {
-      throw new Error(`FormSubmit responded with status ${response.status}`);
-    }
+    await forwardToFormSubmit(request, validation.data);
 
     return json({ message: 'Solicitacao recebida com sucesso.' });
   } catch (error) {
