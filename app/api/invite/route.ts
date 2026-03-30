@@ -34,6 +34,16 @@ type FormSubmitResponse = {
   message?: string;
 };
 
+class InviteFormForwardError extends Error {
+  readonly status: number;
+
+  constructor(message: string, status = 502) {
+    super(message);
+    this.name = 'InviteFormForwardError';
+    this.status = status;
+  }
+}
+
 declare global {
   var __inviteRateLimitStore: Map<string, RateLimitEntry> | undefined;
 }
@@ -279,11 +289,11 @@ async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
   const result = (await response.json().catch(() => null)) as FormSubmitResponse | null;
 
   if (!response.ok) {
-    throw new Error(result?.message || `FormSubmit responded with status ${response.status}`);
+    throw new InviteFormForwardError(result?.message || `FormSubmit responded with status ${response.status}`, response.status);
   }
 
   if (String(result?.success).toLowerCase() === 'false') {
-    throw new Error(result?.message || 'FormSubmit rejected the submission.');
+    throw new InviteFormForwardError(result?.message || 'FormSubmit rejected the submission.', 400);
   }
 
   return result;
@@ -347,6 +357,18 @@ export async function POST(request: NextRequest) {
     return json({ message: 'Solicitacao recebida com sucesso.' });
   } catch (error) {
     console.error('Invite form forward failed', error);
+
+    if (error instanceof InviteFormForwardError) {
+      if (error.message.includes('needs Activation')) {
+        return json(
+          { message: 'O formulario ainda precisa ser ativado no FormSubmit. Verifique o e-mail contato@bossbanking.com.br e clique no link de ativacao.' },
+          { status: 400 },
+        );
+      }
+
+      return json({ message: error.message }, { status: error.status });
+    }
+
     return json({ message: 'Nao foi possivel enviar agora. Tente novamente em instantes.' }, { status: 502 });
   }
 }
