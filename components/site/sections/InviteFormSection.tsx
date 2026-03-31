@@ -1,6 +1,7 @@
 'use client';
 
-import { type FormEvent, useState } from 'react';
+import Script from 'next/script';
+import { type FormEvent, useEffect, useRef, useState } from 'react';
 import Container from '@/components/site/ui/Container';
 import Reveal from '@/components/site/ui/Reveal';
 import type { InviteFormSection as InviteFormSectionType } from '@/lib/cms/types';
@@ -15,13 +16,26 @@ type FormState = {
   website: string;
 };
 
-type FormSubmitResponse = {
-  success?: boolean | string;
-  message?: string;
-};
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      render: (
+        container: HTMLElement,
+        parameters: {
+          sitekey: string;
+          theme?: 'light' | 'dark';
+          callback?: (token: string) => void;
+          'expired-callback'?: () => void;
+          'error-callback'?: () => void;
+        },
+      ) => number;
+      reset: (widgetId?: number) => void;
+    };
+  }
+}
 
-const FORMSUBMIT_TARGET = process.env.NEXT_PUBLIC_FORMSUBMIT_TARGET?.trim() ?? 'contato@bossbanking.com.br';
-const MIN_FILL_MS = 2000;
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? '';
 
 const initialFormState: FormState = {
   fullName: '',
@@ -38,12 +52,72 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
+  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const recaptchaContainerRef = useRef<HTMLDivElement | null>(null);
+  const recaptchaWidgetIdRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!RECAPTCHA_SITE_KEY || !isRecaptchaLoaded || !window.grecaptcha || !recaptchaContainerRef.current) {
+      return;
+    }
+
+    if (recaptchaWidgetIdRef.current !== null) {
+      setIsRecaptchaReady(true);
+      return;
+    }
+
+    window.grecaptcha.ready(() => {
+      if (!recaptchaContainerRef.current || recaptchaWidgetIdRef.current !== null) {
+        return;
+      }
+
+      const widgetId = window.grecaptcha?.render(recaptchaContainerRef.current, {
+        sitekey: RECAPTCHA_SITE_KEY,
+        theme: 'dark',
+        callback: (token) => {
+          setRecaptchaToken(token);
+          setSubmitError(null);
+        },
+        'expired-callback': () => {
+          setRecaptchaToken('');
+        },
+        'error-callback': () => {
+          setIsRecaptchaReady(false);
+          setRecaptchaToken('');
+          setSubmitError('Nao foi possivel carregar a verificacao de seguranca. Recarregue a pagina e tente novamente.');
+        },
+      });
+
+      recaptchaWidgetIdRef.current = widgetId ?? null;
+      setIsRecaptchaReady(true);
+    });
+  }, [isRecaptchaLoaded]);
+
+  const resetRecaptcha = () => {
+    setRecaptchaToken('');
+
+    if (window.grecaptcha && recaptchaWidgetIdRef.current !== null) {
+      window.grecaptcha.reset(recaptchaWidgetIdRef.current);
+    }
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!FORMSUBMIT_TARGET) {
-      setSubmitError('O destino do formulario ainda nao foi configurado neste ambiente.');
+    if (!RECAPTCHA_SITE_KEY) {
+      setSubmitError('O reCAPTCHA ainda nao foi configurado neste ambiente.');
+      return;
+    }
+
+    if (!isRecaptchaReady) {
+      setSubmitError('A verificacao de seguranca ainda esta carregando. Tente novamente em alguns segundos.');
+      return;
+    }
+
+    if (!recaptchaToken) {
+      setSubmitError('Confirme o reCAPTCHA antes de enviar sua solicitacao.');
       return;
     }
 
@@ -52,36 +126,28 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
     setSubmitError(null);
 
     try {
-      if (formState.website || Date.now() - startedAt < MIN_FILL_MS) {
-        setIsSubmitted(true);
-        setFormState(initialFormState);
-        return;
-      }
-
-      const payload = new FormData();
-
-      payload.append('name', formState.fullName);
-      payload.append('email', formState.email);
-      payload.append('phone', formState.phone);
-      payload.append('company', formState.company);
-      payload.append('message', formState.message);
-      payload.append('_subject', section.subject || 'Solicitacao de convite - Boss Ledger');
-      payload.append('_template', 'table');
-      payload.append('_replyto', formState.email);
-      payload.append('_next', typeof window !== 'undefined' ? `${window.location.origin}/convites` : '/convites');
-
-      const response = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_TARGET}`, {
+      const response = await fetch('/api/invite', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: payload,
+        body: JSON.stringify({
+          fullName: formState.fullName,
+          email: formState.email,
+          phone: formState.phone,
+          company: formState.company,
+          message: formState.message,
+          website: formState.website,
+          startedAt,
+          recaptchaToken,
+        }),
       });
 
-      const result = (await response.json().catch(() => null)) as FormSubmitResponse | null;
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
 
-      if (!response.ok || String(result?.success).toLowerCase() === 'false') {
-        throw new Error(result?.message || `FormSubmit responded with status ${response.status}`);
+      if (!response.ok) {
+        throw new Error(result?.message ?? 'Nao foi possivel enviar agora. Tente novamente em instantes.');
       }
 
       setIsSubmitted(true);
@@ -90,11 +156,26 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
       setSubmitError(error instanceof Error ? error.message : 'Nao foi possivel enviar agora. Tente novamente em instantes.');
     } finally {
       setIsSubmitting(false);
+      resetRecaptcha();
     }
   };
 
   return (
     <section className="relative py-24 md:py-32" data-scroll-scene="true">
+      {RECAPTCHA_SITE_KEY ? (
+        <Script
+          id="google-recaptcha"
+          src="https://www.google.com/recaptcha/api.js?render=explicit"
+          strategy="afterInteractive"
+          onReady={() => setIsRecaptchaLoaded(true)}
+          onError={() => {
+            setIsRecaptchaLoaded(false);
+            setIsRecaptchaReady(false);
+            setSubmitError('Nao foi possivel carregar o script do reCAPTCHA. Recarregue a pagina e tente novamente.');
+          }}
+        />
+      ) : null}
+
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(221,178,95,0.08),transparent_22%),linear-gradient(180deg,rgba(7,7,7,0),rgba(5,5,5,0.68)_18%,rgba(5,5,5,0.92))]" />
       <Container className="relative">
         <div className="grid gap-8 lg:grid-cols-[0.84fr_1.16fr] lg:items-start">
@@ -180,9 +261,18 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
                     onChange={(value) => setFormState((current) => ({ ...current, message: value }))}
                   />
 
-                  <p className="text-sm leading-6 text-white/52">
-                    O formulario envia direto com a protecao nativa do FormSubmit. Se quiser trocar o destino, configure `NEXT_PUBLIC_FORMSUBMIT_TARGET`.
-                  </p>
+                  <div className="space-y-3">
+                    <div
+                      ref={recaptchaContainerRef}
+                      className="inline-flex min-h-[78px] max-w-full overflow-x-auto rounded-[1.15rem] border border-white/10 bg-white/[0.02] p-2"
+                    />
+
+                    {!RECAPTCHA_SITE_KEY ? (
+                      <p className="text-sm leading-6 text-white/52">Configure `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` para habilitar a verificacao.</p>
+                    ) : !isRecaptchaReady ? (
+                      <p className="text-sm leading-6 text-white/52">Carregando verificacao de seguranca...</p>
+                    ) : null}
+                  </div>
 
                   <div className="flex flex-col gap-4 pt-2">
                     <button
