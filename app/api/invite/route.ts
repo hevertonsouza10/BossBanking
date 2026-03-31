@@ -34,6 +34,11 @@ type FormSubmitResponse = {
   message?: string;
 };
 
+type FormSubmitParsedResponse = {
+  json: FormSubmitResponse | null;
+  text: string;
+};
+
 class InviteFormForwardError extends Error {
   readonly status: number;
 
@@ -256,7 +261,7 @@ async function verifyRecaptcha(request: NextRequest, token: string) {
 }
 
 async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
-  const payload = new FormData();
+  const payload = new URLSearchParams();
   const origin = getRequestOrigin(request);
 
   payload.append('name', data.fullName);
@@ -275,6 +280,7 @@ async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
     method: 'POST',
     headers: {
       Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
       ...(origin
         ? {
             Origin: origin,
@@ -286,17 +292,38 @@ async function forwardToFormSubmit(request: NextRequest, data: InvitePayload) {
     cache: 'no-store',
   });
 
-  const result = (await response.json().catch(() => null)) as FormSubmitResponse | null;
+  const rawText = await response.text();
+  let result: FormSubmitResponse | null = null;
+
+  if (rawText) {
+    try {
+      result = JSON.parse(rawText) as FormSubmitResponse;
+    } catch {
+      result = null;
+    }
+  }
+
+  const parsed: FormSubmitParsedResponse = {
+    json: result,
+    text: rawText,
+  };
 
   if (!response.ok) {
-    throw new InviteFormForwardError(result?.message || `FormSubmit responded with status ${response.status}`, response.status);
+    const activationMessage = parsed.text.match(/This form needs Activation[^"]*/i)?.[0];
+
+    throw new InviteFormForwardError(
+      parsed.json?.message ||
+        activationMessage ||
+        `FormSubmit responded with status ${response.status}`,
+      response.status,
+    );
   }
 
-  if (String(result?.success).toLowerCase() === 'false') {
-    throw new InviteFormForwardError(result?.message || 'FormSubmit rejected the submission.', 400);
+  if (String(parsed.json?.success).toLowerCase() === 'false') {
+    throw new InviteFormForwardError(parsed.json?.message || 'FormSubmit rejected the submission.', 400);
   }
 
-  return result;
+  return parsed.json;
 }
 
 export async function POST(request: NextRequest) {
@@ -363,6 +390,16 @@ export async function POST(request: NextRequest) {
         return json(
           { message: 'O formulario ainda precisa ser ativado no FormSubmit. Verifique o e-mail contato@bossbanking.com.br e clique no link de ativacao.' },
           { status: 400 },
+        );
+      }
+
+      if (error.status === 403) {
+        return json(
+          {
+            message:
+              'O FormSubmit recusou o envio. Confira se FORMSUBMIT_TARGET esta correto e se o formulario desse e-mail ja foi ativado no link enviado pelo FormSubmit.',
+          },
+          { status: 502 },
         );
       }
 
