@@ -16,6 +16,11 @@ type FormState = {
   website: string;
 };
 
+type FormSubmitResponse = {
+  success?: boolean | string;
+  message?: string;
+};
+
 declare global {
   interface Window {
     grecaptcha?: {
@@ -36,6 +41,8 @@ declare global {
 }
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? '';
+const FORMSUBMIT_TARGET =
+  process.env.NEXT_PUBLIC_FORMSUBMIT_TARGET?.trim() ?? 'contato@bossbanking.com.br';
 
 const initialFormState: FormState = {
   fullName: '',
@@ -106,6 +113,11 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!FORMSUBMIT_TARGET) {
+      setSubmitError('O destino do formulario ainda nao foi configurado neste ambiente.');
+      return;
+    }
+
     if (!RECAPTCHA_SITE_KEY) {
       setSubmitError('O reCAPTCHA ainda nao foi configurado neste ambiente.');
       return;
@@ -126,28 +138,44 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
     setSubmitError(null);
 
     try {
-      const response = await fetch('/api/invite', {
+      if (formState.website || Date.now() - startedAt < 2000) {
+        setIsSubmitted(true);
+        setFormState(initialFormState);
+        return;
+      }
+
+      const payload = new FormData();
+
+      payload.append('name', formState.fullName);
+      payload.append('email', formState.email);
+      payload.append('phone', formState.phone);
+      payload.append('company', formState.company);
+      payload.append('message', formState.message);
+      payload.append('_subject', section.subject || 'Solicitacao de convite - Boss Ledger');
+      payload.append('_template', 'table');
+      payload.append('_replyto', formState.email);
+      payload.append(
+        '_blacklist',
+        'viagra,casino,adult content,porn,crypto pump,seo package,backlink service',
+      );
+      payload.append('_captcha', 'false');
+      payload.append(
+        '_url',
+        typeof window !== 'undefined' ? `${window.location.origin}/convites` : '/convites',
+      );
+
+      const response = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_TARGET}`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          fullName: formState.fullName,
-          email: formState.email,
-          phone: formState.phone,
-          company: formState.company,
-          message: formState.message,
-          website: formState.website,
-          startedAt,
-          recaptchaToken,
-        }),
+        body: payload,
       });
 
-      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+      const result = (await response.json().catch(() => null)) as FormSubmitResponse | null;
 
-      if (!response.ok) {
-        throw new Error(result?.message ?? 'Nao foi possivel enviar agora. Tente novamente em instantes.');
+      if (!response.ok || String(result?.success).toLowerCase() === 'false') {
+        throw new Error(result?.message || `FormSubmit responded with status ${response.status}`);
       }
 
       setIsSubmitted(true);
