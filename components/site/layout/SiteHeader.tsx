@@ -28,6 +28,7 @@ const navigationGroups: MenuGroup[] = [
     label: 'Sobre',
     items: [
       { label: 'Compliance', href: '/compliance' },
+      { label: 'Termos de Cookies', href: '/termos-de-cookies' },
       { label: 'Nos conheça', href: '/conheca-nossa-agencia' },
       { label: 'Notícias Boss', href: '/noticias-boss' },
     ],

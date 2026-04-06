@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Container from '@/components/site/ui/Container';
+import ManageCookiesButton from '@/components/site/layout/ManageCookiesButton';
 
 type FooterIconProps = {
   className?: string;
@@ -160,6 +161,7 @@ const socialLinks = [
 ];
 
 const policyLinks = [
+  { label: 'Termos de Cookies', href: '/termos-de-cookies' },
   { label: 'Privacidade e Dados', href: '/compliance/privacidade-e-protecao-de-dados' },
   { label: 'Nossas Políticas', href: '/compliance/nossas-politicas' },
   { label: 'Segurança Cibernética', href: '/compliance/seguranca-cibernetica' },
@@ -235,6 +237,7 @@ export default function SiteFooter() {
                       {item.label}
                     </Link>
                   ))}
+                  <ManageCookiesButton className="whitespace-nowrap text-left leading-none transition hover:text-white/78" />
                 </div>
               </div>
             </div>

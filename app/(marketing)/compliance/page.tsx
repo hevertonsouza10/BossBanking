@@ -54,6 +54,31 @@ export default function CompliancePage() {
           </Reveal>
 
           <div className="grid gap-4 lg:grid-cols-2">
+            <Reveal>
+              <Link
+                href="/termos-de-cookies"
+                className="luxury-panel-subtle group block rounded-[1.5rem] p-7 transition duration-300 hover:-translate-y-1 hover:border-[rgba(230,194,122,0.18)] hover:shadow-[0_24px_52px_rgba(0,0,0,0.28)]"
+              >
+                <div className="flex h-full flex-col gap-5">
+                  <div className="space-y-3">
+                    <h3
+                      className="text-2xl font-semibold tracking-[-0.03em] text-[#f7f3ea]"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      Termos de Cookies
+                    </h3>
+                    <p className="text-sm leading-7 text-white/60 md:text-base">
+                      PolÃ­tica dedicada ao uso de cookies, preferÃªncias do visitante, ativaÃ§Ã£o de recursos opcionais e
+                      consentimento aplicado Ã  navegaÃ§Ã£o.
+                    </p>
+                  </div>
+                  <div className="mt-auto inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#ddb25f]">
+                    <span>Acessar documento</span>
+                    <ArrowRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </Link>
+            </Reveal>
             {compliancePolicies.map((policy, index) => (
               <Reveal key={policy.slug} delay={0.04 * index}>
                 <Link
