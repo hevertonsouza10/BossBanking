@@ -105,13 +105,6 @@ export default function CookieConsentGate() {
                 </Link>
                 <button
                   type="button"
-                  onClick={() => handleConsentUpdate('essential-only')}
-                  className="lux-button min-h-[3rem] border border-white/12 bg-transparent px-5 py-3 text-[0.62rem] tracking-[0.18em] text-white/78 transition hover:border-white/24 hover:text-white"
-                >
-                  Recusar
-                </button>
-                <button
-                  type="button"
                   onClick={() => handleConsentUpdate('accepted')}
                   className="lux-button lux-button-gold min-h-[3rem] px-5 py-3 text-[0.62rem] tracking-[0.2em]"
                 >
