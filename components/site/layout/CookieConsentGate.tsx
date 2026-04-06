@@ -69,6 +69,14 @@ export default function CookieConsentGate() {
         <div className="fixed inset-x-3 bottom-3 z-[70] md:inset-x-6 md:bottom-6">
           <div className="soft-glass-panel relative mx-auto max-w-4xl overflow-hidden rounded-[1.75rem] border border-[rgba(230,194,122,0.14)] px-5 py-5 shadow-[0_28px_70px_rgba(0,0,0,0.34)] md:px-7 md:py-6">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(201,162,77,0.12),transparent_28%),linear-gradient(180deg,rgba(12,12,13,0.9),rgba(6,6,7,0.94))]" />
+            <button
+              type="button"
+              aria-label="Fechar aviso de cookies"
+              onClick={() => handleConsentUpdate('essential-only')}
+              className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg leading-none text-white/72 transition hover:border-[rgba(230,194,122,0.3)] hover:text-white"
+            >
+              X
+            </button>
             <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-2xl space-y-3">
                 <span className="inline-flex rounded-full border border-[rgba(230,194,122,0.18)] bg-[rgba(201,162,77,0.08)] px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.28em] text-[#e6c27a]">
@@ -88,7 +96,7 @@ export default function CookieConsentGate() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="flex flex-col gap-3 sm:max-w-sm sm:items-stretch">
                 <Link
                   href="/compliance"
                   className="lux-button lux-button-dark min-h-[3rem] px-5 py-3 text-[0.62rem] tracking-[0.18em]"
@@ -97,11 +105,22 @@ export default function CookieConsentGate() {
                 </Link>
                 <button
                   type="button"
+                  onClick={() => handleConsentUpdate('essential-only')}
+                  className="lux-button min-h-[3rem] border border-white/12 bg-transparent px-5 py-3 text-[0.62rem] tracking-[0.18em] text-white/78 transition hover:border-white/24 hover:text-white"
+                >
+                  Recusar
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleConsentUpdate('accepted')}
                   className="lux-button lux-button-gold min-h-[3rem] px-5 py-3 text-[0.62rem] tracking-[0.2em]"
                 >
-                  Aceitar tudo
+                  Estou ciente
                 </button>
+                <p className="max-w-sm text-xs leading-5 text-white/60">
+                  Ao continuar navegando em nosso site poderão ser ativados recursos adicionais como atendimento por
+                  chat. Em caso de dúvidas, consulte nossas políticas e documentos institucionais a qualquer momento.
+                </p>
               </div>
             </div>
           </div>
