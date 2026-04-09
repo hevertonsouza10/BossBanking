@@ -20,7 +20,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bossledger.example'),
+  metadataBase: new URL(process.env.SITE_URL || 'https://www.bossbanking.com.br'),
   applicationName: 'Boss Ledger',
   title: {
     default: 'Boss Ledger | Agência para empresas',
