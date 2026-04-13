@@ -55,6 +55,8 @@ const navigationGroups: MenuGroup[] = [
   },
 ];
 
+const PRIMARY_DOMAIN_URL = 'https://www.bossbanking.com.br';
+
 function NavItemLink({
   item,
   className,
@@ -169,7 +171,7 @@ export default function SiteHeader() {
       <Container className="h-[100px]">
         <div className="flex h-full items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-4 xl:flex-1 xl:gap-9">
-            <Link href="/" className="relative flex shrink-0 items-center" aria-label="Boss Ledger Home">
+            <Link href={PRIMARY_DOMAIN_URL} className="relative flex shrink-0 items-center" aria-label="Boss Ledger Home">
               <div className="pointer-events-none absolute left-[-2.8rem] top-1/2 h-16 w-36 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(221,178,95,0.18),rgba(221,178,95,0.08)_42%,transparent_74%)] blur-2xl" />
               <Image
                 src="/brand/LOGO%20BOSS%20LEDGER%20horizontall%20editavel%20c%C3%B3pia%209-webp.webp"
