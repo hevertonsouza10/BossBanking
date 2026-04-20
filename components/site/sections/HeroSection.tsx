@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Container from '@/components/site/ui/Container';
-import { keepBossLedgerTogether } from '@/lib/utils';
+import { buildVideoEmbedSrc, keepBossLedgerTogether } from '@/lib/utils';
 import type { HeroSection as HeroSectionType } from '@/lib/cms/types';
 
 function getHeroEmbed(src?: string) {
@@ -30,10 +30,18 @@ function getHeroEmbed(src?: string) {
     return null;
   }
 
-  const videoId = vimeoMatch[1];
   return {
     provider: 'vimeo' as const,
-    src: `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1&controls=0&autopause=0&playsinline=1&dnt=1`,
+    src: buildVideoEmbedSrc(src, {
+      autoplay: '1',
+      muted: '1',
+      loop: '1',
+      background: '1',
+      controls: '0',
+      autopause: '0',
+      playsinline: '1',
+      dnt: '1',
+    }),
   };
 }
 

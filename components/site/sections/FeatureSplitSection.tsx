@@ -7,6 +7,7 @@ import Container from '@/components/site/ui/Container';
 import MediaFrame from '@/components/site/ui/MediaFrame';
 import Reveal from '@/components/site/ui/Reveal';
 import SectionHeading from '@/components/site/ui/SectionHeading';
+import { buildVideoEmbedSrc } from '@/lib/utils';
 import type { FeatureSplitSection as FeatureSplitSectionType } from '@/lib/cms/types';
 
 type VimeoPlayerInstance = {
@@ -33,12 +34,29 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
     section.media?.src?.includes('player.vimeo.com/video/') || section.media?.src?.includes('vimeo.com/video/');
   const hasImage = !!section.media?.src && !hasVideo && !isVimeoEmbed;
   const backgroundSrc =
-    isVimeoEmbed && section.media?.src
-      ? `${section.media.src}${section.media.src.includes('?') ? '&' : '?'}background=1&autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0`
+    isVimeoEmbed
+      ? buildVideoEmbedSrc(section.media?.src, {
+          background: '1',
+          autoplay: '1',
+          muted: '1',
+          loop: '1',
+          title: '0',
+          byline: '0',
+          portrait: '0',
+        })
       : section.media?.src;
   const autoplaySrc =
-    isVimeoEmbed && section.media?.src
-      ? `${section.media.src}${section.media.src.includes('?') ? '&' : '?'}autoplay=1&loop=1&autopause=0&title=0&byline=0&portrait=0&api=1`
+    isVimeoEmbed
+      ? buildVideoEmbedSrc(section.media?.src, {
+          autoplay: '1',
+          muted: '1',
+          loop: '1',
+          autopause: '0',
+          title: '0',
+          byline: '0',
+          portrait: '0',
+          api: '1',
+        })
       : section.media?.src;
   const loopUntilSeconds = section.media?.loopUntilSeconds;
 
