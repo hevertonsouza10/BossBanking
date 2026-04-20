@@ -36,13 +36,11 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
   const backgroundSrc =
     isVimeoEmbed
       ? buildVideoEmbedSrc(section.media?.src, {
-          background: '1',
           autoplay: '1',
           muted: '1',
           loop: '1',
-          title: '0',
-          byline: '0',
-          portrait: '0',
+          autopause: '0',
+          playsinline: '1',
         })
       : section.media?.src;
   const autoplaySrc =
@@ -52,10 +50,8 @@ export default function FeatureSplitSection({ section }: { section: FeatureSplit
           muted: '1',
           loop: '1',
           autopause: '0',
-          title: '0',
-          byline: '0',
-          portrait: '0',
           api: '1',
+          playsinline: '1',
         })
       : section.media?.src;
   const loopUntilSeconds = section.media?.loopUntilSeconds;

@@ -36,11 +36,8 @@ function getHeroEmbed(src?: string) {
       autoplay: '1',
       muted: '1',
       loop: '1',
-      background: '1',
-      controls: '0',
       autopause: '0',
       playsinline: '1',
-      dnt: '1',
     }),
   };
 }
