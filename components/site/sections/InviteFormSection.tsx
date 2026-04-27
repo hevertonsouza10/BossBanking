@@ -16,8 +16,7 @@ type FormState = {
   website: string;
 };
 
-type FormSubmitResponse = {
-  success?: boolean | string;
+type InviteResponse = {
   message?: string;
 };
 
@@ -41,8 +40,6 @@ declare global {
 }
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() ?? '';
-const FORMSUBMIT_TARGET =
-  process.env.NEXT_PUBLIC_FORMSUBMIT_TARGET?.trim() ?? 'contato@bossbanking.com.br';
 
 const initialFormState: FormState = {
   fullName: '',
@@ -52,6 +49,36 @@ const initialFormState: FormState = {
   message: '',
   website: '',
 };
+
+function validateFormState(formState: FormState) {
+  const fullName = formState.fullName.trim();
+  const email = formState.email.trim();
+  const phone = formState.phone.trim();
+  const company = formState.company.trim();
+  const message = formState.message.trim();
+
+  if (fullName.length < 3) {
+    return 'Informe um nome valido.';
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return 'Informe um e-mail valido.';
+  }
+
+  if (phone.length < 8) {
+    return 'Informe um telefone valido.';
+  }
+
+  if (company.length < 2) {
+    return 'Informe o nome da empresa ou negocio.';
+  }
+
+  if (message.length < 10) {
+    return 'Escreva uma mensagem com pelo menos 10 caracteres.';
+  }
+
+  return null;
+}
 
 export default function InviteFormSection({ section }: { section: InviteFormSectionType }) {
   const [formState, setFormState] = useState<FormState>(initialFormState);
@@ -113,11 +140,6 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!FORMSUBMIT_TARGET) {
-      setSubmitError('O destino do formulario ainda nao foi configurado neste ambiente.');
-      return;
-    }
-
     if (!RECAPTCHA_SITE_KEY) {
       setSubmitError('O reCAPTCHA ainda nao foi configurado neste ambiente.');
       return;
@@ -133,6 +155,13 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
       return;
     }
 
+    const validationError = validateFormState(formState);
+
+    if (validationError) {
+      setSubmitError(validationError);
+      return;
+    }
+
     setIsSubmitting(true);
     setIsSubmitted(false);
     setSubmitError(null);
@@ -144,38 +173,23 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
         return;
       }
 
-      const payload = new FormData();
-
-      payload.append('name', formState.fullName);
-      payload.append('email', formState.email);
-      payload.append('phone', formState.phone);
-      payload.append('company', formState.company);
-      payload.append('message', formState.message);
-      payload.append('_subject', section.subject || 'Solicitacao de convite - Boss Ledger');
-      payload.append('_template', 'table');
-      payload.append('_replyto', formState.email);
-      payload.append(
-        '_blacklist',
-        'viagra,casino,adult content,porn,crypto pump,seo package,backlink service',
-      );
-      payload.append('_captcha', 'false');
-      payload.append(
-        '_url',
-        typeof window !== 'undefined' ? `${window.location.origin}/convites` : '/convites',
-      );
-
-      const response = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_TARGET}`, {
+      const response = await fetch('/api/invite', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-        body: payload,
+        body: JSON.stringify({
+          ...formState,
+          startedAt,
+          recaptchaToken,
+        }),
       });
 
-      const result = (await response.json().catch(() => null)) as FormSubmitResponse | null;
+      const result = (await response.json().catch(() => null)) as InviteResponse | null;
 
-      if (!response.ok || String(result?.success).toLowerCase() === 'false') {
-        throw new Error(result?.message || `FormSubmit responded with status ${response.status}`);
+      if (!response.ok) {
+        throw new Error(result?.message || 'Nao foi possivel enviar agora. Tente novamente em instantes.');
       }
 
       setIsSubmitted(true);
