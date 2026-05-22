@@ -3,6 +3,7 @@ import { DM_Sans, Inter } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import Preloader from '@/components/Preloader';
+import ChatbotMaker from '@/components/site/integrations/ChatbotMaker';
 import CookieConsentGate from '@/components/site/layout/CookieConsentGate';
 
 const GTM_ID = 'GTM-TKLBZQH9';
@@ -89,6 +90,7 @@ export default function RootLayout({
           </filter>
         </svg>
         <Preloader />
+        <ChatbotMaker />
         <CookieConsentGate />
         {children}
       </body>

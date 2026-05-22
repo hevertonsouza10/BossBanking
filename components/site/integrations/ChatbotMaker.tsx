@@ -14,13 +14,17 @@ declare global {
 
 export default function ChatbotMaker() {
   useEffect(() => {
+    let hasStarted = false;
+
     const startChat = () => {
-      if (!window.CBM) {
+      if (!window.CBM || hasStarted) {
         return;
       }
 
+      hasStarted = true;
       window.CBM.ChatbotId = 'cb126088892';
       window.CBM.StartWebChat().catch((reason) => {
+        hasStarted = false;
         console.warn('[Boss Ledger] ChatbotMaker failed to start', reason);
       });
     };
@@ -56,12 +60,6 @@ export default function ChatbotMaker() {
         startChat();
       } else {
         existingScript.addEventListener('load', startChat, { once: true });
-        window.setTimeout(() => {
-          if (!window.CBM && existingScript.isConnected) {
-            existingScript.remove();
-            injectScript();
-          }
-        }, 3000);
       }
       return;
     }
