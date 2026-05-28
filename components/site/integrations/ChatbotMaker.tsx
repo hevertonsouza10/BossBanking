@@ -3,11 +3,14 @@
 import { useEffect } from 'react';
 
 declare global {
+  var CBM:
+    | {
+        ChatbotId: string;
+        StartWebChat: () => Promise<unknown>;
+      }
+    | undefined;
+
   interface Window {
-    CBM?: {
-      ChatbotId: string;
-      StartWebChat: () => Promise<unknown>;
-    };
     cbAsyncInit?: () => void;
   }
 }
@@ -17,13 +20,13 @@ export default function ChatbotMaker() {
     let hasStarted = false;
 
     const startChat = () => {
-      if (!window.CBM || hasStarted) {
+      if (typeof CBM === 'undefined' || hasStarted) {
         return;
       }
 
       hasStarted = true;
-      window.CBM.ChatbotId = 'cb126088892';
-      window.CBM.StartWebChat().catch((reason) => {
+      CBM.ChatbotId = 'cb126088892';
+      CBM.StartWebChat().catch((reason) => {
         hasStarted = false;
         console.warn('[Boss Ledger] ChatbotMaker failed to start', reason);
       });
@@ -56,7 +59,7 @@ export default function ChatbotMaker() {
 
     const existingScript = document.getElementById('cbm-jssdk') as HTMLScriptElement | null;
     if (existingScript) {
-      if (window.CBM) {
+      if (typeof CBM !== 'undefined') {
         startChat();
       } else {
         existingScript.addEventListener('load', startChat, { once: true });
