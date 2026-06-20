@@ -41,9 +41,10 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
             <iframe
               title="Solicitar convite Boss Ledger"
               src={WIX_INVITE_FORM_URL}
-              className="block h-[1180px] w-full rounded-[1.35rem] border border-white/10 bg-white md:h-[1100px] lg:h-[1120px]"
+              className="block h-[1180px] w-full overflow-hidden rounded-[1.35rem] border-0 bg-white md:h-[1100px] lg:h-[1120px]"
               loading="lazy"
               referrerPolicy="strict-origin-when-cross-origin"
+              scrolling="no"
             />
           </Reveal>
         </div>
