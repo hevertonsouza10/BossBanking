@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 import { DM_Sans, Inter } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 import Preloader from '@/components/Preloader';
 import ChatbotMaker from '@/components/site/integrations/ChatbotMaker';
+import GoogleTagManager from '@/components/site/integrations/GoogleTagManager';
 import CookieConsentGate from '@/components/site/layout/CookieConsentGate';
-
-const GTM_ID = 'GTM-TKLBZQH9';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -61,24 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${dmSans.variable}`}>
-      <Script id="google-tag-manager" strategy="afterInteractive">
-        {`
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${GTM_ID}');
-        `}
-      </Script>
       <body className="bg-obsidian text-white antialiased">
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
         <svg
           aria-hidden="true"
           className="pointer-events-none absolute h-0 w-0 opacity-0"
@@ -90,6 +71,7 @@ export default function RootLayout({
           </filter>
         </svg>
         <Preloader />
+        <GoogleTagManager />
         <ChatbotMaker />
         <CookieConsentGate />
         {children}

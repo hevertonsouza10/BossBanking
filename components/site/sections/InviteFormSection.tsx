@@ -7,14 +7,14 @@ const WIX_INVITE_FORM_URL = 'https://bossbankltda.wixforms.com/f/746767297324410
 
 export default function InviteFormSection({ section }: { section: InviteFormSectionType }) {
   return (
-    <section className="relative py-24 md:py-32" data-scroll-scene="true">
+    <section id="invite-form" className="relative scroll-mt-24 py-20 md:py-28" data-scroll-scene="true">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(221,178,95,0.08),transparent_22%),linear-gradient(180deg,rgba(7,7,7,0),rgba(5,5,5,0.68)_18%,rgba(5,5,5,0.92))]" />
       <Container className="relative">
-        <div className="grid gap-8 lg:grid-cols-[0.84fr_1.16fr] lg:items-start">
-          <Reveal className="space-y-6 lg:sticky lg:top-[140px]">
+        <div className="grid min-w-0 gap-8 lg:grid-cols-[0.84fr_1.16fr] lg:items-start">
+          <Reveal className="min-w-0 space-y-6 lg:sticky lg:top-[140px]">
             <div className="inline-flex w-fit items-center gap-3 rounded-full border border-[#ddb25f]/15 bg-white/[0.03] px-4 py-2 text-[0.62rem] uppercase tracking-[0.28em] text-[#ddb25f]">
               <span className="h-2 w-2 rounded-full bg-[#ddb25f]" />
-              {section.eyebrow ?? 'Pre-cadastro'}
+              {section.eyebrow ?? 'Pré-cadastro'}
             </div>
 
             <div className="space-y-5">
@@ -31,20 +31,16 @@ export default function InviteFormSection({ section }: { section: InviteFormSect
               </p>
             </div>
 
-            <div className="soft-glass-pill relative inline-flex w-fit max-w-full items-center gap-3 rounded-full px-5 py-3 text-left">
-              <span className="text-[0.58rem] uppercase tracking-[0.26em] text-white/42">Assunto fixo</span>
-              <span className="text-[0.78rem] font-medium uppercase tracking-[0.18em] text-white/82">{section.subject}</span>
-            </div>
           </Reveal>
 
-          <Reveal delay={0.08}>
+          <Reveal delay={0.08} className="min-w-0 w-full overflow-hidden rounded-[1.35rem]">
             <iframe
               title="Solicitar convite Boss Ledger"
               src={WIX_INVITE_FORM_URL}
-              className="block h-[1340px] w-full overflow-hidden rounded-[1.35rem] border-0 bg-white md:h-[1260px] lg:h-[1280px]"
+              className="block h-[1760px] min-w-0 w-full max-w-full border-0 bg-white sm:h-[1640px] md:h-[1260px] lg:h-[1280px]"
               loading="lazy"
               referrerPolicy="strict-origin-when-cross-origin"
-              scrolling="no"
+              scrolling="auto"
             />
           </Reveal>
         </div>

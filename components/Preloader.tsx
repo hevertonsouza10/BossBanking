@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 const PRELOADER_VIDEO_SRC = '/videos/composicao-2-2.mp4';
 const EXIT_ANIMATION_MS = 550;
 const FINAL_FRAME_OFFSET = 0.04;
+const MAX_PRELOADER_MS = 8_000;
 
 type Phase = 'playing' | 'holding' | 'exiting' | 'hidden';
 
@@ -108,6 +109,14 @@ export default function Preloader() {
 
     beginExit();
   }, [beginExit, pageReady]);
+
+  useEffect(() => {
+    const fallbackTimeout = window.setTimeout(beginExit, MAX_PRELOADER_MS);
+
+    return () => {
+      window.clearTimeout(fallbackTimeout);
+    };
+  }, [beginExit]);
 
   const handleLoadedData = () => {
     const video = videoRef.current;

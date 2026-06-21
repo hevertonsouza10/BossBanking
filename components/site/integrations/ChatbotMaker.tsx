@@ -2,6 +2,9 @@
 
 import { useEffect } from 'react';
 
+const COOKIE_CONSENT_KEY = 'bossledger_cookie_consent';
+const COOKIE_CONSENT_EVENT = 'bossledger:cookie-consent-changed';
+
 declare global {
   var CBM:
     | {
@@ -55,19 +58,32 @@ export default function ChatbotMaker() {
       }
     };
 
-    window.cbAsyncInit = startChat;
-
-    const existingScript = document.getElementById('cbm-jssdk') as HTMLScriptElement | null;
-    if (existingScript) {
-      if (typeof CBM !== 'undefined') {
-        startChat();
-      } else {
-        existingScript.addEventListener('load', startChat, { once: true });
+    const enableChatWhenAllowed = () => {
+      if (window.localStorage.getItem(COOKIE_CONSENT_KEY) !== 'accepted') {
+        return;
       }
-      return;
-    }
 
-    injectScript();
+      window.cbAsyncInit = startChat;
+
+      const existingScript = document.getElementById('cbm-jssdk') as HTMLScriptElement | null;
+      if (existingScript) {
+        if (typeof CBM !== 'undefined') {
+          startChat();
+        } else {
+          existingScript.addEventListener('load', startChat, { once: true });
+        }
+        return;
+      }
+
+      injectScript();
+    };
+
+    enableChatWhenAllowed();
+    window.addEventListener(COOKIE_CONSENT_EVENT, enableChatWhenAllowed);
+
+    return () => {
+      window.removeEventListener(COOKIE_CONSENT_EVENT, enableChatWhenAllowed);
+    };
   }, []);
 
   return null;

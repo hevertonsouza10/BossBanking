@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const COOKIE_CONSENT_KEY = 'bossledger_cookie_consent';
+const COOKIE_CONSENT_EVENT = 'bossledger:cookie-consent-changed';
 
 type ConsentState = 'loading' | 'accepted' | 'essential-only' | 'unset';
 
@@ -37,6 +38,7 @@ export default function CookieConsentGate() {
   function handleConsentUpdate(nextState: Exclude<ConsentState, 'loading' | 'unset'>) {
     window.localStorage.setItem(COOKIE_CONSENT_KEY, nextState);
     setConsentState(nextState);
+    window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_EVENT, { detail: nextState }));
   }
 
   const shouldShowBanner = consentState === 'unset';
