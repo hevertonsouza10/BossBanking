@@ -191,7 +191,7 @@ export default function MediaShowcaseSection({ section }: { section: MediaShowca
             ) : null}
           </Reveal>
 
-          <div className="relative z-0 mx-auto w-[140%] max-w-none -translate-x-[14%] sm:w-[128%] sm:-translate-x-[10%] lg:pointer-events-none lg:absolute lg:right-[-4rem] lg:top-1/2 lg:w-[52rem] lg:max-w-none lg:translate-x-0 lg:-translate-y-1/2 xl:right-[-1rem] xl:w-[56rem]">
+          <div className="pointer-events-none relative z-0 mx-auto w-[140%] max-w-none -translate-x-[14%] sm:w-[128%] sm:-translate-x-[10%] lg:absolute lg:right-[-4rem] lg:top-1/2 lg:w-[52rem] lg:max-w-none lg:translate-x-0 lg:-translate-y-1/2 xl:right-[-1rem] xl:w-[56rem]">
             <Reveal delay={0.1}>
               <div className="absolute inset-x-20 top-14 h-40 rounded-full bg-[#c9a24d]/16 blur-3xl" />
               <MediaFrame

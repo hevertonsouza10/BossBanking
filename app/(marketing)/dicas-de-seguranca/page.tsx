@@ -5,7 +5,7 @@ import Reveal from '@/components/site/ui/Reveal';
 const securityTips = [
   {
     title: 'Não compartilhe credenciais',
-    description: 'Nunca informe senhas, códigos de acesso ou credenciais pessoais a terceiros.',
+    description: 'Nunca informe senhas, códigos de acesso ou credenciais pessoais a terceiros. Não solicitamos essas informações.',
   },
   {
     title: 'Use senhas fortes',
@@ -130,7 +130,7 @@ export default function DicasDeSegurancaPage() {
                   className="max-w-3xl text-3xl font-semibold tracking-[-0.04em] text-[#f7f3ea] md:text-5xl"
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
-                  A empresa não solicita dados sensíveis por canais não oficiais.
+                  O Boss Ledger não solicita dados sensíveis por canais não oficiais.
                 </h2>
                 <p className="max-w-3xl text-base leading-8 text-white/66 md:text-lg">
                   Sempre confirme a autenticidade de contatos e utilize exclusivamente os canais oficiais da Boss

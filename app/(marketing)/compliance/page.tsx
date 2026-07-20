@@ -33,8 +33,8 @@ export default function CompliancePage() {
                 Transparência, segurança e governança
               </p>
               <p className="max-w-3xl text-base leading-8 text-white/58 md:text-lg">
-                A Boss Ledger segue rigorosamente práticas de conformidade para garantir integridade, proteção de
-                dados e segurança nas operações.
+                A Boss Ledger segue rigorosamente práticas de conformidade do Banco Central para garantir integridade,
+                proteção de dados e segurança dobrada nas operações.
               </p>
             </div>
           </section>
@@ -68,8 +68,8 @@ export default function CompliancePage() {
                       Termos de Cookies
                     </h3>
                     <p className="text-sm leading-7 text-white/60 md:text-base">
-                      PolÃ­tica dedicada ao uso de cookies, preferÃªncias do visitante, ativaÃ§Ã£o de recursos opcionais e
-                      consentimento aplicado Ã  navegaÃ§Ã£o.
+                      Política dedicada ao uso de cookies, preferências do visitante, ativação de recursos opcionais e
+                      consentimento aplicado à navegação.
                     </p>
                   </div>
                   <div className="mt-auto inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#ddb25f]">

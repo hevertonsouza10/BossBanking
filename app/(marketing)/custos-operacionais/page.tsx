@@ -10,8 +10,8 @@ const accountCosts = [
   },
   {
     service: 'Manutenção mensal',
-    description: 'Valor de referência para manutenção da estrutura operacional da conta.',
-    value: 'Personalizado',
+    description: 'Valor para manutenção da estrutura operacional da conta.',
+    value: 'Planos personalizados',
   },
   {
     service: 'Transferências internas',
@@ -114,8 +114,7 @@ export default function CustosOperacionaisPage() {
                     Aviso importante
                   </span>
                   <p className="text-sm leading-7 text-white/66 md:text-[0.98rem]">
-                    Os valores abaixo estão apresentados como exemplo ilustrativo para composição da página. Eles
-                    podem ser ajustados depois para refletir a tabela oficial da instituição.
+                    Os valores abaixo podem ser ajustados conforme a necessidade do cliente.
                   </p>
                 </div>
               </div>
@@ -138,7 +137,7 @@ export default function CustosOperacionaisPage() {
                 </h2>
                 <p className="text-base leading-8 text-white/62 md:text-lg">
                   A proposta desta página é mostrar de forma organizada como a estrutura de custos pode ser
-                  apresentada ao cliente, com previsibilidade e sem linguagem agressiva.
+                  apresentada ao cliente, com previsibilidade.
                 </p>
               </div>
             </div>
@@ -212,8 +211,8 @@ export default function CustosOperacionaisPage() {
 
         <CostSection
           eyebrow="Cartão"
-          title="Taxas de referência do cartão em bloco separado."
-          description="Estrutura ilustrativa para emissão, anuidade e segunda via do cartão."
+          title="Taxas do cartão."
+          description="Emissão, anuidade e segunda via do cartão."
           rows={cardCosts}
         />
       </Container>
@@ -264,7 +263,7 @@ function CostTable({
       <div className="grid gap-4 border-b border-[rgba(201,162,77,0.08)] px-6 py-5 text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-[#ddb25f] md:grid-cols-[1fr_1.55fr_0.65fr] md:gap-6 md:px-8">
         <span>Serviço</span>
         <span>Descrição</span>
-        <span>Valor de exemplo</span>
+        <span>Valor</span>
       </div>
 
       <div>

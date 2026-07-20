@@ -3,6 +3,7 @@
 import { Component, type ErrorInfo, type ReactNode, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Spline from '@splinetool/react-spline';
+import type { Application } from '@splinetool/runtime';
 
 type MediaFrameProps = {
   src?: string;
@@ -59,6 +60,8 @@ export default function MediaFrame({
   frameless = false,
 }: MediaFrameProps) {
   const frameRef = useRef<HTMLElement | null>(null);
+  const splineAppRef = useRef<Application | null>(null);
+  const isSplineNearViewportRef = useRef(false);
   const isVideo = !!src && src.endsWith('.mp4');
   const isSplineScene = !!src && src.endsWith('.splinecode');
   const [shouldRenderSpline, setShouldRenderSpline] = useState(false);
@@ -74,19 +77,49 @@ export default function MediaFrame({
     }
 
     const node = frameRef.current;
-    const observer = new IntersectionObserver(
+    const preloadObserver = new IntersectionObserver(
       ([entry]) => {
-        setShouldRenderSpline(entry.isIntersecting);
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        setShouldRenderSpline(true);
+        preloadObserver.unobserve(node);
       },
       {
-        rootMargin: '240px 0px',
-        threshold: 0.08,
+        rootMargin: '1200px 0px',
+        threshold: 0,
       },
     );
 
-    observer.observe(node);
+    const playbackObserver = new IntersectionObserver(
+      ([entry]) => {
+        isSplineNearViewportRef.current = entry.isIntersecting;
 
-    return () => observer.disconnect();
+        if (!splineAppRef.current) {
+          return;
+        }
+
+        if (entry.isIntersecting) {
+          splineAppRef.current.play();
+        } else {
+          splineAppRef.current.stop();
+        }
+      },
+      {
+        rootMargin: '160px 0px',
+        threshold: 0,
+      },
+    );
+
+    preloadObserver.observe(node);
+    playbackObserver.observe(node);
+
+    return () => {
+      preloadObserver.disconnect();
+      playbackObserver.disconnect();
+      splineAppRef.current = null;
+    };
   }, [isSplineScene]);
 
   useEffect(() => {
@@ -154,7 +187,17 @@ export default function MediaFrame({
                   setIsSplineReady(false);
                 }}
               >
-                <Spline scene={src} onLoad={() => setIsSplineReady(true)} />
+                <Spline
+                  scene={src}
+                  onLoad={(application) => {
+                    splineAppRef.current = application;
+                    setIsSplineReady(true);
+
+                    if (!isSplineNearViewportRef.current) {
+                      application.stop();
+                    }
+                  }}
+                />
               </SplineErrorBoundary>
             </div>
           ) : isSplineScene ? (
